@@ -1,0 +1,81 @@
+<div class="main-content p-0">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+            <img *ngIf="projectDetailsList==undefined" src="/assets/img/loading.gif"/>
+              <div class="card m-0" *ngIf="projectDetailsList!=undefined">
+                <div class="card-header card-header-dark">
+                  <h4 class="card-title mt-0"> Project Name : {{projectDetailsList.projectName}}</h4>
+                    <div class="table-responsive">
+                        <table class="table table-sm" style="margin:0px;">
+                              <tr class="card-category">
+                                <td>Code : {{projectDetailsList.projectCode}}</td><td>Entry Date : {{projectDetailsList.entryDate | date: 'yyyy-MM-dd'}}</td><td>Start Date : {{projectDetailsList.startDate | date: 'yyyy-MM-dd'}}</td><td>Status : {{projectDetailsList.status}}</td>
+                              </tr>
+                        </table>
+                    </div>
+                </div>
+                  
+
+ <div class="card-body p-3">           
+  <div class="table-responsive">
+    <div >
+      <button *ngIf="addWorksheetButtonShow==true" type="button" style="float: left;" class="btn btn-dark btn-sm" (click)="openWorksheetsDetails()">
+        Add Worksheet
+      </button>
+      <input style="width: 150px;float: right;" class="form-control" type="text" placeholder="Search" (click)="paginationStart();" [(ngModel)]="termWorksheet">
+      <mat-icon matSuffix style="float: right;margin-top: 10px;">search</mat-icon>
+    </div>
+    
+    
+ <div  *ngIf="project_worksheet!=undefined">
+  <p *ngIf='project_worksheet.length==0' style="font-size: 12px;font-weight: bold;"><br/><br/> No worksheet found.</p>
+    <div class="table table-hover" *ngIf='project_worksheet.length!=0' >
+      <table style="width: 100%;">
+      <thead class=" text-primary">
+        <th>SL</th><th>Rigs</th><th>Holes</th><th>Work Date</th><th>Status</th>
+      </thead>      
+      <tbody *ngFor="let item of project_worksheet |filter:termWorksheet | paginate: {id: 'worksheet',itemsPerPage:20, currentPage: p,totalItems: total};let i=index;">
+        <tr (click)="openWorksheetsDetails(item)"  style="cursor:pointer;">
+          <td>{{(p - 1) * 20 + i +1}}. </td>
+          <td >{{item.rigs.serial}}</td>
+          <td *ngIf='item.holes!=undefined'>{{item.holes.name}}</td>
+          <td *ngIf='item.holes==undefined' class="text-center">-</td>
+          <td > {{item.workDate | date: 'yyyy-MM-dd'}}</td>
+          <td >{{getDescription(item.currentStatus)}}</td>
+           <!-- <td >
+            <a class="nav-link p-0" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="material-icons">keyboard_arrow_down</i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="javascript:void(0)" (click)="openProjectWorksheetForm(item)"><i class="material-icons text-info">create</i> Edit</a>
+              <a class="dropdown-item" href="javascript:void(0)" (click)="deleteProWorksheet(item)"><i class="material-icons text-danger">delete_forever</i> Delete</a>
+              <a class="dropdown-item" href="javascript:void(0)" (click)="openWorksheetsDetails(item)"><i class="material-icons text-dark">description</i> Details</a>
+            </div> 
+          </td>  -->
+        </tr>
+        </tbody>
+    </table>
+    <pagination-controls style="float: right;" id="worksheet" 
+    class="my-pagination"
+    (pageChange)="p=($event)"   
+    maxSize="7"
+    directionLinks="true"
+    autoHide="true"
+    responsive="true"
+    previousLabel="Previous"
+    nextLabel="Next"
+    screenReaderPaginationLabel="Pagination"
+    screenReaderPageLabel="page"
+    screenReaderCurrentLabel="You're on page">
+    </pagination-controls>
+  </div>
+ </div>
+  <img *ngIf="project_worksheet==undefined" src="/assets/img/loading.gif"/>
+  </div>
+</div> 
+
+</div>
+</div>
+</div>
+</div>
+</div>

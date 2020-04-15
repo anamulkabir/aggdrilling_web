@@ -1,0 +1,36 @@
+<div style="width:350px;" class="example-container">
+  <h4 class="text-center">Assign project permission form</h4>
+  <form [formGroup]="registerForm" style="font-size: 12px;" (ngSubmit)="onSubmit()" >
+    
+    <p style="margin: 0px;">Project</p>
+    <mat-form-field appearance="outline">
+      <mat-select placeholder="{{data.item!=undefined ? data.item.project.projectCode : ''}}"  formControlName="project" [ngClass]="{ 'is-invalid': submitted && f.project.errors }">
+        <mat-option>
+          <ngx-mat-select-search placeholderLabel="Find project..." 
+          i18n-placeholderLabel
+          noEntriesFoundLabel="No matching project found"
+          i18n-noEntriesFoundLabel [formControl]="listFilterCtrl"></ngx-mat-select-search>
+        </mat-option>
+        <mat-option *ngFor="let item of filteredList | async" [value]="item">{{item.projectCode}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="submitted && f.project.errors" >
+        <span *ngIf="f.project.errors.required"> * Project is required !!!</span>
+      </mat-error>
+    </mat-form-field>
+
+    <p style="margin: 0px;">Permit steps</p>
+    <mat-form-field appearance="outline">
+      <mat-select [multiple]="true" formControlName="permitSteps" [ngClass]="{ 'is-invalid': submitted && f.permitSteps.errors }">
+        <mat-option *ngFor="let item of stages" value="{{item}}">{{getDescription(item)}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="submitted && f.permitSteps.errors" >
+        <span *ngIf="f.permitSteps.errors.required"> * Permit steps is required !!!</span>
+      </mat-error>
+    </mat-form-field>
+
+<div style="float: right;">
+  <button type="button" class="btn btn-dark btn-sm" (click)="closeModal()" >Dismiss</button>
+  <button type="submit" class="btn btn-success btn-sm" > Save </button>
+</div>
+</form>
+</div>

@@ -1,0 +1,53 @@
+<div style="width:350px;" class="example-container">
+  <h4 class="text-center">Materials Form</h4>
+  <form style="font-size: 12px;" [formGroup]="registerForm" (ngSubmit)="onSubmit()" >
+
+    
+
+  <p style="margin: 0px;">Reference key</p>
+  <mat-form-field appearance="outline" >
+  <input matInput formControlName="refKey" [ngClass]="{ 'is-invalid': submitted && f.refKey.errors }">
+  <mat-error *ngIf="submitted && f.refKey.errors" >
+    <span *ngIf="f.refKey.errors.required"> * Reference key is required !!!</span>
+  </mat-error>
+</mat-form-field>
+
+    <p style="margin: 0px;">General name</p>
+    <mat-form-field appearance="outline">
+      <input matInput formControlName="name" [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+      <mat-error *ngIf="submitted && f.name.errors" >
+        <span *ngIf="f.name.errors.required"> * General name is required !!!</span>
+      </mat-error>
+    </mat-form-field>
+
+  <p style="margin: 0px;">Details</p>
+    <mat-form-field appearance="outline" >
+    <textarea matInput formControlName="details" [ngClass]="{ 'is-invalid': submitted && f.details.errors }"></textarea>
+    <!-- <mat-error *ngIf="submitted && f.details.errors" >
+      <span *ngIf="f.details.errors.required"> * Details is required !!!</span>
+    </mat-error> -->
+  </mat-form-field>
+
+  <p style="margin: 0px;">Unit definition</p>
+    <mat-form-field appearance="outline" >
+    <mat-select formControlName="unit" [ngClass]="{ 'is-invalid': submitted && f.unit.errors }">
+      <mat-option *ngFor="let item of unitDefinitionList" value="{{item.id}}">{{item.title}}</mat-option>
+    </mat-select>
+    <!-- <mat-error *ngIf="submitted && f.unit.errors" >
+      <span *ngIf="f.unit.errors.required"> * Unit is required !!!</span>
+    </mat-error> -->
+  </mat-form-field>
+
+  <p style="margin: 0px;">Unit price</p>
+    <mat-form-field appearance="outline" >
+    <input type="number" matInput formControlName="unitPrice" [ngClass]="{ 'is-invalid': submitted && f.unitPrice.errors }">
+    <mat-error *ngIf="submitted && f.unitPrice.errors" >
+      <span *ngIf="f.unitPrice.errors.required"> * Unit price is required !!!</span>
+    </mat-error>
+  </mat-form-field>
+  <div style="float: right;">
+    <button type="button" class="btn btn-dark btn-sm" (click)="closeModal()" >Dismiss</button>
+    <button type="submit" class="btn btn-success btn-sm" > Save </button>
+  </div>
+</form>
+</div>

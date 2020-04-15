@@ -1,0 +1,26 @@
+<div style="width:350px;" class="example-container">
+  <h4 class="text-center">Log Type Form</h4>
+  <form  [formGroup]="registerForm" (ngSubmit)="onSubmit()" >
+  <mat-form-field class="example-chip-list">
+    <mat-chip-list #chipList aria-label="Types">
+      <mat-chip *ngFor="let type of typeList" [selectable]="selectable" 
+               [removable]="removable" (removed)="remove(type)">
+        {{type}}
+        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      </mat-chip>
+      <input formControlName="types" [ngClass]="{ 'is-invalid': submitted && f.types.errors }" placeholder="Types"
+             [matChipInputFor]="chipList"
+             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+             [matChipInputAddOnBlur]="addOnBlur"
+             (matChipInputTokenEnd)="add($event)">
+    </mat-chip-list>
+    <mat-error *ngIf="submitted && f.types.errors" >
+      <span *ngIf="f.types.errors.required"> * Types is required !!!</span>
+    </mat-error>
+  </mat-form-field>
+<div style="float: right;">
+  <button type="button" class="btn btn-dark btn-sm" (click)="closeModal()" >Dismiss</button>
+  <button type="submit" class="btn btn-success btn-sm" > Save </button>
+</div>
+</form>
+</div>

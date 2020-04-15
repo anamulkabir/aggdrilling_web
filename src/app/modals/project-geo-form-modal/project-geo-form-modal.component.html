@@ -1,0 +1,24 @@
+<div style="width:350px;" class="example-container">
+  <h4 class="text-center">Project Geologist Form</h4>
+  <form style="font-size: 12px;" [formGroup]="registerForm" (ngSubmit)="onSubmit()" >
+    <p style="margin: 0px;">Geologist</p>
+    <mat-form-field appearance="outline">
+      <mat-select formControlName="geologistId" [ngClass]="{ 'is-invalid': submitted && f.geologistId.errors }">
+        <mat-option>
+          <ngx-mat-select-search placeholderLabel="Find geologist..." 
+          i18n-placeholderLabel
+          noEntriesFoundLabel="No matching geologist found"
+          i18n-noEntriesFoundLabel [formControl]="listFilterCtrl"></ngx-mat-select-search>
+        </mat-option>
+        <mat-option *ngFor="let item of filteredList | async" [value]="item">{{item.firstName}} {{item.lastName}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="submitted && f.geologistId.errors" >
+        <span *ngIf="f.geologistId.errors.required"> * Geologist is required !!!</span>
+      </mat-error>
+    </mat-form-field>
+<div style="float: right;">
+  <button type="button" class="btn btn-dark btn-sm" (click)="closeModal()" >Dismiss</button>
+  <button type="submit" class="btn btn-success btn-sm" > Save </button>
+</div>
+</form>
+</div>

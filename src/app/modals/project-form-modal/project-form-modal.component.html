@@ -1,0 +1,46 @@
+<div style="width:350px;" class="example-container">
+  <h4 class="text-center">Project Form</h4>
+  <form style="font-size: 12px;" [formGroup]="registerForm" (ngSubmit)="onSubmit()" >
+    
+    <p style="margin: 0px;">Project code</p>
+    <mat-form-field appearance="outline" >
+    <input matInput formControlName="projectCode" [ngClass]="{ 'is-invalid': submitted && f.projectCode.errors }">
+    <mat-error *ngIf="submitted && f.projectCode.errors" >
+      <span *ngIf="f.projectCode.errors.required"> * Project Code is required !!!</span>
+    </mat-error>
+  </mat-form-field>
+
+  <p style="margin: 0px;">Project name</p>
+    <mat-form-field appearance="outline" >
+    <input matInput formControlName="projectName" [ngClass]="{ 'is-invalid': submitted && f.projectName.errors }">
+    <mat-error *ngIf="submitted && f.projectName.errors" >
+      <span *ngIf="f.projectName.errors.required"> * Project Name is required !!!</span>
+    </mat-error>
+  </mat-form-field>
+
+  <p style="margin: 0px;">Start date</p>
+    <mat-form-field appearance="outline" >
+    <input matInput style="cursor: pointer;" (click)="dp3.open()"  formControlName="startDate" [ngClass]="{ 'is-invalid': submitted && f.startDate.errors }" [matDatepicker]="dp3" readonly>
+    <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+    <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+    <mat-error *ngIf="submitted && f.startDate.errors" >
+      <span *ngIf="f.startDate.errors.required"> * Start Date is required !!!</span>
+    </mat-error>
+  </mat-form-field>
+
+ <p style="margin: 0px;">Status</p>
+    <mat-form-field appearance="outline" >
+  <mat-select formControlName="status" [ngClass]="{ 'is-invalid': submitted && f.status.errors }">
+    <mat-option value="live">Live</mat-option>
+    <mat-option value="others">Others</mat-option>
+  </mat-select>
+  <mat-error *ngIf="submitted && f.status.errors" >
+    <span *ngIf="f.status.errors.required"> * Status is required !!!</span>
+  </mat-error>
+</mat-form-field>
+    <div style="float: right;">
+      <button type="button" class="btn btn-dark btn-sm" (click)="closeModal()" >Dismiss</button>
+      <button type="submit" class="btn btn-success btn-sm" > Save </button>
+    </div>
+</form>
+</div>

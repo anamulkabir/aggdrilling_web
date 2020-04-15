@@ -1,0 +1,26 @@
+<div class="table table-sm table-bordered table-hover" style="margin:0px;" >  
+  <table style="font-size: 12px;" >
+    <tr style="font-size: 13px;">
+      <td>Task</td><td>Shift</td><td>Start time</td><td>End time</td>
+      <td>Hours Work</td><td>Worker</td><td>Start metre</td><td>End metre</td><td>Core size</td><td style="text-align: center;">Comment</td>
+    </tr>
+      <tr >
+        <td>{{item.task.name}}</td>
+        <td class="text-center">{{item.shift}}</td>
+        <td class="text-center">{{item.startTime}}</td>
+        <td class="text-center">{{item.endTime}}</td>
+        <td *ngIf="item.workHours!=null" class="text-center">{{item.workHours}}</td>
+        <td *ngIf="item.workHours==null" class="text-center">-</td>
+        <td *ngIf="item.worker!=null" class="text-center">{{item.worker.firstName}} {{item.worker.lastName}}</td>
+        <td *ngIf="item.worker==null" class="text-center">-</td>
+        <td *ngIf="item.startMeter!=null" class="text-center">{{item.startMeter}}</td>
+        <td *ngIf="item.startMeter==null" class="text-center">-</td>
+        <td *ngIf="item.endMeter!=null" class="text-center">{{item.endMeter}}</td>
+        <td *ngIf="item.endMeter==null" class="text-center">-</td>
+        <td *ngIf="item.coreSize!=null" class="text-center">{{item.coreSize.size}}</td>
+        <td *ngIf="item.coreSize==null" class="text-center">-</td>
+        <td *ngIf="item.comment!=null" class="text-center" ><div style="width: 100px;height:25px;overflow:auto;margin:0px;">{{item.comment}}</div></td>
+        <td *ngIf="item.comment==null" class="text-center">-</td>
+      </tr>
+  </table>
+  </div>

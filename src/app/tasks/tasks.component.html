@@ -1,0 +1,63 @@
+<div class="main-content p-0">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="card m-0">
+                  <div class="card-header card-header-dark">
+                      <h4 class="card-title mt-0"> Tasks information</h4>
+                      <p class="card-category"> Tasks information from here</p>
+                  </div>
+                  <div class="card-body p-3">
+                    <div class="table-responsive">
+                      <div>
+                        <button type="button" style="float: left;" class="btn btn-dark btn-sm" (click)="openDialog()">
+                          Add
+                        </button>
+                        <input style="width: 150px;float: right;" class="form-control" type="text" placeholder="Search" (click)="paginationStart();" [(ngModel)]="termTasks">
+                        <mat-icon matSuffix style="float: right;margin-top: 10px;">search</mat-icon>
+                      </div>
+                      <div class="table table-hover" >
+                        <table style="width: 100%;">
+                            <thead class=" text-primary">
+                               <th>SL</th> <th>Name</th><th>Log type</th><th>Task type</th><th>Description</th><th>Status</th><th>Options</th>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let item of tasksList | filter:termTasks | paginate: {id: 'tasks',itemsPerPage:20, currentPage: p,totalItems: total};let i=index;"  >
+                                <td>{{(p - 1) * 20 + i +1}}.</td><td>{{item.name}}</td><td>{{item.logType}}</td><td>{{item.taskType}}</td><td>{{item.description}}</td>
+                              <td >
+                                  Off <mat-slide-toggle [checked]="item.isActive" (change)="statusToogoleChangeForTask(item,$event)"  matInput ></mat-slide-toggle> On 
+                                </td>
+                                <td>
+                                  <a class="nav-link p-0" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="material-icons">keyboard_arrow_down</i>
+                                  </a>
+                                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item" href="javascript:void(0)" (click)="openDialog(item)"><i class="material-icons text-info">create</i> Edit</a>
+                                    <a class="dropdown-item" href="javascript:void(0)" (click)="delete(item)"><i class="material-icons text-danger">delete_forever</i> Delete</a>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                        </table>
+                        <pagination-controls style="float: right;" id="tasks" 
+                        class="my-pagination"
+                        (pageChange)="p=($event)"   
+                        maxSize="7"
+                        directionLinks="true"
+                        autoHide="true"
+                        responsive="true"
+                        previousLabel="Previous"
+                        nextLabel="Next"
+                        screenReaderPaginationLabel="Pagination"
+                        screenReaderPageLabel="page"
+                        screenReaderCurrentLabel="You're on page">
+                        </pagination-controls>
+                      </div>
+                        <img *ngIf="tasksList==undefined" src="/assets/img/loading.gif"/>
+                    </div>
+                </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

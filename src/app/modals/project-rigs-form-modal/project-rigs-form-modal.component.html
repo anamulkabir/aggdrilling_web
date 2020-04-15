@@ -1,0 +1,43 @@
+<div style="width:350px;" class="example-container">
+  <h4 class="text-center">Project Rigs Form</h4>
+  <form style="font-size: 12px;" [formGroup]="registerForm" (ngSubmit)="onSubmit()" >
+
+    <p *ngIf="data.item==undefined" style="margin: 0px;">Rigs</p>
+    <mat-form-field appearance="outline" *ngIf="data.item==undefined">
+      <mat-select [multiple]="true" formControlName="rigsId" 
+      [ngClass]="{ 'is-invalid': submitted && f.rigsId.errors }">
+        <mat-option>
+          <ngx-mat-select-search placeholderLabel="Find rigs..." 
+          i18n-placeholderLabel
+          noEntriesFoundLabel="No matching rigs found"
+          i18n-noEntriesFoundLabel [formControl]="listFilterCtrl"></ngx-mat-select-search>
+        </mat-option>
+        <mat-option  *ngFor="let item of filteredList | async" [value]="item">{{item.serial}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="submitted && f.rigsId.errors" >
+        <span *ngIf="f.rigsId.errors.required"> * Rigs is required !!!</span>
+      </mat-error>
+    </mat-form-field>
+
+    <p *ngIf="data.item!=undefined" style="margin: 0px;">Rigs</p>
+    <mat-form-field appearance="outline" *ngIf="data.item!=undefined">
+      <mat-select placeholder="{{data.item!=undefined ? data.item.serial : ''}}"  formControlName="rigsId" 
+      [ngClass]="{ 'is-invalid': submitted && f.rigsId.errors }">
+        <mat-option>
+          <ngx-mat-select-search placeholderLabel="Find rigs..." 
+          i18n-placeholderLabel
+          noEntriesFoundLabel="No matching rigs found"
+          i18n-noEntriesFoundLabel [formControl]="listFilterCtrl"></ngx-mat-select-search>
+        </mat-option>
+        <mat-option  *ngFor="let item of filteredList | async" [value]="item">{{item.serial}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="submitted && f.rigsId.errors" >
+        <span *ngIf="f.rigsId.errors.required"> * Rigs is required !!!</span>
+      </mat-error>
+    </mat-form-field>
+<div style="float: right;">
+  <button type="button" class="btn btn-dark btn-sm" (click)="closeModal()" >Dismiss</button>
+  <button type="submit" class="btn btn-success btn-sm" > Save </button>
+</div>
+</form>
+</div>

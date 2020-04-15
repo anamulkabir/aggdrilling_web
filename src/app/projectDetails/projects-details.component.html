@@ -1,0 +1,316 @@
+<div class="main-content p-0" >
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+            <img *ngIf="projectDetailsList==undefined" src="/assets/img/loading.gif"/>
+              <div class="card m-0" *ngIf="projectDetailsList!=undefined">
+                 
+                <div class="card-header card-header-dark">
+                  <h4 class="card-title mt-0"> Project Name : {{projectDetailsList.projectName}}</h4>
+                    <div class="table-responsive">
+                        <table class="table table-sm" style="margin:0px;">
+                              <tr class="card-category">
+                                <td>Code : {{projectDetailsList.projectCode}}</td><td>Entry Date : {{projectDetailsList.entryDate | date: 'yyyy-MM-dd'}}</td><td>Start Date : {{projectDetailsList.startDate | date: 'yyyy-MM-dd'}}</td><td>Status : {{projectDetailsList.status}}</td>
+                              </tr>
+                        </table>
+                    </div>
+                </div>
+                    
+
+
+<div class="card-body p-3">             
+ <div class="table-responsive">
+  <div >
+    <button type="button" style="float: left;" class="btn btn-dark btn-sm" (click)="openProjectGeologistForm()">
+      Add Geologist
+    </button>
+  </div>
+  <div class="table table-hover scrollable-table-wrapper" >
+      <table class="table" style="width: 100%;">
+      <thead class=" text-primary">
+         <th>SL</th><th>First name</th><th>Last name</th><th>Email</th><th>Phone</th><th>Company</th><th>Emg contact name</th><th>Emg contact phone</th><th>Status</th>
+      </thead>      
+      <tbody>
+        <tr *ngFor="let item of project_geologist;let i=index;"  >
+        <td>{{i+1}}.</td><td >{{item.firstName}}</td><td >{{item.lastName}}</td><td >{{item.email}}</td>
+          <td >{{item.phone}}</td><td>{{item.companyName}}</td><td>{{item.emergencyContactName}}</td><td>{{item.emergencyContactPhone}}</td>
+          <td >
+            Off <mat-slide-toggle style="z-index: 999;" [checked]="item.isActive" (change)="statusToogoleChangeForGeologist(item,$event)"  matInput ></mat-slide-toggle> On 
+          </td>
+        </tr>
+     
+      </tbody>
+  </table>
+  </div>
+</div>
+</div>
+
+
+
+<div class="row col-md-12">
+
+<div class="card-body p-3  col-md-6">             
+  <div class="table-responsive">
+   <div >
+     <button type="button" style="float: left;" class="btn btn-dark btn-sm" (click)="openProjectRigsForm()">
+       Add Rigs
+     </button>
+   </div>
+   <div class="table table-hover scrollable-table-wrapper" >
+    <table class="table" style="width: 100%;">
+       <thead class=" text-primary">
+         <th>Rigs</th> <th>Serial</th><th>Status</th><th>Options</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of project_rigs;let i=index;"  >
+          <td> {{i+1}}.</td>
+          <td> {{item.serial}}</td>
+          <td>{{item.status}}</td>
+        
+          <td>
+            <a class="nav-link p-0" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="material-icons">keyboard_arrow_down</i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="javascript:void(0)" (click)="openProjectRigsForm(item)"><i class="material-icons text-info">create</i> Edit</a>
+              <a class="dropdown-item" href="javascript:void(0)" (click)="deleteProRigs(item)"><i class="material-icons text-danger">delete_forever</i> Delete</a>
+            </div> 
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  </div>
+</div>
+
+
+
+<div class="card-body p-3  col-md-6">             
+  <div class="table-responsive">
+   <div >
+     <button type="button" style="float: left;" class="btn btn-dark btn-sm" (click)="openProjectHolesForm()">
+       Add Holes
+     </button>
+   </div>
+   <div class="table table-hover scrollable-table-wrapper" >
+    <table class="table" style="width: 100%;">
+       <thead class=" text-primary">
+         <th>Holes</th><th>Name</th><th>Code</th><th>Options</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of project_holes;let i=index;"  >
+          <td > {{i+1}}.</td>
+          <td > {{item.name}}</td>
+          <td > {{item.code}}</td>
+          <td >
+            <a class="nav-link p-0" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="material-icons">keyboard_arrow_down</i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="javascript:void(0)" (click)="openProjectHolesForm(item)"><i class="material-icons text-info">create</i> Edit</a>
+              <a class="dropdown-item" href="javascript:void(0)" (click)="deleteProHoles(item)"><i class="material-icons text-danger">delete_forever</i> Delete</a>
+            </div> 
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  </div>
+</div>
+
+</div>
+
+
+<div class="card-body p-3">             
+  <div class="table-responsive">
+   <div >
+     <button type="button" style="float: left;" class="btn btn-dark btn-sm" (click)="openProjectWorkerForm()">
+       Add Worker
+     </button>
+   </div>
+   <div class="table table-hover scrollable-table-wrapper" >
+    <table class="table" style="width: 100%;">
+       <thead class=" text-primary">
+        <th>Workers</th><th>First name</th><th>Last name</th><th>Skills</th><th>Designation</th><th>Type</th><th>Options</th>
+      </thead>      
+      <tbody>
+        <tr *ngFor="let item of project_worker;let i=index;"  >
+          <td > {{i+1}}.</td>
+          <td > {{item.firstName}}</td>
+          <td > {{item.lastName}}</td>
+          <td > {{item.skills}}</td>
+          <td > {{item.designation}}</td>
+          <td > {{item.type}}</td>
+          <td >
+            <a class="nav-link p-0" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="material-icons">keyboard_arrow_down</i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="javascript:void(0)" (click)="openProjectWorkerForm(item)"><i class="material-icons text-info">create</i> Edit</a>
+              <a class="dropdown-item" href="javascript:void(0)" (click)="deleteProWorker(item)"><i class="material-icons text-danger">delete_forever</i> Delete</a>
+            </div> 
+          </td>
+        </tr>
+        </tbody>
+    </table>
+  </div>
+  </div>
+</div>
+
+
+<div class="row col-md-12">
+
+<div class="card-body p-3 col-md-6">             
+  <div class="table-responsive">
+   <div >
+     <button type="button" style="float: left;" class="btn btn-dark btn-sm" (click)="openProjectTaskForm()">
+       Add Task
+     </button>
+   </div>
+   <div class="table table-hover scrollable-table-wrapper" >
+    <table class="table" style="width: 100%;">
+       <thead class=" text-primary">
+        <th>Tasks</th><th>Name</th><th>Log type</th><th>Task type</th><th>Options</th>
+      </thead>      
+      <tbody>
+        <tr *ngFor="let item of project_task;let i=index;"  >
+          <td > {{i+1}}.</td>
+          <td > {{item.name}}</td>
+          <td > {{item.logType}}</td>
+          <td > {{item.taskType}}</td>
+          <td >
+            <a class="nav-link p-0" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="material-icons">keyboard_arrow_down</i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="javascript:void(0)" (click)="openProjectTaskForm(item)"><i class="material-icons text-info">create</i> Edit</a>
+              <a class="dropdown-item" href="javascript:void(0)" (click)="deleteProTask(item)"><i class="material-icons text-danger">delete_forever</i> Delete</a>
+            </div> 
+          </td>
+        </tr>
+        </tbody>
+    </table>
+  </div>
+  </div>
+</div>
+
+
+
+
+<div class="card-body p-3  col-md-6">             
+  <div class="table-responsive">
+   <div >
+     <button type="button" style="float: left;" class="btn btn-dark btn-sm" (click)="openProjectCoreSizesForm()">
+       Add Core size
+     </button>
+   </div>
+   <div class="table table-hover scrollable-table-wrapper" >
+    <table class="table" style="width: 100%;">
+       <thead class=" text-primary">
+        <th>Core sizes</th><th>Core</th><th>Size</th><th>Hole</th><th>Options</th>
+      </thead>      
+      <tbody>
+        <tr *ngFor="let item of project_coreSizes;let i=index;"  >
+          <td > {{i+1}}.</td>
+          <td > {{item.core}}</td>
+          <td > {{item.size}}</td>
+          <td > {{item.hole}}</td>
+          <td >
+            <a class="nav-link p-0" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="material-icons">keyboard_arrow_down</i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="javascript:void(0)" (click)="openProjectCoreSizesForm(item)"><i class="material-icons text-info">create</i> Edit</a>
+              <a class="dropdown-item" href="javascript:void(0)" (click)="deleteProCoreSize(item)"><i class="material-icons text-danger">delete_forever</i> Delete</a>
+            </div> 
+          </td>
+        </tr>
+        </tbody>
+    </table>
+  </div>
+  </div>
+</div>
+
+
+</div>
+
+
+<div class="card-body p-3">             
+  <div class="table-responsive">
+   <div >
+     <button type="button" style="float: left;" class="btn btn-dark btn-sm" (click)="openProjectMaterialsForm()">
+       Add Materials
+     </button>
+   </div>
+   <div class="table table-hover scrollable-table-wrapper" >
+    <table class="table" style="width: 100%;">
+       <thead class=" text-primary">
+        <th>Materials</th><th>Reference key</th><th>General name</th><th>Details</th><th>Options</th>
+      </thead>      
+      <tbody>
+        <tr *ngFor="let item of project_materials;let i=index;"  >
+          <td > {{i+1}}.</td>
+          <td > {{item.refKey}}</td>
+          <td > {{item.name}}</td>
+          <td > {{item.details}}</td>
+          <td >
+            <a class="nav-link p-0" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="material-icons">keyboard_arrow_down</i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="javascript:void(0)" (click)="openProjectMaterialsForm(item)"><i class="material-icons text-info">create</i> Edit</a>
+              <a class="dropdown-item" href="javascript:void(0)" (click)="deleteProMaterial(item)"><i class="material-icons text-danger">delete_forever</i> Delete</a>
+            </div> 
+          </td>
+        </tr>
+        </tbody>
+    </table>
+  </div>
+  </div>
+</div>
+
+
+
+<div class="card-body p-3">             
+  <div class="table-responsive">
+   <div >
+     <button type="button" style="float: left;" class="btn btn-dark btn-sm" (click)="openProjectWorksheetStagesForm()">
+       Add Worksheet Stages
+     </button>
+   </div>
+   <div class="table table-hover scrollable-table-wrapper" >
+    <table class="table" style="width: 100%;">
+       <thead class=" text-primary">
+        <th>SL</th><th>Name</th><th>Next stages</th><th>Actions</th><th>Options</th>
+      </thead>      
+      <tbody>
+        <tr *ngFor="let item of project_workSheetStages;let i=index;"  >
+          <td>{{i +1}}.</td>
+          <td>{{getDescription(item.name)}}</td>
+          <td>
+            <ul *ngFor="let stages of item.nextStages" style="float: left;margin:0px;">
+            <li >{{getDescription(stages)}}</li>
+            </ul>
+          </td>
+          <td>{{item.actions}}</td>
+          <td>
+            <a class="nav-link p-0" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="material-icons">keyboard_arrow_down</i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="javascript:void(0)" (click)="openProjectWorksheetStagesForm(item)"><i class="material-icons text-info">create</i> Edit</a>
+              <a class="dropdown-item" href="javascript:void(0)" (click)="deleteProWorksheetStages(item)"><i class="material-icons text-danger">delete_forever</i> Delete</a>
+            </div> 
+          </td>
+        </tr>
+        </tbody>
+    </table>
+  </div>
+  </div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+</div>

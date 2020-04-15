@@ -1,0 +1,43 @@
+<div style="width:350px;" class="example-container">
+  <h4 >Project Task Form</h4>
+  <form style="font-size: 12px;" [formGroup]="registerForm" (ngSubmit)="onSubmit()" >
+    
+    <p *ngIf="data.item==undefined" style="margin: 0px;">Task</p>
+    <mat-form-field appearance="outline" *ngIf="data.item==undefined">
+      <mat-select [multiple]="true" formControlName="taskId" 
+      [ngClass]="{ 'is-invalid': submitted && f.taskId.errors }">
+        <mat-option>
+          <ngx-mat-select-search placeholderLabel="Find task..." 
+          i18n-placeholderLabel
+          noEntriesFoundLabel="No matching task found"
+          i18n-noEntriesFoundLabel [formControl]="listFilterCtrl"></ngx-mat-select-search>
+        </mat-option>
+        <mat-option  *ngFor="let item of filteredList | async" [value]="item">{{item.name}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="submitted && f.taskId.errors" >
+        <span *ngIf="f.taskId.errors.required"> * Task is required !!!</span>
+      </mat-error>
+    </mat-form-field>
+
+    <p *ngIf="data.item!=undefined" style="margin: 0px;">Task</p>
+    <mat-form-field appearance="outline" *ngIf="data.item!=undefined">
+      <mat-select placeholder="{{data.item!=undefined ? data.item.name : ''}}" formControlName="taskId" 
+      [ngClass]="{ 'is-invalid': submitted && f.taskId.errors }">
+        <mat-option>
+          <ngx-mat-select-search placeholderLabel="Find task..." 
+          i18n-placeholderLabel
+          noEntriesFoundLabel="No matching task found"
+          i18n-noEntriesFoundLabel [formControl]="listFilterCtrl"></ngx-mat-select-search>
+        </mat-option>
+        <mat-option  *ngFor="let item of filteredList | async" [value]="item">{{item.name}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="submitted && f.taskId.errors" >
+        <span *ngIf="f.taskId.errors.required"> * Task is required !!!</span>
+      </mat-error>
+    </mat-form-field>
+<div style="float: right;">
+  <button type="button" class="btn btn-dark btn-sm" (click)="closeModal()" >Dismiss</button>
+  <button type="submit" class="btn btn-success btn-sm" > Save </button>
+</div>
+</form>
+</div>

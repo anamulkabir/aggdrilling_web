@@ -1,0 +1,45 @@
+<div style="width:350px;" class="example-container">
+  <h4 class="text-center">User Update Form</h4>
+  <form  [formGroup]="registerForm" (ngSubmit)="onSubmit()" >
+    <mat-form-field appearance="outline">
+      <mat-label>First Name</mat-label>
+      <input matInput placeholder="Enter first name"  formControlName="firstName" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }">
+      <mat-error *ngIf="submitted && f.firstName.errors" >
+        <span *ngIf="f.firstName.errors.required"> * First name is required !!!</span>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+    <mat-label>Last Name</mat-label>
+      <input matInput placeholder="Enter last name"  formControlName="lastName" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }">
+      <mat-error *ngIf="submitted && f.lastName.errors" >
+        <span *ngIf="f.lastName.errors.required"> * Last name is required !!!</span>
+      </mat-error>
+    </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Phone</mat-label>
+    <input matInput placeholder="Enter phone number"  formControlName="phone" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }">
+    <mat-error *ngIf="submitted && f.phone.errors" >
+      <span *ngIf="f.phone.errors.required"> * Phone number is required !!!</span>
+    </mat-error>
+  </mat-form-field>  
+
+ <mat-form-field appearance="outline">
+  <mat-label>Role</mat-label>
+    <mat-select placeholder="Select Role" formControlName="role" [ngClass]="{ 'is-invalid': submitted && f.role.errors }">
+      <mat-option value="admin">Admin</mat-option>
+      <mat-option value="user">User</mat-option>
+    </mat-select>
+    <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
+    <mat-error *ngIf="submitted && f.role.errors" >
+      <span *ngIf="f.role.errors.required"> * Role is required !!!</span>
+    </mat-error>
+  </mat-form-field>
+  
+  <div style="float: right;">
+    <button type="button" class="btn btn-dark btn-sm" (click)="closeModal()" >Dismiss</button>
+    <button type="submit" class="btn btn-success btn-sm" > Save </button>
+  </div>
+</form>
+</div>

@@ -1,0 +1,11 @@
+div.scrollable-table-wrapper {
+    max-height: 310px;
+    overflow: auto;
+  
+    thead th {
+      z-index: 1000;
+      background-color: white;
+      position: sticky;
+      top: 0;
+    }
+  }

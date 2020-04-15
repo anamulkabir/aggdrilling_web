@@ -1,0 +1,35 @@
+ <div style="width:350px;" class="example-container">
+    <h4 >Worksheet consume material form</h4>
+    <form  [formGroup]="registerForm" style="font-size: 12px;" (ngSubmit)="onSubmit()" >
+   
+    <p style="margin: 0px;" >Material</p>
+        <mat-form-field (click)="data.item=undefined" appearance="outline">
+          <mat-select placeholder="{{data.item!=undefined ? data.item.material.name : 'Select material'}}" 
+          formControlName="material" [ngClass]="{ 'is-invalid': submitted && f.material.errors }">
+          <ngx-mat-select-search placeholderLabel="Find material..." 
+          i18n-placeholderLabel
+          noEntriesFoundLabel="No matching material found"
+          i18n-noEntriesFoundLabel [formControl]="listFilterCtrl"></ngx-mat-select-search>
+            <mat-option *ngFor="let item of filteredList | async" [value]="item">{{item.name}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="submitted && f.material.errors" >
+            <span *ngIf="f.material.errors.required"> * Material is required !!!</span>
+          </mat-error>
+        </mat-form-field>
+
+        <p style="margin: 0px;" >Quantity</p>
+        <mat-form-field appearance="outline">
+          <input type="number" matInput placeholder="Quantity"  formControlName="qty" [ngClass]="{ 'is-invalid': submitted && f.qty.errors }">
+          <mat-error *ngIf="submitted && f.qty.errors" >
+            <span *ngIf="f.qty.errors.required"> * Quantity is required !!!</span>
+            <span *ngIf="f.qty.errors.min">* Quantity must be greater then 0.</span>
+          </mat-error>
+        </mat-form-field>
+       
+<div style="float: right;">
+        <button type="submit" *ngIf="registerForm.value.id==null" class="btn btn-success btn-sm p-0" style="height: 29px;width: 40px;margin-top:-15px;" >Add</button>
+        <button type="submit" *ngIf="registerForm.value.id!=null" class="btn btn-success btn-sm p-0" style="height: 29px;width: 50px;margin-top:-15px;" >Update</button>
+      </div>
+
+    </form>
+    </div>

@@ -1,0 +1,45 @@
+<div style="width:350px;" class="example-container">
+  <h4 class="text-center">Task Form</h4>
+  <form style="font-size: 12px;" [formGroup]="registerForm" (ngSubmit)="onSubmit()" >
+
+    <p style="margin: 0px;">Name</p>
+    <mat-form-field appearance="outline">
+      <input matInput formControlName="name" [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+      <mat-error *ngIf="submitted && f.name.errors" >
+        <span *ngIf="f.name.errors.required"> * Name is required !!!</span>
+      </mat-error>
+    </mat-form-field>
+
+  <p style="margin: 0px;">Log Type</p>
+    <mat-form-field appearance="outline">
+    <mat-select formControlName="logType" [ngClass]="{ 'is-invalid': submitted && f.logType.errors }">
+      <mat-option *ngFor="let item of lTypeList" value="{{item}}">{{item}}</mat-option>
+    </mat-select>
+    <mat-error *ngIf="submitted && f.logType.errors" >
+      <span *ngIf="f.logType.errors.required"> * Log Type is required !!!</span>
+    </mat-error>
+  </mat-form-field>
+
+  <p style="margin: 0px;">Task Type</p>
+    <mat-form-field appearance="outline">
+    <mat-select formControlName="taskType" [ngClass]="{ 'is-invalid': submitted && f.taskType.errors }">
+      <mat-option *ngFor="let item of tTypeList" value="{{item}}">{{item}}</mat-option>
+    </mat-select>
+    <mat-error *ngIf="submitted && f.taskType.errors" >
+      <span *ngIf="f.taskType.errors.required"> * Task Type is required !!!</span>
+    </mat-error>
+  </mat-form-field>
+
+  <p style="margin: 0px;">Description</p>
+    <mat-form-field appearance="outline">
+    <input matInput formControlName="description" [ngClass]="{ 'is-invalid': submitted && f.description.errors }">
+    <mat-error *ngIf="submitted && f.description.errors" >
+      <span *ngIf="f.description.errors.required"> * Description is required !!!</span>
+    </mat-error>
+  </mat-form-field>
+<div style="float: right;">
+  <button type="button" class="btn btn-dark btn-sm" (click)="closeModal()" >Dismiss</button>
+  <button type="submit" class="btn btn-success btn-sm" > Save </button>
+</div>
+</form>
+</div>

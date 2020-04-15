@@ -1,0 +1,37 @@
+<div style="width:350px;" class="example-container">
+  <h4 class="text-center" >Geologist user form</h4>
+  <form [formGroup]="registerForm" style="font-size: 12px;" (ngSubmit)="onSubmit()" >
+    <p style="margin: 0px;">Email</p>
+    <mat-form-field appearance="outline" >
+      <input readonly matInput formControlName="abc" >
+    </mat-form-field>
+
+    <p style="margin: 0px;">Password</p>
+    <mat-form-field appearance="outline" >
+      <input matInput [type]="hide ? 'password' : 'text'" formControlName="def" [ngClass]="{ 'is-invalid': submitted && f.def.errors }">
+      <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+      <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+      <mat-error *ngIf="submitted && f.def.errors" >
+        <span *ngIf="f.def.errors.required"> * Password is required !!!</span>
+        <span class="err" *ngIf="f.def.errors.minlength"> * Password must be at least 6 characters !!!</span>
+      </mat-error>
+    </mat-form-field>
+
+    <p style="margin: 0px;">Confirm password</p>
+    <mat-form-field appearance="outline" >
+      <input matInput [type]="hide ? 'password' : 'text'" formControlName="confirmPassword" [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }">
+      <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+      <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+      <mat-error *ngIf="submitted && f.confirmPassword.errors" >
+        <span class="err" *ngIf="f.confirmPassword.errors.required"> *  Confirm Password is required !!!</span>
+        <span class="err" *ngIf="f.confirmPassword.errors.mustMatch"> * Passwords must match !!!</span>
+      </mat-error>
+    </mat-form-field>
+  <div style="float: right;">
+    <button type="button" class="btn btn-dark btn-sm" (click)="closeModal()" >Dismiss</button>
+    <button type="submit" class="btn btn-success btn-sm" > Save </button>
+  </div>
+</form>
+</div>

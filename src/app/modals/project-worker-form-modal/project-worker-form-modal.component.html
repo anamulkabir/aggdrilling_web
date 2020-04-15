@@ -1,0 +1,41 @@
+<div style="width:350px;" class="example-container">
+  <h4 >Project Worker Form</h4>
+  <form style="font-size: 12px;" [formGroup]="registerForm" (ngSubmit)="onSubmit()" >
+
+    <p style="margin: 0px;" *ngIf="data.item==undefined">Worker</p>
+    <mat-form-field appearance="outline" *ngIf="data.item==undefined">
+      <mat-select [multiple]="true" formControlName="workerId" [ngClass]="{ 'is-invalid': submitted && f.workerId.errors }">
+        <mat-option  >
+          <ngx-mat-select-search placeholderLabel="Find worker..." 
+          i18n-placeholderLabel
+          noEntriesFoundLabel="No matching worker found"
+          i18n-noEntriesFoundLabel [formControl]="listFilterCtrl"></ngx-mat-select-search>
+        </mat-option>
+        <mat-option  *ngFor="let item of filteredList | async" [value]="item">{{item.firstName}} {{item.lastName}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="submitted && f.workerId.errors" >
+        <span *ngIf="f.workerId.errors.required"> * Worker is required !!!</span>
+      </mat-error>
+    </mat-form-field>
+
+    <p style="margin: 0px;" *ngIf="data.item!=undefined">Worker</p>
+    <mat-form-field appearance="outline" *ngIf="data.item!=undefined" >
+      <mat-select  placeholder="{{data.item.firstName+' '+data.item.lastName}}" formControlName="workerId" [ngClass]="{ 'is-invalid': submitted && f.workerId.errors }">
+        <mat-option>
+          <ngx-mat-select-search placeholderLabel="Find worker..." 
+          i18n-placeholderLabel
+          noEntriesFoundLabel="No matching worker found"
+          i18n-noEntriesFoundLabel [formControl]="listFilterCtrl"></ngx-mat-select-search>
+        </mat-option>
+        <mat-option *ngFor="let item of filteredList | async" [value]="item">{{item.firstName}} {{item.lastName}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="submitted && f.workerId.errors" >
+        <span *ngIf="f.workerId.errors.required"> * Worker is required !!!</span>
+      </mat-error>
+    </mat-form-field>
+<div style="float: right;">
+  <button type="button" class="btn btn-dark btn-sm" (click)="closeModal()" >Dismiss</button>
+  <button type="submit" class="btn btn-success btn-sm" > Save </button>
+</div>
+</form>
+</div>

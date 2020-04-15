@@ -1,0 +1,241 @@
+<div class="example-container m-3" >    
+  <div>
+    <i class="material-icons" (click)="closeModal()" style="cursor: pointer;float: right;" >close</i>
+    <h4 class="text-center" >Worksheet Form</h4>
+  </div>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()"  style="margin: 0px;">
+       
+                   
+                      <!-- <div class="table table-sm table-bordered">
+                          <table style="margin:0px;width:100%;">
+                            <tr >
+                              <th style="margin:0px;"><h4 >Work Date : {{worksheetDetailsList.workDate| date: 'yyyy-MM-dd'}}</h4></th>
+                              <th style="margin:0px;"><h4 >Rigs : {{worksheetDetailsList.rigs.serial}}</h4></th>
+                              <th style="margin:0px;"><h4 >Hole : {{worksheetDetailsList.holes.name}}</h4></th>
+                              <th style="margin:0px;"><h4 >Entry Date : {{worksheetDetailsList.entryDate| date: 'yyyy-MM-dd'}}</h4></th>
+                                <th style="margin:0px;"><h4 >Entry By : {{worksheetDetailsList.entryBy}}</h4></th>
+                                <td>
+                                <i class="material-icons text-info" (click)="openWorksheetTaskLogsForm(item)" style="cursor: pointer;" >create</i>
+
+                                </td>
+                              </tr>
+                          </table>
+                      </div>   -->
+<section *ngIf="data.item!=undefined && actionEnable==false">
+  <legend style="font-size: 16px;">Basic</legend>
+            <table  style="font-size: 12px;">
+              <tr>
+                <td>Work Date</td>
+                <td>Rigs</td>
+                <td>Hole</td>
+              </tr>
+              <tr >
+                <td>
+                  <mat-form-field appearance="outline">
+                    <input matInput placeholder="{{data.item.workDate}}" readonly> 
+                  </mat-form-field>
+                </td>
+                <td>
+                  <mat-form-field appearance="outline">
+                    <input matInput placeholder="{{data.item.rigs.serial}}" readonly> 
+                  </mat-form-field>
+                </td>
+                <td >
+                  <mat-form-field appearance="outline">
+                    <input matInput placeholder="{{data.item.holes!=undefined ? data.item.holes.name : 'Select hole'}}" readonly> 
+                  </mat-form-field>
+                </td>
+              </tr>
+            </table>
+</section>
+
+      <section  *ngIf="data.item==undefined || actionEnable==true">
+            <legend style="font-size: 16px;">Basic</legend>
+            <table  style="font-size: 12px;">
+              <tr>
+                <td>Work Date</td>
+                <td>Rigs</td>
+                <td *ngIf="holesView==true">Hole</td>
+              </tr>
+              <tr >
+                <td>
+                  <mat-form-field appearance="outline">
+                    <input (dateChange)="onSubmit()" matInput (click)="dp3.open()" placeholder="Select work date" formControlName="workDate" 
+                    [ngClass]="{ 'is-invalid': submitted && f.workDate.errors }" [matDatepicker]="dp3" readonly>
+                    <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                    <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                    <mat-error *ngIf="submitted && f.workDate.errors" >
+                      <span *ngIf="f.workDate.errors.required"> * Workdate is required !!!</span>
+                    </mat-error>
+                  </mat-form-field>
+                </td>
+                <td>
+                  <mat-form-field appearance="outline">
+                    <mat-select (selectionChange)="onSubmit()" placeholder="{{data.item!=undefined ? data.item.rigs.serial : 'Select rigs'}}" formControlName="rigs" [ngClass]="{ 'is-invalid': submitted && f.rigs.errors }">
+                      <mat-option *ngFor="let item of project_rigs" [value]="item">{{item.serial}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="submitted && f.rigs.errors" >
+                      <span *ngIf="f.rigs.errors.required"> * Rigs is required !!!</span>
+                    </mat-error>
+                  </mat-form-field>
+                </td>
+                <td *ngIf="holesView==true">
+                  <mat-form-field *ngIf="data.item==undefined" appearance="outline">
+                    <mat-select (selectionChange)="onSubmit()" placeholder="Select hole"  formControlName="holes" [ngClass]="{ 'is-invalid': submitted && f.holes.errors }">
+                      <mat-option *ngFor="let item of project_holes" [value]="item">{{item.name}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field *ngIf="data.item!=undefined" appearance="outline">
+                    <mat-select (selectionChange)="onSubmit()" placeholder="{{data.item.holes!=undefined ? data.item.holes.name : 'Select hole'}}"  formControlName="holes" [ngClass]="{ 'is-invalid': submitted && f.holes.errors }">
+                      <mat-option *ngFor="let item of project_holes" [value]="item">{{item.name}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </td>
+              </tr>
+            </table>
+      </section>
+      <section>
+        
+            <legend style="font-size: 16px;"  *ngIf="registerForm.invalid">
+            Task Logs<button  type="submit" style="background-color: white;color:gray;" class="btn btn-sm p-0" ><i class="material-icons" >add_box</i></button>
+            </legend>   
+            <legend style="font-size: 16px;"  *ngIf="!registerForm.invalid">
+              Task Logs<button *ngIf="actionEnable==true" type="button" style="background-color: white;color:gray;" class="btn btn-sm p-0" (click)="openWorksheetTaskLogsForm()"><i class="material-icons" >add_box</i> </button>
+              <button *ngIf='project_worksheet_taskLogs!=undefined && project_worksheet_taskLogs.length!=0' class="btn btn-sm" style="float: right;"  (click)="exportexcel()">
+                Export <mat-icon>get_app</mat-icon>
+               </button>
+                </legend> 
+                <br/>
+            <img *ngIf='project_worksheet_taskLogs==undefined && data.worksheetId!=undefined' height="90px" src="/assets/img/loading.gif"/>
+            <div class="table table-sm table-bordered table-hover" style="margin-top:-20px;" *ngIf='project_worksheet_taskLogs!=undefined'>  
+            <p *ngIf='project_worksheet_taskLogs.length==0' style="font-size: 12px;">Task logs is empty now.</p>
+            <table id="excel-table" style="font-size: 12px;" *ngIf='project_worksheet_taskLogs.length!=0'>
+              <tr style="font-size: 13px;">
+                  <td>SL</td><td>Task</td><td>Shift</td><td>Start time</td><td>End time</td>
+                  <td>Hours Work</td><td>Worker</td><td>Start metre</td><td>End metre</td><td>Core size</td><td style="text-align: center;">Comment</td><td *ngIf="actionEnable==true">Option</td>            
+              </tr>
+                <tr *ngFor="let item of project_worksheet_taskLogs;let i=index;"   >
+                  <td> {{i+1}}.</td>
+                  <td>{{item.task.name}}</td>
+                  <td class="text-center">{{item.shift}}</td>
+                  <td class="text-center">{{item.startTime}}</td>
+                  <td class="text-center">{{item.endTime}}</td>
+                  <td *ngIf="item.workHours!=null" class="text-center">{{item.workHours}}</td>
+                  <td *ngIf="item.workHours==null" class="text-center">-</td>
+                  <td *ngIf="item.worker!=null" class="text-center">{{item.worker.firstName}} {{item.worker.lastName}}</td>
+                  <td *ngIf="item.worker==null" class="text-center">-</td>
+                  <td *ngIf="item.startMeter!=null" class="text-center">{{item.startMeter}}</td>
+                  <td *ngIf="item.startMeter==null" class="text-center">-</td>
+                  <td *ngIf="item.endMeter!=null" class="text-center">{{item.endMeter}}</td>
+                  <td *ngIf="item.endMeter==null" class="text-center">-</td>
+                  <td *ngIf="item.coreSize!=null" class="text-center">{{item.coreSize.size}}</td>
+                  <td *ngIf="item.coreSize==null" class="text-center">-</td>
+                  <td *ngIf="item.comment!=null" class="text-center" ><div style="width: 100px;height:25px;overflow:auto;margin:0px;">{{item.comment}}</div></td>
+                  <td *ngIf="item.comment==null" class="text-center">-</td>
+                  <td *ngIf="actionEnable==true">
+                    <i class="material-icons text-info" (click)="openWorksheetTaskLogsForm(item)" style="cursor: pointer;font-size: 18px;" >create</i>
+                    <i class="material-icons text-danger" (click)="deleteWorksheetTaskLogs(item)" style="cursor: pointer;font-size: 18px;" >delete_forever</i>
+                  </td>
+                </tr>
+            </table>
+            </div>
+      </section>   
+
+      <section>
+            <legend  *ngIf="registerForm.invalid"  style="font-size: 16px;">
+              Consume materials <button type="submit" style="background-color: white;color:gray;"  class="btn btn-sm p-0" ><i class="material-icons" >add_box</i> </button>
+              
+            </legend>  
+            
+            <legend  *ngIf="!registerForm.invalid"  style="font-size: 16px;">
+              
+              Consume materials <button *ngIf="actionEnable==true" type="button" style="background-color: white;color:gray;" class="btn btn-sm p-0" 
+              (click)="openWorksheetConsumeMaterialsForm()"><i class="material-icons" >add_box</i> </button>
+            </legend> 
+
+            <div class="table table-sm table-bordered table-hover" *ngIf='project_worksheet_consumeMaterials!=undefined'>
+              <p *ngIf='project_worksheet_consumeMaterials.length==0' style="font-size: 12px;">Consume material is empty now.</p>
+              <table  id="excel-table" style="font-size: 12px;" *ngIf='project_worksheet_consumeMaterials.length!=0'>
+              <thead >
+                  <td>SL</td><td>Name</td><td>Quantity</td><td *ngIf="actionEnable==true">Option</td>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of project_worksheet_consumeMaterials;let i=index;"  >
+                  <td > {{i+1}}.</td>
+                  <td > {{item.material.name}}</td>
+                  <td class="text-center"> {{item.qty}}</td>
+                  <td  *ngIf="actionEnable==true">
+                    <i class="material-icons text-info" (click)="openWorksheetConsumeMaterialsForm(item)" style="cursor: pointer;font-size: 18px;" >create</i>
+                    <i class="material-icons text-danger" (click)="deleteWorksheetConsumeMaterials(item)" style="cursor: pointer;font-size: 18px;" >delete_forever</i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+      </section> 
+
+<div  *ngIf="data.worksheetId!=undefined" class="row col-md-12" >
+      <section class="col-md-6">
+              <legend  style="font-size: 16px;">
+                Comments <button type="button" style="background-color: white;color:gray;" *ngIf="!registerForm.invalid" class="btn btn-sm p-0" 
+                (click)="openWorksheetConsumeMaterialsForm()"></button>
+              </legend> 
+              <div class="table table-sm table-bordered table-hover" style="height: 200px;overflow: auto;" *ngIf='project_worksheet_msg!=undefined'>
+                <p *ngIf='project_worksheet_msg.length==0' style="font-size: 12px;">Comments is empty now.</p>
+                <table style="font-size: 12px;" >
+                  <tbody>
+                    <tr *ngFor="let item of project_worksheet_msg;let i=index;"  >
+                      <td >
+                      <p style="margin: 0px;"><strong>{{i+1}}. </strong>{{item.comment}}</p>  
+                      <div style="text-align: left;">
+                          <strong > {{item.entryBy.firstName}} {{item.entryBy.lastName}}</strong>
+                          <br/>
+                          <strong > {{item.entryDate | date:'yyyy-MM-dd'}} at {{item.entryDate | date:'hh:mm:ss a'}}</strong>
+                          <!-- <a class="nav-link p-0" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">keyboard_arrow_down</i>
+                          </a>
+                          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="javascript:void(0)" (click)="openWorksheetMsgForm(item)"><i class="material-icons text-info">create</i> Edit</a>
+                            <a class="dropdown-item" href="javascript:void(0)" (click)="deleteWorksheetMsg(item)"><i class="material-icons text-danger">delete_forever</i> Delete</a>
+                          </div>  -->
+                      </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+            </div>
+          </section>  
+
+         <section class="col-md-6" *ngIf="activityLogsShow==true"> 
+              <legend  style="font-size: 16px;">
+                Activity Log <button type="button" style="background-color: white;color:gray;" *ngIf="!registerForm.invalid" class="btn btn-sm p-0" (click)="openWorksheetConsumeMaterialsForm()"></button>
+              </legend> 
+              <div class="table table-sm table-bordered table-hover" style="height: 200px;overflow: auto;"  *ngIf='worksheetActivityLogs!=undefined'>
+              <p *ngIf='worksheetActivityLogs.length==0' style="font-size: 12px;">Activity logs is empty now.</p>
+                <table style="font-size: 12px;" >
+                  <tbody>
+                    <tr *ngFor="let item of worksheetActivityLogs;let i=index;"  >
+                      <td >
+                      <strong>{{i+1}}. </strong>{{item.changedBy.firstName}} {{item.changedBy.lastName}} <b>{{item.action}}</b> a record of <b>{{item.collectionName}}</b> in {{item.changeDate | date:'yyyy-MM-dd '}} at {{item.changeDate | date:'hh:mm:ss a'}}. 
+                          <a (click)="openActivityLogDetails(item.changedItem)" class="nav-link p-0" href="javascript:void(0)" >
+                                see details
+                          </a> 
+                      </td>
+                        
+                    </tr>
+                  </tbody>
+                </table>
+            </div>
+  </section>  
+</div>     
+           
+
+    <div style="text-align: right;">
+      <button type="button" *ngIf="data.worksheetId!=undefined && project_worksheet_taskLogs!=undefined 
+      && project_worksheet_taskLogs.length==0 && project_worksheet_consumeMaterials!=undefined 
+      && project_worksheet_consumeMaterials.length==0 && deleteWorksheetBtnShow==true" class="btn btn-danger btn-sm" (click)="deleteProWorksheet()" >Delete</button>
+      <button type="button" *ngIf="data.worksheetId!=undefined && forwardWorksheetBtnShow==true" class="btn btn-success btn-sm" (click)="openWorksheetMsgForm()" >Forward</button>
+    </div>
+  
+  </form>
+</div>

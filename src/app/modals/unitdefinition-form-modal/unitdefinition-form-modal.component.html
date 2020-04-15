@@ -1,0 +1,16 @@
+<div style="width:350px;" class="example-container">
+  <h4 class="text-center">Unit Definition Form</h4>
+  <form style="font-size: 12px;" [formGroup]="registerForm" (ngSubmit)="onSubmit()" >
+    <p style="margin: 0px;">Title</p>
+    <mat-form-field appearance="outline">
+    <input matInput formControlName="title" [ngClass]="{ 'is-invalid': submitted && f.title.errors }">
+    <mat-error *ngIf="submitted && f.title.errors" >
+      <span *ngIf="f.title.errors.required"> * Title is required !!!</span>
+    </mat-error>
+  </mat-form-field>
+<div style="float: right;">
+  <button type="button" class="btn btn-dark btn-sm" (click)="closeModal()" >Dismiss</button>
+  <button type="submit" class="btn btn-success btn-sm" > Save </button>
+</div>
+</form>
+</div>

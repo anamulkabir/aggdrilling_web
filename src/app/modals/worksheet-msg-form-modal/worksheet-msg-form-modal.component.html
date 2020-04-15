@@ -1,0 +1,23 @@
+<div  class="example-container" style="width: 350px;">
+  <form  [formGroup]="registerForm" (ngSubmit)="onSubmit()" style="font-size: 12px;" >
+    <p style="margin: 0px;">Status</p>
+    <mat-form-field style="width: 150px;" appearance="outline" >
+      <mat-select placeholder="Select status" formControlName="status" [ngClass]="{ 'is-invalid': submitted && f.status.errors }">
+        <mat-option *ngFor="let item of nextStages" value="{{item}}">{{getDescription(item)}}</mat-option>
+       
+      </mat-select>
+      <mat-error *ngIf="submitted && f.status.errors" >
+        <span *ngIf="f.status.errors.required"> * Status is required !!!</span>
+      </mat-error>
+    </mat-form-field>
+    <p style="margin: 0px;">Comments</p>
+    <mat-form-field appearance="outline" >
+      <textarea matInput placeholder="Type comments..."  formControlName="comment" [ngClass]="{ 'is-invalid': submitted && f.comment.errors }"></textarea>
+    </mat-form-field>
+    <p style="margin: 0px;text-align: right;">Are you sure to submit this worksheet ?</p>
+<div style="float: right;">
+  <button type="button" class="btn btn-danger btn-sm" (click)="closeModal2()" >No</button>
+  <button type="submit" class="btn btn-success btn-sm" > Yes </button>
+</div>
+</form>
+</div>

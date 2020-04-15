@@ -1,0 +1,78 @@
+<div style="width:350px;" class="example-container">
+  <h4 class="text-center">User Create Form</h4>
+  <form style="font-size: 12px;" [formGroup]="registerForm" (ngSubmit)="onSubmit()" >
+
+  <mat-form-field appearance="outline" >
+    <mat-label>First Name</mat-label>
+    <input  matInput placeholder="Enter first name"  formControlName="firstName" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }">
+    <mat-error *ngIf="submitted && f.firstName.errors"  >
+      <span *ngIf="f.firstName.errors.required"> * First name is required !!!</span>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Last Name</mat-label>
+    <input matInput placeholder="Enter last name"  formControlName="lastName" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }">
+    <mat-error *ngIf="submitted && f.lastName.errors" >
+      <span *ngIf="f.lastName.errors.required"> * Last name is required !!!</span>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Email</mat-label>
+    <input matInput placeholder="Enter email" (change)="trimSpace()" formControlName="abc" [ngClass]="{ 'is-invalid': submitted && f.abc.errors }">
+    <mat-error *ngIf="submitted && f.abc.errors" >
+      <span *ngIf="f.abc.errors.required"> * Email is required !!!</span>
+      <span *ngIf="f.abc.errors.email"> * Invalid email address !!!</span>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Password</mat-label>
+    <input matInput placeholder="Enter password" [type]="hide ? 'password' : 'text'" formControlName="def" [ngClass]="{ 'is-invalid': submitted && f.def.errors }">
+    <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+    </button>
+    <mat-error *ngIf="submitted && f.def.errors" >
+      <span *ngIf="f.def.errors.required"> * Password is required !!!</span>
+      <span class="err" *ngIf="f.def.errors.minlength"> * Password must be at least 6 characters !!!</span>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Confirm Password</mat-label>
+    <input matInput placeholder="Confirm password" [type]="hide ? 'password' : 'text'" formControlName="confirmPassword" [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }">
+    <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+    </button>
+    <mat-error *ngIf="submitted && f.confirmPassword.errors" >
+      <span class="err" *ngIf="f.confirmPassword.errors.required"> *  Confirm Password is required !!!</span>
+      <span class="err" *ngIf="f.confirmPassword.errors.mustMatch"> * Passwords doesn't match !!!</span>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Phone</mat-label>
+    <input matInput placeholder="Enter phone number"  formControlName="phone" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }">
+    <mat-error *ngIf="submitted && f.phone.errors" >
+      <span *ngIf="f.phone.errors.required"> * Phone number is required !!!</span>
+    </mat-error>
+  </mat-form-field> 
+
+ <mat-form-field appearance="outline">
+  <mat-label>Role</mat-label>
+    <mat-select placeholder="Select Role" formControlName="role" [ngClass]="{ 'is-invalid': submitted && f.role.errors }">
+      <mat-option value="admin">Admin</mat-option>
+      <mat-option value="user">User</mat-option>
+    </mat-select>
+    <mat-error *ngIf="submitted && f.role.errors" >
+      <span *ngIf="f.role.errors.required"> * Role is required !!!</span>
+    </mat-error>
+  </mat-form-field>
+  <div style="float: right;">
+    <img *ngIf="loading==true" height="70" src="/assets/img/loading.gif"/>
+    <button *ngIf="loading==false" type="button" class="btn btn-dark btn-sm" (click)="closeModal()" >Dismiss</button>
+    <button *ngIf="loading==false" type="submit" class="btn btn-success btn-sm" > Save </button>
+  </div>
+</form>
+</div>

@@ -1,0 +1,33 @@
+<br/><br/>
+<img *ngIf="loading==true" src="/assets/img/loading.gif"/>
+<mat-card *ngIf="loading==false" class="container col-md-4" style="background-color:rgb(232, 240, 254);">
+  <div class="text-center" >
+    <img style="height: 150px;width: 200px;" mat-card-image src="assets/img/aggressive-logo.png" >
+  </div>
+  
+<div >  
+    <h3 style="margin-top: 0px;">Login</h3>
+  <form  [formGroup]="registerForm" (ngSubmit)="onSubmit()" >
+    <mat-form-field>
+      <input matInput placeholder="Enter your email" formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+      <mat-error *ngIf="submitted && f.email.errors" >
+        <span *ngIf="f.email.errors.required"> * Email is required !!!</span>
+        <span *ngIf="f.email.errors.email"> * Invalid email address !!!</span>
+      </mat-error>
+    </mat-form-field>
+    
+    <mat-form-field>
+      <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+      <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+      <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+      <mat-error *ngIf="submitted && f.password.errors" >
+        <span *ngIf="f.password.errors.required"> * Password is required !!!</span>
+        <span class="err" *ngIf="f.password.errors.minlength"> * Password must be at least 6 characters !!!</span>
+      </mat-error>
+    </mat-form-field>
+    <a (click)="resetPassword()" style="float: right;text-decoration: underline;color: dodgerblue;font-size: 12px;cursor: pointer;">Forget password?</a>
+    <button type="submit" class="btn btn-success col-md-12" > Login </button>
+  </form>
+</div>
+</mat-card>

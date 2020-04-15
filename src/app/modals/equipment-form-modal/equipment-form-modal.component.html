@@ -1,0 +1,30 @@
+<div style="width:350px;" class="example-container">
+  <h4 class="text-center">Equipment Form</h4>
+  <form  [formGroup]="registerForm" style="font-size: 12px;"  (ngSubmit)="onSubmit()" >
+    <p style="margin: 0px;">Code</p>
+    <mat-form-field appearance="outline" >
+      <input matInput formControlName="code" [ngClass]="{ 'is-invalid': submitted && f.code.errors }">
+      <mat-error *ngIf="submitted && f.code.errors" >
+        <span *ngIf="f.code.errors.required"> * Code is required !!!</span>
+      </mat-error>
+    </mat-form-field>
+    <p style="margin: 0px;">Name</p>
+    <mat-form-field appearance="outline" >
+      <input matInput formControlName="name" [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+      <mat-error *ngIf="submitted && f.name.errors" >
+        <span *ngIf="f.name.errors.required"> * Name is required !!!</span>
+      </mat-error>
+    </mat-form-field>
+    <p style="margin: 0px;">Capacity</p>
+    <mat-form-field appearance="outline" >
+    <input matInput formControlName="capacity" [ngClass]="{ 'is-invalid': submitted && f.capacity.errors }">
+    <mat-error *ngIf="submitted && f.capacity.errors" >
+      <span *ngIf="f.capacity.errors.required"> * Capacity is required !!!</span>
+    </mat-error>
+  </mat-form-field>
+  <div style="float: right;">
+    <button type="button" class="btn btn-dark btn-sm" (click)="closeModal()" >Dismiss</button>
+    <button type="submit" class="btn btn-success btn-sm" > Save </button>
+  </div>
+</form>
+</div>

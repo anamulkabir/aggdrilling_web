@@ -1,0 +1,80 @@
+<div style="width:350px;" class="example-container">
+  <h4 class="text-center">Worker Form</h4>
+  <form  [formGroup]="registerForm" style="font-size: 12px;height: 400px;overflow: auto;" (ngSubmit)="onSubmit()" >
+
+    <p style="margin: 0px;">First name</p>
+    <mat-form-field appearance="outline">
+      <input matInput formControlName="firstName" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }">
+      <mat-error *ngIf="submitted && f.firstName.errors" >
+        <span *ngIf="f.firstName.errors.required"> * First name is required !!!</span>
+      </mat-error>
+    </mat-form-field>
+
+    <p style="margin: 0px;">Last name</p>
+    <mat-form-field appearance="outline">
+      <input matInput formControlName="lastName" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }">
+      <mat-error *ngIf="submitted && f.lastName.errors" >
+        <span *ngIf="f.lastName.errors.required"> * Last name is required !!!</span>
+      </mat-error>
+    </mat-form-field>
+
+    <p style="margin: 0px;">Skills</p>
+    <mat-form-field appearance="outline">
+      <input matInput formControlName="skills" [ngClass]="{ 'is-invalid': submitted && f.skills.errors }">
+      <mat-error *ngIf="submitted && f.skills.errors" >
+        <span *ngIf="f.skills.errors.required"> * Skills is required !!!</span>
+      </mat-error>
+    </mat-form-field>
+
+  <p style="margin: 0px;">Designation</p>
+    <mat-form-field appearance="outline">
+    <mat-select formControlName="designation" [ngClass]="{ 'is-invalid': submitted && f.designation.errors }">
+      <mat-option value="helper">Helper</mat-option>
+      <mat-option value="driller">Driller</mat-option>
+      <mat-option value="others">Others</mat-option>
+    </mat-select>
+    <mat-error *ngIf="submitted && f.designation.errors" >
+      <span *ngIf="f.designation.errors.required"> * Designation is required !!!</span>
+    </mat-error>
+  </mat-form-field>
+
+ <p style="margin: 0px;">Type</p>
+    <mat-form-field appearance="outline">
+  <mat-select formControlName="type" [ngClass]="{ 'is-invalid': submitted && f.type.errors }">
+    <mat-option value="SE">SE</mat-option>
+    <mat-option value="LE">LE</mat-option>
+  </mat-select>
+  <mat-error *ngIf="submitted && f.type.errors" >
+    <span *ngIf="f.type.errors.required"> * Type is required !!!</span>
+  </mat-error>
+</mat-form-field>
+
+<p style="margin: 0px;">Phone</p>
+    <mat-form-field appearance="outline">
+      <input matInput formControlName="phone" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }">
+      <mat-error *ngIf="submitted && f.phone.errors" >
+        <span *ngIf="f.phone.errors.required"> * Phone number is required !!!</span>
+      </mat-error>
+    </mat-form-field>
+
+    <p style="margin: 0px;">Emergency contact name</p>
+    <mat-form-field appearance="outline">
+      <input matInput formControlName="emgCntactName" [ngClass]="{ 'is-invalid': submitted && f.emgCntactName.errors }">
+      <mat-error *ngIf="submitted && f.emgCntactName.errors" >
+        <span *ngIf="f.emgCntactName.errors.required"> * Emergency contact name is required !!!</span>
+      </mat-error>
+    </mat-form-field>
+
+    <p style="margin: 0px;">Emergency contact phone</p>
+    <mat-form-field appearance="outline">
+      <input matInput formControlName="emgCntactPhone" [ngClass]="{ 'is-invalid': submitted && f.emgCntactPhone.errors }">
+      <mat-error *ngIf="submitted && f.emgCntactPhone.errors" >
+        <span *ngIf="f.emgCntactPhone.errors.required"> * Emergency contact phone is required !!!</span>
+      </mat-error>
+    </mat-form-field>
+<div style="float: right;">
+  <button type="button" class="btn btn-dark btn-sm" (click)="closeModal()" >Dismiss</button>
+  <button type="submit" class="btn btn-success btn-sm" [disabled]="submit_button"> Save </button>
+</div>
+</form>
+</div>

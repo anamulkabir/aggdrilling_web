@@ -1,0 +1,40 @@
+<div style="width:350px;" class="example-container">
+  <h4 class="text-center">Worksheet stages form</h4>
+  <form [formGroup]="registerForm" style="font-size: 12px;" (ngSubmit)="onSubmit()" >
+    
+    <p style="margin: 0px;">Name</p>
+    <mat-form-field appearance="outline">
+      <mat-select formControlName="name" [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+        <mat-option *ngFor="let item of stages" value="{{item}}">{{getDescription(item)}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="submitted && f.name.errors" >
+        <span *ngIf="f.name.errors.required"> * Name is required !!!</span>
+      </mat-error>
+    </mat-form-field>
+
+    <p style="margin: 0px;">Next stages</p>
+    <mat-form-field appearance="outline">
+      <mat-select [multiple]="true" formControlName="nextStages" [ngClass]="{ 'is-invalid': submitted && f.nextStages.errors }">
+        <mat-option *ngFor="let item of stages" value="{{item}}">{{getDescription(item)}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="submitted && f.nextStages.errors" >
+        <span *ngIf="f.nextStages.errors.required"> * Next stage is required !!!</span>
+      </mat-error>
+    </mat-form-field>
+
+    <p style="margin: 0px;">Actions</p>
+    <mat-form-field appearance="outline">
+      <mat-select [multiple]="true" formControlName="actions" [ngClass]="{ 'is-invalid': submitted && f.actions.errors }">
+        <mat-option *ngFor="let item of actionList" value="{{item}}">{{item}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="submitted && f.actions.errors" >
+        <span *ngIf="f.actions.errors.required"> * Action is required !!!</span>
+      </mat-error>
+    </mat-form-field>
+
+<div style="float: right;">
+  <button type="button" class="btn btn-dark btn-sm" (click)="closeModal()" >Dismiss</button>
+  <button type="submit" class="btn btn-success btn-sm" > Save </button>
+</div>
+</form>
+</div>

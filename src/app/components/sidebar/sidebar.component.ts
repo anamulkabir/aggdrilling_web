@@ -14,7 +14,7 @@ export const ROUTES: RouteInfo[] = [
     { path: '/user', title: 'Users',  icon:'person', class: '', role: 'admin' },
     { path: '/workers', title: 'Workers',  icon:'people', class: '', role: 'admin' },
     { path: '/geologists', title: 'Geologists',  icon:'supervised_user_circle', class: '', role: 'admin' },
-    { path: '/equipments', title: 'Equipments',  icon:'gavel', class: '', role: 'admin' },
+    // { path: '/equipments', title: 'Equipments',  icon:'gavel', class: '', role: 'admin' },
     { path: '/tasks', title: 'Tasks',  icon:'list_alt', class: '', role: 'admin' },
     { path: '/rigs', title: 'Rigs',  icon:'style', class: '', role: 'admin' },
     { path: '/core-sizes', title: 'Core Sizes',  icon:'format_size', class: '', role: 'admin' },

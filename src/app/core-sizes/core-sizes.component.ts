@@ -21,10 +21,10 @@ export class CoreSizesComponent implements OnInit {
     this.firestore.collection('coreSizes').snapshotChanges().subscribe(data => {
       this.coresizeList= data.map(e => {
         return {
-          id: e.payload.doc.id,
+          id: e.payload.doc.id,core:name,
           ...e.payload.doc.data() as object
         } 
-      })
+      }).sort((a,b)=> (a.core > b.core? 1 : -1))
       console.log('this.coresizeList',this.coresizeList);
     });
   }

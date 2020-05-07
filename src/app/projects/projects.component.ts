@@ -50,7 +50,7 @@ export class ProjectsComponent implements OnInit {
        }
         console.log(filter_by_permission)
         
-      this.projectList = projectList.filter(function(project){
+      this.projectList = projectList.sort((a,b)=> (a.startDate - b.startDate)).filter(function(project){
           return filter_by_permission.includes(project.projectCode);
       });
       console.log('this.projectList',this.projectList);

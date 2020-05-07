@@ -104,7 +104,7 @@
             noEntriesFoundLabel="No matching core size found"
             i18n-noEntriesFoundLabel [formControl]="listFilterCtrl3"></ngx-mat-select-search>
           </mat-option>
-          <mat-option *ngFor="let item of filteredList3 | async" [value]="item">{{item.size}}</mat-option>
+          <mat-option *ngFor="let item of filteredList3 | async" [value]="item">{{item.core}}</mat-option>
         </mat-select>
       </mat-form-field>
 

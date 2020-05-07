@@ -19,14 +19,14 @@ export class CoresizeFormModalComponent implements OnInit {
     this.registerForm = this.formBuilder.group({
         id: [],
         core: ['', Validators.required],
-        size: ['', Validators.required],
-        hole: ['', Validators.required]
+        // size: ['', Validators.required],
+        // hole: ['', Validators.required]
     });
     if (this.data.item!==undefined) {
       this.registerForm.controls.id.setValue(this.data.item.id);
       this.registerForm.controls.core.setValue(this.data.item.core);
-      this.registerForm.controls.size.setValue(this.data.item.size);
-      this.registerForm.controls.hole.setValue(this.data.item.hole);
+      // this.registerForm.controls.size.setValue(this.data.item.size);
+      // this.registerForm.controls.hole.setValue(this.data.item.hole);
     }
   }
 
@@ -40,8 +40,8 @@ export class CoresizeFormModalComponent implements OnInit {
         let body=
         { 
           core:this.registerForm.controls.core.value,
-          size: this.registerForm.controls.size.value,
-          hole: this.registerForm.controls.hole.value
+          // size: this.registerForm.controls.size.value,
+          // hole: this.registerForm.controls.hole.value
         }
         console.log(body);
 

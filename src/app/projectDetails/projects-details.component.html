@@ -207,14 +207,16 @@
    <div class="table table-hover scrollable-table-wrapper" >
     <table class="table" style="width: 100%;">
        <thead class=" text-primary">
-        <th>Core sizes</th><th>Core</th><th>Size</th><th>Hole</th><th>Options</th>
+        <th>Core sizes</th><th>Core</th>
+<!--        <th>Size</th><th>Hole</th>-->
+        <th>Options</th>
       </thead>      
       <tbody>
         <tr *ngFor="let item of project_coreSizes;let i=index;"  >
           <td > {{i+1}}.</td>
           <td > {{item.core}}</td>
-          <td > {{item.size}}</td>
-          <td > {{item.hole}}</td>
+<!--          <td > {{item.size}}</td>-->
+<!--          <td > {{item.hole}}</td>-->
           <td >
             <a class="nav-link p-0" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="material-icons">keyboard_arrow_down</i>

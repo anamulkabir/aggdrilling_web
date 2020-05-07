@@ -1,6 +1,6 @@
 
 <div style="width:350px;" class="example-container">
-  <h4 class="text-center">Core Size Form</h4>
+  <h4 class="text-center">Core Form</h4>
   <form [formGroup]="registerForm" style="font-size: 12px;"  (ngSubmit)="onSubmit()" >
     <p style="margin: 0px;">Core</p>
     <mat-form-field appearance="outline">
@@ -9,20 +9,20 @@
         <span *ngIf="f.core.errors.required"> * Core is required !!!</span>
       </mat-error>
     </mat-form-field>
-    <p style="margin: 0px;">Size</p>
-    <mat-form-field appearance="outline" >
-    <input matInput formControlName="size" [ngClass]="{ 'is-invalid': submitted && f.size.errors }">
-    <mat-error *ngIf="submitted && f.size.errors" >
-      <span *ngIf="f.size.errors.required"> * Size is required !!!</span>
-    </mat-error>
-  </mat-form-field>
-  <p style="margin: 0px;">Hole</p>
-    <mat-form-field appearance="outline" >
-    <input matInput formControlName="hole" [ngClass]="{ 'is-invalid': submitted && f.hole.errors }">
-    <mat-error *ngIf="submitted && f.hole.errors" >
-      <span *ngIf="f.hole.errors.required"> * Hole is required !!!</span>
-    </mat-error>
-  </mat-form-field>
+<!--    <p style="margin: 0px;">Size</p>-->
+<!--    <mat-form-field appearance="outline" >-->
+<!--    <input matInput formControlName="size" [ngClass]="{ 'is-invalid': submitted && f.size.errors }">-->
+<!--    <mat-error *ngIf="submitted && f.size.errors" >-->
+<!--      <span *ngIf="f.size.errors.required"> * Size is required !!!</span>-->
+<!--    </mat-error>-->
+<!--  </mat-form-field>-->
+<!--  <p style="margin: 0px;">Hole</p>-->
+<!--    <mat-form-field appearance="outline" >-->
+<!--    <input matInput formControlName="hole" [ngClass]="{ 'is-invalid': submitted && f.hole.errors }">-->
+<!--    <mat-error *ngIf="submitted && f.hole.errors" >-->
+<!--      <span *ngIf="f.hole.errors.required"> * Hole is required !!!</span>-->
+<!--    </mat-error>-->
+<!--  </mat-form-field>-->
   <div style="float: right;">
     <button type="button" class="btn btn-dark btn-sm" (click)="closeModal()" >Dismiss</button>
     <button type="submit" class="btn btn-success btn-sm" > Save </button>

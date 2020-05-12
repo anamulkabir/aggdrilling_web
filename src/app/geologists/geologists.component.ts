@@ -23,10 +23,10 @@ export class GeologistsComponent implements OnInit {
     this.firestore.collection('geologists').snapshotChanges().subscribe(data => {
       this.geologistList= data.map(e => {
         return {
-          id: e.payload.doc.id,
+          id: e.payload.doc.id,lastName: name,
           ...e.payload.doc.data() as object
         } 
-      })
+      }).sort((a,b)=> (a.lastName > b.lastName? 1 : -1))
       console.log('this.geologistList',this.geologistList);
     });
   }

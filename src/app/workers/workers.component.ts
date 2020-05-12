@@ -21,10 +21,10 @@ export class WorkersComponent implements OnInit {
     this.firestore.collection('workers').snapshotChanges().subscribe(data => {
       this.workerList= data.map(e => {
         return {
-          id: e.payload.doc.id,
+          id: e.payload.doc.id,lastName: name,
           ...e.payload.doc.data() as object
         } 
-      })
+      }).sort((a,b)=> (a.lastName > b.lastName? 1 : -1))
       console.log('this.workerList',this.workerList);
     });
   }

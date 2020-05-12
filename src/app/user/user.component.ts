@@ -26,10 +26,10 @@ export class UserComponent implements OnInit {
     this.firestore.collection('users').snapshotChanges().subscribe(data => {
       this.userList= data.map(e => {
         return {
-          id: e.payload.doc.id,
+          id: e.payload.doc.id,lastName: name,
           ...e.payload.doc.data() as object
         } 
-      })
+      }).sort((a,b)=> (a.lastName > b.lastName? 1 : -1))
       console.log('this.userList',this.userList);
     });
   }

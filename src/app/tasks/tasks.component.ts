@@ -21,10 +21,10 @@ export class TasksComponent implements OnInit {
     this.firestore.collection('tasks').snapshotChanges().subscribe(data => {
       this.tasksList= data.map(e => {
         return {
-          id: e.payload.doc.id,
+          id: e.payload.doc.id,name: name,
           ...e.payload.doc.data() as object
         } 
-      })
+      }).sort((a,b)=> (a.name > b.name? 1 : -1))
       console.log('this.tasksList',this.tasksList);
     });
   }

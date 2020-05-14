@@ -145,10 +145,6 @@ export class ProjectMaterialsFormModalComponent implements OnInit , OnDestroy {
   }
 
 
- public set_unit_price(){
-   alert(1)
- }
-
 
   ngOnDestroy() {
     this._onDestroy.next();

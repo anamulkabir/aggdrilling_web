@@ -64,11 +64,14 @@ export class ProjectMaterialsFormModalComponent implements OnInit , OnDestroy {
   });
     this.registerForm = this.formBuilder.group({
         id: [],
-        materialId: ['', Validators.required]
+        materialId: ['', Validators.required],
+        unitPrice: []
     });
       if (this.data.item!==undefined) {
         this.registerForm.controls.id.setValue(this.data.item.id);
         this.registerForm.controls.materialId.setValue(this.data.item);
+        this.registerForm.controls.unitPrice.setValue(this.data.item.unitPrice);
+        this.registerForm.controls.unitPrice.setValidators([Validators.required]);
       }
   }
 
@@ -105,7 +108,8 @@ export class ProjectMaterialsFormModalComponent implements OnInit , OnDestroy {
       materialId: this.registerForm.value.materialId[i].id,
       refKey: this.registerForm.value.materialId[i].refKey,
       name:this.registerForm.value.materialId[i].name,
-      details: this.registerForm.value.materialId[i].details
+      details: this.registerForm.value.materialId[i].details,
+      unitPrice: this.registerForm.value.materialId[i].unitPrice
     }
     console.log(body);
 
@@ -122,7 +126,8 @@ export class ProjectMaterialsFormModalComponent implements OnInit , OnDestroy {
         materialId: this.registerForm.value.materialId.id,
         refKey: this.registerForm.value.materialId.refKey,
         name:this.registerForm.value.materialId.name,
-        details: this.registerForm.value.materialId.details
+        details: this.registerForm.value.materialId.details,
+        unitPrice: this.registerForm.value.unitPrice
       }
       console.log(body); 
       this.firestore.collection('projects/'+this.data.projectId+'/materials').doc(this.registerForm.value.id).update(body).then(()=>{
@@ -139,9 +144,19 @@ export class ProjectMaterialsFormModalComponent implements OnInit , OnDestroy {
     this.dialog.closeAll();
   }
 
+
+ public set_unit_price(){
+   alert(1)
+ }
+
+
   ngOnDestroy() {
     this._onDestroy.next();
    this._onDestroy.complete();
   }
  
+
+
+
+
 }

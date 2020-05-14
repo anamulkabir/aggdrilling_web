@@ -38,7 +38,7 @@
         <tr (click)="openWorksheetsDetails(item)"  style="cursor:pointer;">
           <td>{{(p - 1) * 20 + i +1}}. </td>
           <td >{{item.rigs.serial}}</td>
-          <td *ngIf='item.holes!=undefined'>{{item.holes.name}}</td>
+          <td *ngIf='item.holes!=undefined'>{{item.holes}}</td>
           <td *ngIf='item.holes==undefined' class="text-center">-</td>
           <td > {{item.workDate | date: 'yyyy-MM-dd'}}</td>
           <td >{{getDescription(item.currentStatus)}}</td>

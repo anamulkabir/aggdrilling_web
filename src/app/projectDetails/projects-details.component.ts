@@ -113,13 +113,19 @@ export class ProjectDetailsComponent implements OnInit {
       console.log('this.project_rigs',this.project_rigs);
     });
 
+
     this.firestore.collection('projects/'+this.route.snapshot.paramMap.get('id')+'/holes').snapshotChanges().subscribe(data => {
-      this.project_holes= data.map(e => {
+      let holeList=[];
+      holeList = data.map(e => {
         return {
           id: e.payload.doc.id,
           ...e.payload.doc.data() as object
         } 
       })
+      this.project_holes=[];
+      for (let i = 0; i < holeList[0].holes.length; i++) {
+        this.project_holes.push(holeList[0].holes[i]);
+      }
       console.log('this.project_holes',this.project_holes);
     });
 
@@ -379,14 +385,21 @@ export class ProjectDetailsComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.value) {
-        this.firestore.doc('projects/'+this.route.snapshot.paramMap.get('id')+'/holes/' + item.id).delete().catch((error) => {
+        this.project_holes.splice(item, 1);
+    let body=
+        { 
+          holes: this.project_holes
+        }
+        console.log(body);
+        this.firestore.collection('projects/'+this.route.snapshot.paramMap.get('id')+'/holes').doc('holes').update(body).then(()=>{
+          Swal.fire(
+            'Deleted!',
+            'Record has been deleted.',
+            'success'
+          )
+        }).catch((error) => {
           this.toastrService.error(error.message);
         }) 
-        Swal.fire(
-          'Deleted!',
-          'Record has been deleted.',
-          'success'
-        )
       }
     })
   }

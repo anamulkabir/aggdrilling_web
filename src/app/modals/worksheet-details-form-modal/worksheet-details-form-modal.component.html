@@ -28,6 +28,7 @@
                 <td>Work Date</td>
                 <td>Rigs</td>
                 <td>Hole</td>
+                <td>DIP</td>
               </tr>
               <tr >
                 <td>
@@ -45,6 +46,11 @@
                     <input matInput placeholder="{{data.item.holes!=undefined ? data.item.holes.name : 'Select hole'}}" readonly> 
                   </mat-form-field>
                 </td>
+                <td >
+                  <mat-form-field appearance="outline">
+                    <input matInput placeholder="{{data.item.dip}}" readonly> 
+                  </mat-form-field>
+                </td>
               </tr>
             </table>
 </section>
@@ -56,6 +62,7 @@
                 <td>Work Date</td>
                 <td>Rigs</td>
                 <td *ngIf="holesView==true">Hole</td>
+                <td *ngIf="holesView==true">DIP</td>
               </tr>
               <tr >
                 <td>
@@ -80,16 +87,31 @@
                   </mat-form-field>
                 </td>
                 <td *ngIf="holesView==true">
-                  <mat-form-field *ngIf="data.item==undefined" appearance="outline">
-                    <mat-select (selectionChange)="onSubmit()" placeholder="Select hole"  formControlName="holes" [ngClass]="{ 'is-invalid': submitted && f.holes.errors }">
-                      <mat-option *ngFor="let item of project_holes" [value]="item">{{item.name}}</mat-option>
+                  <mat-form-field appearance="outline">
+                    <!-- <mat-select (selectionChange)="onSubmit()" placeholder="Select hole"  formControlName="holes" [ngClass]="{ 'is-invalid': submitted && f.holes.errors }">
+                      <mat-option *ngFor="let item of project_holes" [value]="item">{{item}}</mat-option>
                     </mat-select>
                   </mat-form-field>
                   <mat-form-field *ngIf="data.item!=undefined" appearance="outline">
-                    <mat-select (selectionChange)="onSubmit()" placeholder="{{data.item.holes!=undefined ? data.item.holes.name : 'Select hole'}}"  formControlName="holes" [ngClass]="{ 'is-invalid': submitted && f.holes.errors }">
-                      <mat-option *ngFor="let item of project_holes" [value]="item">{{item.name}}</mat-option>
-                    </mat-select>
+                    <mat-select (selectionChange)="onSubmit()" placeholder="{{data.item!=undefined ? data.item : 'Select hole'}}"  formControlName="holes" [ngClass]="{ 'is-invalid': submitted && f.holes.errors }">
+                      <mat-option *ngFor="let item of project_holes" [value]="item">{{item}}</mat-option>
+                    </mat-select> -->
+                    <input (click)="holeClickEvent()" (change)="onSubmit()" list="browsers" name="browser" placeholder="{{data.item!=undefined ? data.item.holes : 'Type hole'}}"  matInput id="browser" formControlName="holes" 
+                    [ngClass]="{ 'is-invalid': submitted && f.holes.errors }">
+
+                    <datalist id="browsers">
+                      <option *ngFor="let item of project_holes" [value]="item">
+                    </datalist>
                   </mat-form-field>
+                </td>
+                <td *ngIf="holesView==true">
+                  <mat-form-field appearance="outline">
+                  <input (click)="changeValidationForDIP()" (change)="onSubmit()" type="number" matInput placeholder="Type DIP" 
+                  formControlName="dip" [ngClass]="{ 'is-invalid': submitted && f.dip.errors }">
+                 <mat-error *ngIf="submitted && f.dip.errors" >
+                   <span *ngIf="f.dip.errors.max">* DIP can't be more then 5 character.</span>
+                 </mat-error>
+                </mat-form-field>
                 </td>
               </tr>
             </table>
@@ -111,8 +133,9 @@
             <p *ngIf='project_worksheet_taskLogs.length==0' style="font-size: 12px;">Task logs is empty now.</p>
             <table id="excel-table" style="font-size: 12px;" *ngIf='project_worksheet_taskLogs.length!=0'>
               <tr style="font-size: 13px;">
-                  <td>SL</td><td>Task</td><td>Shift</td><td>Start time</td><td>End time</td>
-                  <td>Hours Work</td><td>Worker</td><td>Start metre</td><td>End metre</td><td>Core size</td><td style="text-align: center;">Comment</td><td *ngIf="actionEnable==true">Option</td>            
+                  <td>SL</td><td>Task</td><td>Shift</td><td>Start time</td><td>End time</td><td>Hours Work</td><td>Worker</td>
+                  <td>Worker Other</td><td>Driller</td><td>Helper</td><td>Start metre</td><td>End metre</td><td>Core size</td>
+                  <td style="text-align: center;">Comment</td><td *ngIf="actionEnable==true">Option</td>            
               </tr>
                 <tr *ngFor="let item of project_worksheet_taskLogs;let i=index;"   >
                   <td> {{i+1}}.</td>
@@ -124,6 +147,12 @@
                   <td *ngIf="item.workHours==null" class="text-center">-</td>
                   <td *ngIf="item.worker!=null" class="text-center">{{item.worker.firstName}} {{item.worker.lastName}}</td>
                   <td *ngIf="item.worker==null" class="text-center">-</td>
+                  <td *ngIf="item.workerOther!=null" class="text-center">{{item.workerOther.firstName}} {{item.workerOther.lastName}}</td>
+                  <td *ngIf="item.workerOther==null" class="text-center">-</td>
+                  <td *ngIf="item.driller!=null" class="text-center">{{item.driller.firstName}} {{item.driller.lastName}}</td>
+                  <td *ngIf="item.driller==null" class="text-center">-</td>
+                  <td *ngIf="item.helper!=null" class="text-center">{{item.helper.firstName}} {{item.helper.lastName}}</td>
+                  <td *ngIf="item.helper==null" class="text-center">-</td>
                   <td *ngIf="item.startMeter!=null" class="text-center">{{item.startMeter}}</td>
                   <td *ngIf="item.startMeter==null" class="text-center">-</td>
                   <td *ngIf="item.endMeter!=null" class="text-center">{{item.endMeter}}</td>

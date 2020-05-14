@@ -86,7 +86,7 @@ export class ProjectCoreSizeFormModalComponent implements OnInit {
       search = search.toLowerCase();
     }
     this.filteredList.next(
-      this.coreSizesList.filter(bank => bank.size.toLowerCase().indexOf(search) > -1 )
+      this.coreSizesList.filter(bank => bank.core.toLowerCase().indexOf(search) > -1 )
      
     );
 }
@@ -103,10 +103,7 @@ export class ProjectCoreSizeFormModalComponent implements OnInit {
     for (let i = 0; i < this.registerForm.value.coreSizeId.length; i++) {
       let body=
       { 
-        coreSizeId: this.registerForm.value.coreSizeId[i].id,
-        core:this.registerForm.value.coreSizeId[i].core,
-        size: this.registerForm.value.coreSizeId[i].size,
-        hole: this.registerForm.value.coreSizeId[i].hole
+        core:this.registerForm.value.coreSizeId[i].core
       }
       console.log(body);
         this.firestore.collection('projects/'+this.data.projectId+'/coreSizes').add(body).then(()=>{
@@ -119,10 +116,7 @@ export class ProjectCoreSizeFormModalComponent implements OnInit {
     else {     
       let body=
         { 
-          coreSizeId: this.registerForm.value.coreSizeId.id,
-          core:this.registerForm.value.coreSizeId.core,
-          size: this.registerForm.value.coreSizeId.size,
-          hole: this.registerForm.value.coreSizeId.hole
+          core:this.registerForm.value.coreSizeId.core
         }
         console.log(body);
       this.firestore.collection('projects/'+this.data.projectId+'/coreSizes').doc(this.registerForm.value.id).update(body).then(()=>{

@@ -18,15 +18,11 @@ export class CoresizeFormModalComponent implements OnInit {
   ngOnInit() { 
     this.registerForm = this.formBuilder.group({
         id: [],
-        core: ['', Validators.required],
-        // size: ['', Validators.required],
-        // hole: ['', Validators.required]
+        core: ['', Validators.required]
     });
     if (this.data.item!==undefined) {
       this.registerForm.controls.id.setValue(this.data.item.id);
       this.registerForm.controls.core.setValue(this.data.item.core);
-      // this.registerForm.controls.size.setValue(this.data.item.size);
-      // this.registerForm.controls.hole.setValue(this.data.item.hole);
     }
   }
 
@@ -39,22 +35,20 @@ export class CoresizeFormModalComponent implements OnInit {
     }    
         let body=
         { 
-          core:this.registerForm.controls.core.value,
-          // size: this.registerForm.controls.size.value,
-          // hole: this.registerForm.controls.hole.value
+          core:this.registerForm.controls.core.value
         }
         console.log(body);
 
   if (this.registerForm.value.id==null) {
         this.firestore.collection('coreSizes/').add(body).then(()=>{
-          this.toastrService.success('Core record added successfully !', 'Success');
+          this.toastrService.success('Record added successfully !', 'Success');
         }).catch((error) => {
           this.toastrService.error(error.message);
         })         
     }
     else {     
       this.firestore.collection('coreSizes/').doc(this.registerForm.value.id).update(body).then(()=>{
-        this.toastrService.success('Core record updated successfully !', 'Success');
+        this.toastrService.success('Record updated successfully !', 'Success');
       }).catch((error) => {
         this.toastrService.error(error.message);
       }) 

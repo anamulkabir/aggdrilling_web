@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {AngularFirestore} from '@angular/fire/firestore';
-import {MatDialog} from '@angular/material';
-import {ToastrService} from 'ngx-toastr';
+import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { MatDialog } from '@angular/material';
+import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
-import {MaterialsFormModalComponent} from 'app/modals/materials-form-modal/materials-form-modal.component';
+import { MaterialsFormModalComponent } from 'app/modals/materials-form-modal/materials-form-modal.component';
 
 @Component({
   selector: 'app-materials',
@@ -22,11 +22,10 @@ export class MaterialsComponent implements OnInit {
     this.firestore.collection('materials').snapshotChanges().subscribe(data => {
       this.materialList= data.map(e => {
         return {
-          id: e.payload.doc.id, name: name,
+          id: e.payload.doc.id,
           ...e.payload.doc.data() as object
-        }
-      }).sort((a,b)=> (a.name > b.name? 1 : -1))
-
+        } 
+      })
       console.log('this.materialList',this.materialList);
     });
     this.firestore.collection('unitDefinition').snapshotChanges().subscribe(data => {
@@ -36,8 +35,6 @@ export class MaterialsComponent implements OnInit {
           ...e.payload.doc.data() as object
         } 
       })
-
-
       console.log('this.unitDefinitionList',this.unitDefinitionList);
     });
   }

@@ -3,7 +3,7 @@
   <form style="font-size: 12px;" [formGroup]="registerForm" (ngSubmit)="onSubmit()" >
     
     <p *ngIf="data.item==undefined" style="margin: 0px;">Material</p>
-    <mat-form-field appearance="outline" *ngIf="data.item==undefined">
+    <mat-form-field appearance="outline" *ngIf="data.item==undefined" (selectionChange)="set_unit_price()">
       <mat-select [multiple]="true" formControlName="materialId" 
       [ngClass]="{ 'is-invalid': submitted && f.materialId.errors }">
         <mat-option  >
@@ -22,7 +22,7 @@
     <p *ngIf="data.item!=undefined" style="margin: 0px;">Material</p>
     <mat-form-field appearance="outline" *ngIf="data.item!=undefined"  >
       <mat-select  placeholder="{{data.item.name}}" formControlName="materialId" 
-      [ngClass]="{ 'is-invalid': submitted && f.materialId.errors }">
+      [ngClass]="{ 'is-invalid': submitted && f.materialId.errors }" (selectionChange)="set_unit_price()">
         <mat-option>
           <ngx-mat-select-search placeholderLabel="Find material..." 
           i18n-placeholderLabel
@@ -35,6 +35,13 @@
         <span *ngIf="f.materialId.errors.required"> * Material is required !!!</span>
       </mat-error>
     </mat-form-field>
+     <p *ngIf="data.item!=undefined" style="margin: 0px;">Unit price</p>
+    <mat-form-field appearance="outline" *ngIf="data.item!=undefined">
+    <input type="number" matInput formControlName="unitPrice" [ngClass]="{ 'is-invalid': submitted && f.unitPrice.errors }">
+    <mat-error *ngIf="submitted && f.unitPrice.errors" >
+      <span *ngIf="f.unitPrice.errors.required"> * Unit price is required !!!</span>
+    </mat-error>
+  </mat-form-field>
 <div style="float: right;">
   <button type="button" class="btn btn-dark btn-sm" (click)="closeModal()" >Dismiss</button>
   <button type="submit" class="btn btn-success btn-sm" > Save </button>

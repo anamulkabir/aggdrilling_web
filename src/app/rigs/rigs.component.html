@@ -25,7 +25,7 @@
                               <tr *ngFor="let item of rigsList | filter:termRigs | paginate: {id: 'rigs',itemsPerPage:20, currentPage: p,totalItems: total};let i=index;"  >
                                 <td>{{item.rid}}</td><td>{{item.serial}}</td><td>{{item.status}}</td>
                                 <td>
-                                  <a class="nav-link p-0" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  <a href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="material-icons">keyboard_arrow_down</i>
                                   </a>
                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">

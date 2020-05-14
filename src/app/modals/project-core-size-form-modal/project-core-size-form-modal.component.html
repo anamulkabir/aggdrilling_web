@@ -1,13 +1,13 @@
 <div style="width:350px;" class="example-container">
-  <h4 >Project Core Form</h4>
+  <h4 >Project Core Sizes Form</h4>
   <form style="font-size: 12px;" [formGroup]="registerForm" (ngSubmit)="onSubmit()" >
     
-    <p *ngIf="data.item==undefined" style="margin: 0px;">Core</p>
+    <p *ngIf="data.item==undefined" style="margin: 0px;">Core size</p>
     <mat-form-field appearance="outline" *ngIf="data.item==undefined">
       <mat-select [multiple]="true" formControlName="coreSizeId" 
       [ngClass]="{ 'is-invalid': submitted && f.coreSizeId.errors }">
         <mat-option>
-          <ngx-mat-select-search placeholderLabel="Find core..."
+          <ngx-mat-select-search placeholderLabel="Find core size..." 
           i18n-placeholderLabel
           noEntriesFoundLabel="No matching core size found"
           i18n-noEntriesFoundLabel [formControl]="listFilterCtrl"></ngx-mat-select-search>
@@ -15,18 +15,18 @@
         <mat-option  *ngFor="let item of filteredList | async" [value]="item">{{item.core}}</mat-option>
       </mat-select>
       <mat-error *ngIf="submitted && f.coreSizeId.errors" >
-        <span *ngIf="f.coreSizeId.errors.required"> * Core is required !!!</span>
+        <span *ngIf="f.coreSizeId.errors.required"> * Core size is required !!!</span>
       </mat-error>
     </mat-form-field>
 
-    <p *ngIf="data.item!=undefined" style="margin: 0px;">Core</p>
+    <p *ngIf="data.item!=undefined" style="margin: 0px;">Core size</p>
     <mat-form-field appearance="outline" *ngIf="data.item!=undefined">
-      <mat-select placeholder="{{data.item!=undefined ? data.item.core : ''}}" formControlName="coreSizeId"
+      <mat-select placeholder="{{data.item!=undefined ? data.item.core : ''}}" formControlName="coreSizeId" 
       [ngClass]="{ 'is-invalid': submitted && f.coreSizeId.errors }">
         <mat-option>
-          <ngx-mat-select-search placeholderLabel="Find core..."
+          <ngx-mat-select-search placeholderLabel="Find core size..." 
           i18n-placeholderLabel
-          noEntriesFoundLabel="No matching core found"
+          noEntriesFoundLabel="No matching core size found"
           i18n-noEntriesFoundLabel [formControl]="listFilterCtrl"></ngx-mat-select-search>
         </mat-option>
         <mat-option  *ngFor="let item of filteredList | async" [value]="item">{{item.core}}</mat-option>

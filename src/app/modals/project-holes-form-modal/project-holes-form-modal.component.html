@@ -1,15 +1,8 @@
 <div style="width:350px;" class="example-container">
   <h4 class="text-center">Project Holes Form</h4>
   <form style="font-size: 12px;" [formGroup]="registerForm" (ngSubmit)="onSubmit()" >
-    <p style="margin: 0px;">Hole code</p>
-    <mat-form-field appearance="outline">
-      <input matInput  formControlName="code" [ngClass]="{ 'is-invalid': submitted && f.code.errors }">
-      <mat-error *ngIf="submitted && f.code.errors" >
-        <span *ngIf="f.code.errors.required"> * Hole code is required !!!</span>
-      </mat-error>
-    </mat-form-field>
-
-    <p style="margin: 0px;">Hole name</p>
+  
+    <p style="margin: 0px;">Hole</p>
     <mat-form-field appearance="outline">
       <input matInput formControlName="name" [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
       <mat-error *ngIf="submitted && f.name.errors" >

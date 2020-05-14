@@ -59,7 +59,7 @@
    <div class="table table-hover scrollable-table-wrapper" >
     <table class="table" style="width: 100%;">
        <thead class=" text-primary">
-         <th>Rigs</th> <th>Serial</th><th>Status</th><th>Options</th>
+         <th>SL</th> <th>Serial</th><th>Status</th><th>Options</th>
       </thead>
       <tbody>
         <tr *ngFor="let item of project_rigs;let i=index;"  >
@@ -68,7 +68,7 @@
           <td>{{item.status}}</td>
         
           <td>
-            <a class="nav-link p-0" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a  href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="material-icons">keyboard_arrow_down</i>
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
@@ -95,20 +95,19 @@
    <div class="table table-hover scrollable-table-wrapper" >
     <table class="table" style="width: 100%;">
        <thead class=" text-primary">
-         <th>Holes</th><th>Name</th><th>Code</th><th>Options</th>
+         <th>SL</th><th>Holes</th><th>Options</th>
       </thead>
       <tbody>
         <tr *ngFor="let item of project_holes;let i=index;"  >
           <td > {{i+1}}.</td>
-          <td > {{item.name}}</td>
-          <td > {{item.code}}</td>
+          <td > {{item}}</td>
           <td >
-            <a class="nav-link p-0" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a  href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="material-icons">keyboard_arrow_down</i>
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="javascript:void(0)" (click)="openProjectHolesForm(item)"><i class="material-icons text-info">create</i> Edit</a>
-              <a class="dropdown-item" href="javascript:void(0)" (click)="deleteProHoles(item)"><i class="material-icons text-danger">delete_forever</i> Delete</a>
+              <a class="dropdown-item" href="javascript:void(0)" (click)="openProjectHolesForm(i)"><i class="material-icons text-info">create</i> Edit</a>
+              <a class="dropdown-item" href="javascript:void(0)" (click)="deleteProHoles(i)"><i class="material-icons text-danger">delete_forever</i> Delete</a>
             </div> 
           </td>
         </tr>
@@ -131,7 +130,7 @@
    <div class="table table-hover scrollable-table-wrapper" >
     <table class="table" style="width: 100%;">
        <thead class=" text-primary">
-        <th>Workers</th><th>First name</th><th>Last name</th><th>Skills</th><th>Designation</th><th>Type</th><th>Options</th>
+        <th>SL</th><th>First name</th><th>Last name</th><th>Skills</th><th>Designation</th><th>Type</th><th>Options</th>
       </thead>      
       <tbody>
         <tr *ngFor="let item of project_worker;let i=index;"  >
@@ -142,7 +141,7 @@
           <td > {{item.designation}}</td>
           <td > {{item.type}}</td>
           <td >
-            <a class="nav-link p-0" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a  href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="material-icons">keyboard_arrow_down</i>
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
@@ -170,7 +169,7 @@
    <div class="table table-hover scrollable-table-wrapper" >
     <table class="table" style="width: 100%;">
        <thead class=" text-primary">
-        <th>Tasks</th><th>Name</th><th>Log type</th><th>Task type</th><th>Options</th>
+        <th>SL</th><th>Name</th><th>Log type</th><th>Task type</th><th>Options</th>
       </thead>      
       <tbody>
         <tr *ngFor="let item of project_task;let i=index;"  >
@@ -179,7 +178,7 @@
           <td > {{item.logType}}</td>
           <td > {{item.taskType}}</td>
           <td >
-            <a class="nav-link p-0" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a  href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="material-icons">keyboard_arrow_down</i>
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
@@ -207,18 +206,14 @@
    <div class="table table-hover scrollable-table-wrapper" >
     <table class="table" style="width: 100%;">
        <thead class=" text-primary">
-        <th>Core sizes</th><th>Core</th>
-<!--        <th>Size</th><th>Hole</th>-->
-        <th>Options</th>
+        <th>SL</th><th>Core</th><th>Options</th>
       </thead>      
       <tbody>
         <tr *ngFor="let item of project_coreSizes;let i=index;"  >
           <td > {{i+1}}.</td>
           <td > {{item.core}}</td>
-<!--          <td > {{item.size}}</td>-->
-<!--          <td > {{item.hole}}</td>-->
           <td >
-            <a class="nav-link p-0" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a  href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="material-icons">keyboard_arrow_down</i>
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
@@ -247,7 +242,7 @@
    <div class="table table-hover scrollable-table-wrapper" >
     <table class="table" style="width: 100%;">
        <thead class=" text-primary">
-        <th>Materials</th><th>Reference key</th><th>General name</th><th>Details</th><th>Options</th>
+        <th>SL</th><th>Reference key</th><th>General name</th><th>Details</th><th>Price</th><th>Options</th>
       </thead>      
       <tbody>
         <tr *ngFor="let item of project_materials;let i=index;"  >
@@ -255,8 +250,9 @@
           <td > {{item.refKey}}</td>
           <td > {{item.name}}</td>
           <td > {{item.details}}</td>
+          <td > {{item.unitPrice}}</td>
           <td >
-            <a class="nav-link p-0" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a  href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="material-icons">keyboard_arrow_down</i>
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
@@ -296,7 +292,7 @@
           </td>
           <td>{{item.actions}}</td>
           <td>
-            <a class="nav-link p-0" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a  href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="material-icons">keyboard_arrow_down</i>
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">

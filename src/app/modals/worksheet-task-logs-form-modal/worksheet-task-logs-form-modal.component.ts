@@ -24,15 +24,24 @@ export class WorksheetTaskLogsFormModalComponent implements OnInit, OnDestroy {
   public taskList;
   public coreSizes;
   public workersList;
+  public workersOtherList;
+  public helpersList;
+  public drillersList;
   registerForm: FormGroup;
   submitted = false;
   public filteredList: ReplaySubject<[]> = new ReplaySubject<[]>(1);
   public filteredList2: ReplaySubject<[]> = new ReplaySubject<[]>(1);
   public filteredList3: ReplaySubject<[]> = new ReplaySubject<[]>(1);
+  public filteredList4: ReplaySubject<[]> = new ReplaySubject<[]>(1);
+  public filteredList5: ReplaySubject<[]> = new ReplaySubject<[]>(1);
+  public filteredList6: ReplaySubject<[]> = new ReplaySubject<[]>(1);
   private _onDestroy = new Subject<void>();
   public listFilterCtrl: FormControl = new FormControl();
   public listFilterCtrl2: FormControl = new FormControl();
   public listFilterCtrl3: FormControl = new FormControl();
+  public listFilterCtrl4: FormControl = new FormControl();
+  public listFilterCtrl5: FormControl = new FormControl();
+  public listFilterCtrl6: FormControl = new FormControl();
   constructor(public dialog: MatDialog,private toastrService: ToastrService,private formBuilder: FormBuilder,private firestore:AngularFirestore,
     public afAuth: AngularFireAuth,public datePipe : DatePipe,public dialogRef: MatDialogRef<WorksheetTaskLogsFormModalComponent>,@Inject(MAT_DIALOG_DATA) public data: any) { }
     
@@ -73,7 +82,7 @@ console.log('this.data',this.data);
        });
 });
 
-    this.firestore.collection('projects/'+this.data.projectId+'/workers').snapshotChanges().subscribe(data => {
+    this.firestore.collection('projects/'+this.data.projectId+'/workers',ref=>ref.where('designation','in',['driller','helper'])).snapshotChanges().subscribe(data => {
       this.workersList= data.map(e => {
         return {
          id: e.payload.doc.id,
@@ -90,6 +99,65 @@ console.log('this.data',this.data);
           .subscribe(() => {
             this.filterList();
            });
+          });
+           
+    this.firestore.collection('projects/'+this.data.projectId+'/workers',ref=>ref.where('designation','==','others')).snapshotChanges().subscribe(data => {
+      this.workersOtherList= data.map(e => {
+        return {
+         id: e.payload.doc.id,
+         ...e.payload.doc.data() as object
+        } 
+      })
+
+     console.log('this.workersOtherList',this.workersOtherList);
+    
+
+     this.filteredList4.next(this.workersOtherList.slice());
+        this.listFilterCtrl4.valueChanges
+           .pipe(takeUntil(this._onDestroy))
+          .subscribe(() => {
+            this.filterList4();
+           });
+          });
+
+           
+    this.firestore.collection('projects/'+this.data.projectId+'/workers',ref=>ref.where('designation','==','driller')).snapshotChanges().subscribe(data => {
+      this.drillersList= data.map(e => {
+        return {
+         id: e.payload.doc.id,
+         ...e.payload.doc.data() as object
+        } 
+      })
+
+     console.log('this.drillersList',this.drillersList);
+    
+
+     this.filteredList5.next(this.drillersList.slice());
+        this.listFilterCtrl5.valueChanges
+           .pipe(takeUntil(this._onDestroy))
+          .subscribe(() => {
+            this.filterList5();
+           });
+          });
+
+           
+    this.firestore.collection('projects/'+this.data.projectId+'/workers',ref=>ref.where('designation','==','helper')).snapshotChanges().subscribe(data => {
+      this.helpersList= data.map(e => {
+        return {
+         id: e.payload.doc.id,
+         ...e.payload.doc.data() as object
+        } 
+      })
+
+     console.log('this.helpersList',this.helpersList);
+    
+
+     this.filteredList6.next(this.helpersList.slice());
+        this.listFilterCtrl6.valueChanges
+           .pipe(takeUntil(this._onDestroy))
+          .subscribe(() => {
+            this.filterList6();
+           });
     });
 
     this.registerForm = this.formBuilder.group({
@@ -101,6 +169,9 @@ console.log('this.data',this.data);
         endTime: ['', Validators.required],
         workHours: ['', [Validators.required,Validators.min(.00001),Validators.max(12)]],
         worker: [],
+        workerOther: [],
+        driller: [],
+        helper: [],
         startMeter: [],
         endMeter: [],
         coreSize: [],
@@ -128,6 +199,9 @@ console.log('this.data',this.data);
         this.registerForm.controls.startMeter.setValue(this.data.item.startMeter);
         this.registerForm.controls.endMeter.setValue(this.data.item.endMeter);
         this.registerForm.controls.worker.setValue(this.data.item.worker);
+        this.registerForm.controls.workerOther.setValue(this.data.item.workerOther);
+        this.registerForm.controls.driller.setValue(this.data.item.driller);
+        this.registerForm.controls.helper.setValue(this.data.item.helper);
         this.registerForm.controls.shift.setValue(this.data.item.shift);
         this.registerForm.controls.startTime.setValue(this.data.item.startTime);
         this.registerForm.controls.endTime.setValue(this.data.item.endTime);
@@ -155,7 +229,54 @@ console.log('this.data',this.data);
      
     );
 }
-
+private filterList4() {
+  if (!this.workersOtherList) {
+    return;
+  }
+  let search = this.listFilterCtrl4.value;
+  if (!search) {
+    this.filteredList4.next(this.workersOtherList.slice());
+    return;
+  } else {
+    search = search.toLowerCase();
+  }
+  this.filteredList4.next(
+    this.workersOtherList.filter(bank => bank.firstName.toLowerCase().indexOf(search) > -1 || bank.lastName.toLowerCase().indexOf(search) > -1)
+   
+  );
+}
+private filterList5() {
+  if (!this.drillersList) {
+    return;
+  }
+  let search = this.listFilterCtrl5.value;
+  if (!search) {
+    this.filteredList5.next(this.drillersList.slice());
+    return;
+  } else {
+    search = search.toLowerCase();
+  }
+  this.filteredList5.next(
+    this.drillersList.filter(bank => bank.firstName.toLowerCase().indexOf(search) > -1 || bank.lastName.toLowerCase().indexOf(search) > -1)
+   
+  );
+}
+private filterList6() {
+  if (!this.helpersList) {
+    return;
+  }
+  let search = this.listFilterCtrl6.value;
+  if (!search) {
+    this.filteredList6.next(this.helpersList.slice());
+    return;
+  } else {
+    search = search.toLowerCase();
+  }
+  this.filteredList6.next(
+    this.helpersList.filter(bank => bank.firstName.toLowerCase().indexOf(search) > -1 || bank.lastName.toLowerCase().indexOf(search) > -1)
+   
+  );
+}
 private filterList2() {
   if (!this.taskList) {
     return;
@@ -185,7 +306,7 @@ private filterList3() {
     search = search.toLowerCase();
   }
   this.filteredList3.next(
-    this.coreSizes.filter(bank => bank.size.toLowerCase().indexOf(search) > -1)
+    this.coreSizes.filter(bank => bank.core.toLowerCase().indexOf(search) > -1)
    
   );
 }
@@ -205,6 +326,9 @@ private filterList3() {
           endTime: this.registerForm.controls.endTime.value,
           workHours:this.registerForm.controls.workHours.value,
           worker: this.registerForm.controls.worker.value,
+          workerOther: this.registerForm.controls.workerOther.value,
+          driller: this.registerForm.controls.driller.value,
+          helper: this.registerForm.controls.helper.value,
           startMeter:this.registerForm.controls.startMeter.value,
           endMeter: this.registerForm.controls.endMeter.value,
           entryBy: this.registerForm.controls.entryBy.value,
@@ -237,6 +361,9 @@ private filterList3() {
                              shift: this.registerForm.controls.shift.value,
                              workHours:this.registerForm.controls.workHours.value,
                              worker: this.registerForm.controls.worker.value,
+                             workerOther: this.registerForm.controls.workerOther.value,
+                             driller: this.registerForm.controls.driller.value,
+                             helper: this.registerForm.controls.helper.value,
                              startMeter:this.registerForm.controls.startMeter.value,
                              endMeter: this.registerForm.controls.endMeter.value,
                              entryBy: this.registerForm.controls.entryBy.value,
@@ -270,6 +397,9 @@ private filterList3() {
                           shift: this.registerForm.controls.shift.value,
                           workHours:this.registerForm.controls.workHours.value,
                           worker: this.registerForm.controls.worker.value,
+                          workerOther: this.registerForm.controls.workerOther.value,
+                          driller: this.registerForm.controls.driller.value,
+                          helper: this.registerForm.controls.helper.value,
                           startMeter:this.registerForm.controls.startMeter.value,
                           endMeter: this.registerForm.controls.endMeter.value,
                           entryBy: this.registerForm.controls.entryBy.value,
@@ -304,26 +434,56 @@ private filterList3() {
     switch (logtype) {
       case 'HC':
         this.registerForm.controls.worker.setValidators(null);
+        this.registerForm.controls.workerOther.setValidators(null);
+        this.registerForm.controls.driller.setValidators(null);
+        this.registerForm.controls.helper.setValidators(null);
         this.registerForm.controls.startMeter.setValidators(null);
         this.registerForm.controls.endMeter.setValidators(null);
       break;
 
       case 'EH':
         this.registerForm.controls.worker.setValidators([Validators.required]);
+        this.registerForm.controls.workerOther.setValidators([Validators.required]);
+        this.registerForm.controls.driller.setValidators(null);
+        this.registerForm.controls.helper.setValidators(null);
         this.registerForm.controls.startMeter.setValidators(null);
         this.registerForm.controls.endMeter.setValidators(null);
       break;
 
       case 'EHP':
         this.registerForm.controls.worker.setValidators([Validators.required]);
+        this.registerForm.controls.workerOther.setValidators([Validators.required]);
         this.registerForm.controls.startMeter.setValidators([Validators.required,Validators.min(0.00001)]);
         this.registerForm.controls.endMeter.setValidators([Validators.required]);
+        this.registerForm.controls.driller.setValidators(null);
+        this.registerForm.controls.helper.setValidators(null);
+      break;
+
+      case 'XH':
+        this.registerForm.controls.driller.setValidators([Validators.required]);
+        this.registerForm.controls.helper.setValidators([Validators.required]);
+        this.registerForm.controls.worker.setValidators(null);
+        this.registerForm.controls.workerOther.setValidators(null);
+        this.registerForm.controls.startMeter.setValidators(null);
+        this.registerForm.controls.endMeter.setValidators(null);
+      break;
+
+      case 'XHP':
+        this.registerForm.controls.driller.setValidators([Validators.required]);
+        this.registerForm.controls.helper.setValidators([Validators.required]);
+        this.registerForm.controls.startMeter.setValidators([Validators.required,Validators.min(0.00001)]);
+        this.registerForm.controls.endMeter.setValidators([Validators.required]);
+        this.registerForm.controls.worker.setValidators(null);
+        this.registerForm.controls.workerOther.setValidators(null);
       break;
     
       default:
         break;
     }
     this.registerForm.controls.worker.reset();
+    this.registerForm.controls.workerOther.reset();
+    this.registerForm.controls.driller.reset();
+    this.registerForm.controls.helper.reset();
     this.registerForm.controls.startMeter.reset();
     this.registerForm.controls.endMeter.reset();
   }

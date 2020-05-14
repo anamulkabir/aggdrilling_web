@@ -19,16 +19,13 @@
                       <div class="table table-hover" >
                         <table style="width: 100%;">
                             <thead class=" text-primary">
-                               <th>SL</th><th>Core</th>
-<!--                               <th>Size</th><th>Hole</th>-->
-                               <th>Options</th>
+                               <th>SL</th><th>Core</th><th>Options</th>
                             </thead>
                             <tbody>
                               <tr *ngFor="let item of coresizeList | filter:termCoresize | paginate: {id: 'coresize',itemsPerPage:20, currentPage: p,totalItems: total};let i=index;"  >
                                 <td>{{(p - 1) * 20 + i +1}}.</td><td>{{item.core}}</td>
-<!--                                  <td>{{item.size}}</td><td>{{item.hole}}</td>-->
                                 <td>
-                                  <a class="nav-link p-0" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  <a href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="material-icons">keyboard_arrow_down</i>
                                   </a>
                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">

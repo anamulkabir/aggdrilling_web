@@ -56,13 +56,19 @@ export class WorksheetDetailsFormModalComponent implements OnInit {
       console.log('this.project_rigs',this.project_rigs);
     });
 
+   
     this.firestore.collection('projects/'+this.data.projectId+'/holes').snapshotChanges().subscribe(data => {
-      this.project_holes= data.map(e => {
+      let holeList=[];
+      holeList = data.map(e => {
         return {
           id: e.payload.doc.id,
           ...e.payload.doc.data() as object
         } 
       })
+      this.project_holes=[];
+      for (let i = 0; i < holeList[0].holes.length; i++) {
+        this.project_holes.push(holeList[0].holes[i]);
+      }
       console.log('this.project_holes',this.project_holes);
     });
 
@@ -72,7 +78,8 @@ export class WorksheetDetailsFormModalComponent implements OnInit {
       entryDate: [],
       rigs: ['', Validators.required],
       holes: [],
-      workDate: ['', Validators.required]
+      workDate: ['', Validators.required],
+      dip: ['', Validators.maxLength(5)]
   });
 
         this.firestore.collection('users/',ref=>ref.where('email','==',this.afAuth.auth.currentUser.email)).snapshotChanges().subscribe(data => {
@@ -94,6 +101,7 @@ export class WorksheetDetailsFormModalComponent implements OnInit {
         this.registerForm.controls.id.setValue(this.data.item.id);
         this.registerForm.controls.rigs.setValue(this.data.item.rigs);
         this.registerForm.controls.holes.setValue(this.data.item.holes);
+        this.registerForm.controls.dip.setValue(this.data.item.dip);
         this.registerForm.controls.entryBy.setValue(this.data.item.entryBy);
         this.registerForm.controls.entryDate.setValue(new Date(this.data.item.entryDate));
         this.registerForm.controls.workDate.setValue(new Date(this.data.item.workDate));
@@ -510,6 +518,7 @@ export class WorksheetDetailsFormModalComponent implements OnInit {
         { 
           rigs: this.registerForm.controls.rigs.value,
           holes: this.registerForm.controls.holes.value,
+          dip: this.registerForm.controls.dip.value,
           entryBy: this.registerForm.controls.entryBy.value,
           currentStatus: 'enableOP',
           entryDate: this.datePipe.transform(this.registerForm.controls.entryDate.value, 'yyyy-MM-dd hh:mm:ss a'),
@@ -543,6 +552,7 @@ export class WorksheetDetailsFormModalComponent implements OnInit {
         { 
           rigs: this.registerForm.controls.rigs.value,
           holes: this.registerForm.controls.holes.value,
+          dip: this.registerForm.controls.dip.value,
           entryBy: this.registerForm.controls.entryBy.value,
           entryDate: this.datePipe.transform(this.registerForm.controls.entryDate.value, 'yyyy-MM-dd hh:mm:ss a'),
           workDate: this.datePipe.transform(this.registerForm.controls.workDate.value, 'yyyy-MM-dd'),
@@ -762,6 +772,13 @@ export class WorksheetDetailsFormModalComponent implements OnInit {
     })
   }
 
+  public changeValidationForDIP(){
+    this.registerForm.controls.dip.setValidators(Validators.max(99999));
+  }
+  
+  public holeClickEvent(){
+    this.registerForm.controls.holes.setValue(null);
+  }
 
   exportexcel(): void 
   {
@@ -781,7 +798,7 @@ export class WorksheetDetailsFormModalComponent implements OnInit {
          'Worker':this.project_worksheet_taskLogs[i].worker.firstName +' '+this.project_worksheet_taskLogs[i].worker.lastName,
          'Start Meter':this.project_worksheet_taskLogs[i].startMeter,
          'End Meter':this.project_worksheet_taskLogs[i].endMeter,
-         'Core Size':this.project_worksheet_taskLogs[i].coreSize.size,
+         'Core Size':this.project_worksheet_taskLogs[i].coreSize.core,
          Comment:this.project_worksheet_taskLogs[i].comment
        }
      )

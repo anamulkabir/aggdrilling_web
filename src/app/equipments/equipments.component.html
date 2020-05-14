@@ -25,7 +25,7 @@
                               <tr *ngFor="let item of equipmentList | filter:termEquipment | paginate: {id: 'equipment',itemsPerPage:20, currentPage: p,totalItems: total};let i=index;"  >
                                 <td>{{(p - 1) * 20 + i +1}}.</td><td>{{item.code}}</td><td>{{item.name}}</td><td>{{item.capacity}}</td>
                                 <td>
-                                  <a class="nav-link p-0" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  <a  href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="material-icons">keyboard_arrow_down</i>
                                   </a>
                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">

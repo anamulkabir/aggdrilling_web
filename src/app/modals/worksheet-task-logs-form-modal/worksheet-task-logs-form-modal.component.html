@@ -61,8 +61,8 @@
     
       <p  *ngIf="this.registerForm.controls.task.value.logType=='EHP' || this.registerForm.controls.task.value.logType=='EH'" style="margin: 0px;" >Worker</p>
       <mat-form-field appearance="outline" *ngIf="this.registerForm.controls.task.value.logType=='EHP' || this.registerForm.controls.task.value.logType=='EH'" >
-        <mat-select placeholder="{{data.item!=undefined ? data.item.worker.firstName+' '+data.item.worker.lastName : 'Select worker'}}" formControlName="worker" 
-        [ngClass]="{ 'is-invalid': submitted && f.worker.errors }">
+        <mat-select placeholder="{{data.item!=undefined ? data.item.worker1.firstName+' '+data.item.worker1.lastName : 'Select worker'}}" formControlName="worker1"
+        [ngClass]="{ 'is-invalid': submitted && f.worker1.errors }">
           <mat-option>
             <ngx-mat-select-search placeholderLabel="Find worker..." 
             i18n-placeholderLabel
@@ -71,25 +71,25 @@
           </mat-option>
           <mat-option *ngFor="let item of filteredList | async" [value]="item">{{item.firstName}} {{item.lastName}}</mat-option>
         </mat-select>
-        <mat-error *ngIf="submitted && f.worker.errors" >
-          <span *ngIf="f.worker.errors.required">* Worker is required !</span>
+        <mat-error *ngIf="submitted && f.worker1.errors" >
+          <span *ngIf="f.worker1.errors.required">* Worker is required !</span>
         </mat-error>
       </mat-form-field>
 
-      <p  *ngIf="this.registerForm.controls.task.value.logType=='EHP' || this.registerForm.controls.task.value.logType=='EH'" style="margin: 0px;" >Worker Other</p>
+      <p  *ngIf="this.registerForm.controls.task.value.logType=='EHP' || this.registerForm.controls.task.value.logType=='EH'" style="margin: 0px;" >Worker2</p>
       <mat-form-field appearance="outline" *ngIf="this.registerForm.controls.task.value.logType=='EHP' || this.registerForm.controls.task.value.logType=='EH'" >
-        <mat-select placeholder="{{data.item!=undefined ? data.item.workerOther.firstName+' '+data.item.workerOther.lastName : 'Select worker other'}}" formControlName="workerOther" 
-        [ngClass]="{ 'is-invalid': submitted && f.workerOther.errors }">
+        <mat-select placeholder="{{data.item!=undefined ? data.item.worker2.firstName+' '+data.item.worker2.lastName : 'Select worker 2'}}" formControlName="worker2"
+        [ngClass]="{ 'is-invalid': submitted && f.worker2.errors }">
           <mat-option>
-            <ngx-mat-select-search placeholderLabel="Find worker other..." 
+            <ngx-mat-select-search placeholderLabel="Find worker 2..."
             i18n-placeholderLabel
-            noEntriesFoundLabel="No matching worker other found"
+            noEntriesFoundLabel="No matching worker 2 found"
             i18n-noEntriesFoundLabel [formControl]="listFilterCtrl4"></ngx-mat-select-search>
           </mat-option>
           <mat-option *ngFor="let item of filteredList4 | async" [value]="item">{{item.firstName}} {{item.lastName}}</mat-option>
         </mat-select>
-        <mat-error *ngIf="submitted && f.workerOther.errors" >
-          <span *ngIf="f.workerOther.errors.required">* Worker other is required !</span>
+        <mat-error *ngIf="submitted && f.worker2.errors" >
+          <span *ngIf="f.worker2.errors.required">* Worker 2 is required !</span>
         </mat-error>
       </mat-form-field>
 

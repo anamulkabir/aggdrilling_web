@@ -20,9 +20,12 @@
             "assets": [
               "src/assets",
               "src/favicon.ico",
-              "src/.htaccess",
               "src/manifest.webmanifest",
-              "src/manifest.webmanifest"
+              {
+                "glob": ".htaccess",
+                "input": "src",
+                "output": "/"
+              }
             ],
             "styles": [
               "node_modules/perfect-scrollbar/css/perfect-scrollbar.css",

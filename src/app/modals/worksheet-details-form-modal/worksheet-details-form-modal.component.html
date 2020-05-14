@@ -134,7 +134,7 @@
             <table id="excel-table" style="font-size: 12px;" *ngIf='project_worksheet_taskLogs.length!=0'>
               <tr style="font-size: 13px;">
                   <td>SL</td><td>Task</td><td>Shift</td><td>Start time</td><td>End time</td><td>Hours Work</td><td>Worker</td>
-                  <td>Worker Other</td><td>Driller</td><td>Helper</td><td>Start metre</td><td>End metre</td><td>Core size</td>
+                  <td>Worker2</td><td>Driller</td><td>Helper</td><td>Start metre</td><td>End metre</td><td>Core size</td>
                   <td style="text-align: center;">Comment</td><td *ngIf="actionEnable==true">Option</td>            
               </tr>
                 <tr *ngFor="let item of project_worksheet_taskLogs;let i=index;"   >
@@ -145,10 +145,10 @@
                   <td class="text-center">{{item.endTime}}</td>
                   <td *ngIf="item.workHours!=null" class="text-center">{{item.workHours}}</td>
                   <td *ngIf="item.workHours==null" class="text-center">-</td>
-                  <td *ngIf="item.worker!=null" class="text-center">{{item.worker.firstName}} {{item.worker.lastName}}</td>
-                  <td *ngIf="item.worker==null" class="text-center">-</td>
-                  <td *ngIf="item.workerOther!=null" class="text-center">{{item.workerOther.firstName}} {{item.workerOther.lastName}}</td>
-                  <td *ngIf="item.workerOther==null" class="text-center">-</td>
+                  <td *ngIf="item.worker1!=null" class="text-center">{{item.worker1.firstName}} {{item.worker1.lastName}}</td>
+                  <td *ngIf="item.worker1==null" class="text-center">-</td>
+                  <td *ngIf="item.worker2!=null" class="text-center">{{item.worker2.firstName}} {{item.worker2.lastName}}</td>
+                  <td *ngIf="item.worker2==null" class="text-center">-</td>
                   <td *ngIf="item.driller!=null" class="text-center">{{item.driller.firstName}} {{item.driller.lastName}}</td>
                   <td *ngIf="item.driller==null" class="text-center">-</td>
                   <td *ngIf="item.helper!=null" class="text-center">{{item.helper.firstName}} {{item.helper.lastName}}</td>

@@ -19,11 +19,11 @@
                       <div class="table table-hover" >
                         <table style="width: 100%;">
                             <thead class=" text-primary">
-                              <th>SL</th><th>First name</th><th>Last name</th><th>Email</th><th>Phone</th><th>Company</th><th>Emg contact name</th><th>Emg contact phone</th><th>Options</th>
+                              <th>SL</th><th>Last name</th><th>First name</th><th>Email</th><th>Phone</th><th>Company</th><th>Emg contact name</th><th>Emg contact phone</th><th>Options</th>
                             </thead>
                             <tbody>
                               <tr *ngFor="let item of geologistList | filter:termGeologist | paginate: {id: 'geologist',itemsPerPage:20, currentPage: p,totalItems: total};let i=index;"  >
-                                <td>{{(p - 1) * 20 + i +1}}.</td><td>{{item.firstName}}</td><td>{{item.lastName}}</td><td>{{item.email}}</td><td>{{item.phone}}</td><td>{{item.companyName}}</td><td>{{item.emergencyContactName}}</td><td>{{item.emergencyContactPhone}}</td>
+                                <td>{{(p - 1) * 20 + i +1}}.</td><td>{{item.lastName}}</td><td>{{item.firstName}}</td><td>{{item.email}}</td><td>{{item.phone}}</td><td>{{item.companyName}}</td><td>{{item.emergencyContactName}}</td><td>{{item.emergencyContactPhone}}</td>
                                 <td>
                                   <a class="nav-link p-0" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="material-icons">keyboard_arrow_down</i>

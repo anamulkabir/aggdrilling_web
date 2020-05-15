@@ -13,7 +13,6 @@ import { UserService } from 'app/authenticationService/user.service';
 import { ActivityLogDetailsModalComponent } from '../activity-log-details-modal/activity-log-details-modal.component';
 import { WorksheetTaskLogsFormModalComponent } from '../worksheet-task-logs-form-modal/worksheet-task-logs-form-modal.component';
 
-
 @Component({
   selector: 'app-worksheet-details-form-modal',
   templateUrl: './worksheet-details-form-modal.component.html',
@@ -44,6 +43,7 @@ export class WorksheetDetailsFormModalComponent implements OnInit {
     private toastrService: ToastrService,private excelService:UserService,private location: Location,public datePipe : DatePipe,private formBuilder: FormBuilder,public dialogRef: MatDialogRef<WorksheetDetailsFormModalComponent>,@Inject(MAT_DIALOG_DATA) public data: any){}
 
   ngOnInit() {
+
 
     console.log('ID : ',this.data.projectId,this.data.worksheetId);
     this.firestore.collection('projects/'+this.data.projectId+'/rigs').snapshotChanges().subscribe(data => {
@@ -95,7 +95,7 @@ export class WorksheetDetailsFormModalComponent implements OnInit {
         })
     
         this.registerForm.controls.entryDate.setValue(new Date());
-        
+
       if (this.data.item!==undefined) {
         this.holesView=true;
         this.registerForm.controls.id.setValue(this.data.item.id);
@@ -104,7 +104,8 @@ export class WorksheetDetailsFormModalComponent implements OnInit {
         this.registerForm.controls.dip.setValue(this.data.item.dip);
         this.registerForm.controls.entryBy.setValue(this.data.item.entryBy);
         this.registerForm.controls.entryDate.setValue(new Date(this.data.item.entryDate));
-        this.registerForm.controls.workDate.setValue(new Date(this.data.item.workDate));
+        this.registerForm.controls.workDate.setValue(new Date(this.data.item.workDate + " 00:00:00 AM"));
+        console.log('data utc', this.registerForm.controls.workDate);
       }
 
       if (this.data.worksheetId!=undefined) {

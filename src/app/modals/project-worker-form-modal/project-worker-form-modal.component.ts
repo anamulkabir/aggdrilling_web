@@ -41,10 +41,10 @@ export class ProjectWorkerFormModalComponent implements OnInit, OnDestroy {
       this.firestore.collection('workers').snapshotChanges().subscribe(data => {
       let workers= data.map(e => {
         return {
-         id: e.payload.doc.id,
+         id: e.payload.doc.id,lastName:name,
          ...e.payload.doc.data() as object
         } 
-      })
+      }).sort((a,b)=> (a.lastName > b.lastName ? 1 : -1))
 
       for( var i=workers.length - 1; i>=0; i--){
         for( var j=0; j<this.project_worker.length; j++){

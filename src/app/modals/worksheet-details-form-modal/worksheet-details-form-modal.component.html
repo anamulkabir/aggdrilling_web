@@ -33,7 +33,7 @@
               <tr >
                 <td>
                   <mat-form-field appearance="outline">
-                    <input matInput placeholder="{{data.item.workDate}}" readonly> 
+                    <input matInput placeholder="{{data.item.workDate}}" readonly>
                   </mat-form-field>
                 </td>
                 <td>
@@ -133,13 +133,15 @@
             <p *ngIf='project_worksheet_taskLogs.length==0' style="font-size: 12px;">Task logs is empty now.</p>
             <table id="excel-table" style="font-size: 12px;" *ngIf='project_worksheet_taskLogs.length!=0'>
               <tr style="font-size: 13px;">
-                  <td>SL</td><td>Task</td><td>Shift</td><td>Start time</td><td>End time</td><td>Hours Work</td><td>Worker</td>
-                  <td>Worker2</td><td>Driller</td><td>Helper</td><td>Start metre</td><td>End metre</td><td>Core size</td>
-                  <td style="text-align: center;">Comment</td><td *ngIf="actionEnable==true">Option</td>            
+                  <td>SL</td><td>Task</td><td>Core size</td><td>Shift</td><td>Start time</td><td>End time</td><td>Hours Work</td><td>Worker</td>
+                  <td>Worker2</td><td>Driller</td><td>Helper</td><td>Start metre</td><td>End metre</td>
+                  <td style="text-align: center;">Comment</td><td *ngIf="actionEnable==true">Option</td>
               </tr>
                 <tr *ngFor="let item of project_worksheet_taskLogs;let i=index;"   >
                   <td> {{i+1}}.</td>
                   <td>{{item.task.name}}</td>
+                  <td *ngIf="item.coreSize!=null" class="text-center">{{item.coreSize.core}}</td>
+                  <td *ngIf="item.coreSize==null" class="text-center">-</td>
                   <td class="text-center">{{item.shift}}</td>
                   <td class="text-center">{{item.startTime}}</td>
                   <td class="text-center">{{item.endTime}}</td>
@@ -157,8 +159,6 @@
                   <td *ngIf="item.startMeter==null" class="text-center">-</td>
                   <td *ngIf="item.endMeter!=null" class="text-center">{{item.endMeter}}</td>
                   <td *ngIf="item.endMeter==null" class="text-center">-</td>
-                  <td *ngIf="item.coreSize!=null" class="text-center">{{item.coreSize.core}}</td>
-                  <td *ngIf="item.coreSize==null" class="text-center">-</td>
                   <td *ngIf="item.comment!=null" class="text-center" ><div style="width: 100px;height:25px;overflow:auto;margin:0px;">{{item.comment}}</div></td>
                   <td *ngIf="item.comment==null" class="text-center">-</td>
                   <td *ngIf="actionEnable==true">
@@ -191,7 +191,7 @@
               <tbody>
                 <tr *ngFor="let item of project_worksheet_consumeMaterials;let i=index;"  >
                   <td > {{i+1}}.</td>
-                  <td > {{item.material.name}}</td>
+                  <td > {{item.material.name}} - {{item.material.details}}</td>
                   <td class="text-center"> {{item.qty}}</td>
                   <td  *ngIf="actionEnable==true">
                     <i class="material-icons text-info" (click)="openWorksheetConsumeMaterialsForm(item)" style="cursor: pointer;font-size: 18px;" >create</i>
@@ -245,7 +245,7 @@
                   <tbody>
                     <tr *ngFor="let item of worksheetActivityLogs;let i=index;"  >
                       <td >
-                      <strong>{{i+1}}. </strong>{{item.changedBy.firstName}} {{item.changedBy.lastName}} <b>{{item.action}}</b> a record of <b>{{item.collectionName}}</b> in {{item.changeDate | date:'yyyy-MM-dd '}} at {{item.changeDate | date:'hh:mm:ss a'}}. 
+                      <strong>{{i+1}}. </strong>{{item.changedBy.firstName}} {{item.changedBy.lastName}} <b>{{item.action}}</b> a record of <b>{{item.collectionName}}</b> in {{item.changeDate | date:'yyyy-MM-dd '}} at {{item.changeDate | date:'hh:mm:ss a'}}.
                           <a (click)="openActivityLogDetails(item.changedItem)" class="nav-link p-0" href="javascript:void(0)" >
                                 see details
                           </a> 

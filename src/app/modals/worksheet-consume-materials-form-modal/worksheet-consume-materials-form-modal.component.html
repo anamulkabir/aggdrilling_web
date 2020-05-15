@@ -4,13 +4,13 @@
    
     <p style="margin: 0px;" >Material</p>
         <mat-form-field (click)="data.item=undefined" appearance="outline">
-          <mat-select placeholder="{{data.item!=undefined ? data.item.material.name : 'Select material'}}" 
+          <mat-select placeholder="{{data.item!=undefined ? data.item.material.name +' - '+ data.item.material.details : 'Select material'}}"
           formControlName="material" [ngClass]="{ 'is-invalid': submitted && f.material.errors }">
           <ngx-mat-select-search placeholderLabel="Find material..." 
           i18n-placeholderLabel
           noEntriesFoundLabel="No matching material found"
           i18n-noEntriesFoundLabel [formControl]="listFilterCtrl"></ngx-mat-select-search>
-            <mat-option *ngFor="let item of filteredList | async" [value]="item">{{item.name}}</mat-option>
+            <mat-option *ngFor="let item of filteredList | async" [value]="item">{{item.name}} - {{item.details}}</mat-option>
           </mat-select>
           <mat-error *ngIf="submitted && f.material.errors" >
             <span *ngIf="f.material.errors.required"> * Material is required !!!</span>

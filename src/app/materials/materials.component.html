@@ -27,7 +27,7 @@
                                   <span *ngFor="let uniDef of unitDefinitionList">
                                    <label *ngIf="item.unit==uniDef.id" style="color: black;opacity:.8;">{{uniDef.title}}</label>
                                   </span>
-                                </td><td>{{item.unitPrice}}</td>
+                                </td><td>$ {{item.unitPrice|number : '1.2-2'}}</td>
                                 <td>
                                   <a  href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="material-icons">keyboard_arrow_down</i>

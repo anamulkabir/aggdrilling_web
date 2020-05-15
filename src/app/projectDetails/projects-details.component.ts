@@ -84,10 +84,10 @@ export class ProjectDetailsComponent implements OnInit {
     this.firestore.collection('projects/'+this.route.snapshot.paramMap.get('id')+'/geologists').snapshotChanges().subscribe(data => {
       this.project_geologist= data.map(e => {
         return {
-          id: e.payload.doc.id,
+          id: e.payload.doc.id,lastName: name,
           ...e.payload.doc.data() as object
         } 
-      })
+      }).sort((a,b)=> (a.lastName > b.lastName ? 1 : -1))
       console.log('this.project_geologist',this.project_geologist);
     });
   
@@ -106,10 +106,10 @@ export class ProjectDetailsComponent implements OnInit {
     this.firestore.collection('projects/'+this.route.snapshot.paramMap.get('id')+'/rigs').snapshotChanges().subscribe(data => {
       this.project_rigs= data.map(e => {
         return {
-          id: e.payload.doc.id,
+          id: e.payload.doc.id,serial:name,
           ...e.payload.doc.data() as object
         } 
-      })
+      }).sort((a,b)=> (a.serial > b.serial ? 1 : -1))
       console.log('this.project_rigs',this.project_rigs);
     });
 
@@ -132,40 +132,40 @@ export class ProjectDetailsComponent implements OnInit {
     this.firestore.collection('projects/'+this.route.snapshot.paramMap.get('id')+'/workers').snapshotChanges().subscribe(data => {
       this.project_worker= data.map(e => {
         return {
-          id: e.payload.doc.id,
+          id: e.payload.doc.id,lastName: name,
           ...e.payload.doc.data() as object
         } 
-      })
+      }).sort((a,b)=> (a.lastName > b.lastName ? 1 : -1))
       console.log('this.project_worker',this.project_worker);
     });
 
     this.firestore.collection('projects/'+this.route.snapshot.paramMap.get('id')+'/tasks').snapshotChanges().subscribe(data => {
       this.project_task= data.map(e => {
         return {
-          id: e.payload.doc.id,
+          id: e.payload.doc.id, name:name,
           ...e.payload.doc.data() as object
         } 
-      })
+      }).sort((a,b)=> (a.name > b.name ? 1 : -1))
       console.log('this.project_task',this.project_task);
     });
 
     this.firestore.collection('projects/'+this.route.snapshot.paramMap.get('id')+'/coreSizes').snapshotChanges().subscribe(data => {
       this.project_coreSizes= data.map(e => {
         return {
-          id: e.payload.doc.id,
+          id: e.payload.doc.id,core:name,
           ...e.payload.doc.data() as object
         } 
-      })
+      }).sort((a,b)=> (a.core > b.core ? 1 : -1))
       console.log('this.project_coreSizes',this.project_coreSizes);
     });
     
     this.firestore.collection('projects/'+this.route.snapshot.paramMap.get('id')+'/materials').snapshotChanges().subscribe(data => {
       this.project_materials= data.map(e => {
         return {
-          id: e.payload.doc.id,
+          id: e.payload.doc.id, name:name,
           ...e.payload.doc.data() as object
         } 
-      })
+      }).sort((a,b)=> (a.name > b.name ? 1 : -1))
       console.log('this.project_materials',this.project_materials);
     });
 

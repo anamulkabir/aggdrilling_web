@@ -10,7 +10,7 @@
           noEntriesFoundLabel="No matching geologist found"
           i18n-noEntriesFoundLabel [formControl]="listFilterCtrl"></ngx-mat-select-search>
         </mat-option>
-        <mat-option *ngFor="let item of filteredList | async" [value]="item">{{item.firstName}} {{item.lastName}}</mat-option>
+        <mat-option *ngFor="let item of filteredList | async" [value]="item">{{item.lastName}}, {{item.firstName}}</mat-option>
       </mat-select>
       <mat-error *ngIf="submitted && f.geologistId.errors" >
         <span *ngIf="f.geologistId.errors.required"> * Geologist is required !!!</span>

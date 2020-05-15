@@ -37,10 +37,10 @@ export class ProjectTaskFormModalComponent implements OnInit {
     this.firestore.collection('tasks',ref=>ref.where('isActive','==',true)).snapshotChanges().subscribe(data => {
       let tasks= data.map(e => {
         return {
-         id: e.payload.doc.id,
+         id: e.payload.doc.id, name: name,
          ...e.payload.doc.data() as object
         } 
-      })
+      }).sort((a,b)=> (a.name > b.name ? 1 : -1))
 
       for( var i=tasks.length - 1; i>=0; i--){
         for( var j=0; j<this.project_tasks.length; j++){

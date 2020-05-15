@@ -39,10 +39,10 @@ export class ProjectGeoFormModalComponent implements OnInit, OnDestroy {
     this.firestore.collection('geologists').snapshotChanges().subscribe(data => {
       let geologist= data.map(e => {
         return {
-          id: e.payload.doc.id,
+          id: e.payload.doc.id, lastName: name,
           ...e.payload.doc.data() as object
         } 
-      })
+      }).sort((a,b)=> (a.lastName > b.lastName ? 1 : -1))
 
         for( var i=geologist.length - 1; i>=0; i--){
           for( var j=0; j<this.project_geologist.length; j++){

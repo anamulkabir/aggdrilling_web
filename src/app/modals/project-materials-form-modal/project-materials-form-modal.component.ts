@@ -38,10 +38,10 @@ export class ProjectMaterialsFormModalComponent implements OnInit , OnDestroy {
     this.firestore.collection('materials').snapshotChanges().subscribe(data => {
       let materials= data.map(e => {
         return {
-         id: e.payload.doc.id,
+         id: e.payload.doc.id, name:name,
          ...e.payload.doc.data() as object
         } 
-      })
+      }).sort((a,b)=> (a.name > b.name ? 1 : -1))
 
     for( var i=materials.length - 1; i>=0; i--){
       for( var j=0; j<this.project_materials.length; j++){

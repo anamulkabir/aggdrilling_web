@@ -168,8 +168,8 @@ console.log('this.data',this.data);
         startTime: ['', Validators.required],
         endTime: ['', Validators.required],
         workHours: ['', [Validators.required,Validators.min(.00001),Validators.max(12)]],
-        worker: [],
-        workerOther: [],
+        worker1: [],
+        worker2: [],
         driller: [],
         helper: [],
         startMeter: [],
@@ -198,8 +198,8 @@ console.log('this.data',this.data);
         this.registerForm.controls.workHours.setValue(this.data.item.workHours);
         this.registerForm.controls.startMeter.setValue(this.data.item.startMeter);
         this.registerForm.controls.endMeter.setValue(this.data.item.endMeter);
-        this.registerForm.controls.worker.setValue(this.data.item.worker);
-        this.registerForm.controls.workerOther.setValue(this.data.item.workerOther);
+        this.registerForm.controls.worker1.setValue(this.data.item.worker1);
+        this.registerForm.controls.worker2.setValue(this.data.item.worker2);
         this.registerForm.controls.driller.setValue(this.data.item.driller);
         this.registerForm.controls.helper.setValue(this.data.item.helper);
         this.registerForm.controls.shift.setValue(this.data.item.shift);
@@ -325,8 +325,8 @@ private filterList3() {
           startTime: this.registerForm.controls.startTime.value,
           endTime: this.registerForm.controls.endTime.value,
           workHours:this.registerForm.controls.workHours.value,
-          worker: this.registerForm.controls.worker.value,
-          workerOther: this.registerForm.controls.workerOther.value,
+          worker1: this.registerForm.controls.worker1.value,
+          worker2: this.registerForm.controls.worker2.value,
           driller: this.registerForm.controls.driller.value,
           helper: this.registerForm.controls.helper.value,
           startMeter:this.registerForm.controls.startMeter.value,
@@ -360,8 +360,8 @@ private filterList3() {
                              task: this.registerForm.controls.task.value,
                              shift: this.registerForm.controls.shift.value,
                              workHours:this.registerForm.controls.workHours.value,
-                             worker: this.registerForm.controls.worker.value,
-                             workerOther: this.registerForm.controls.workerOther.value,
+                             worker1: this.registerForm.controls.worker1.value,
+                             worker2: this.registerForm.controls.worker2.value,
                              driller: this.registerForm.controls.driller.value,
                              helper: this.registerForm.controls.helper.value,
                              startMeter:this.registerForm.controls.startMeter.value,
@@ -396,8 +396,8 @@ private filterList3() {
                           task: this.registerForm.controls.task.value,
                           shift: this.registerForm.controls.shift.value,
                           workHours:this.registerForm.controls.workHours.value,
-                          worker: this.registerForm.controls.worker.value,
-                          workerOther: this.registerForm.controls.workerOther.value,
+                          worker1: this.registerForm.controls.worker1.value,
+                          worker2: this.registerForm.controls.worker2.value,
                           driller: this.registerForm.controls.driller.value,
                           helper: this.registerForm.controls.helper.value,
                           startMeter:this.registerForm.controls.startMeter.value,
@@ -433,8 +433,8 @@ private filterList3() {
     console.log("logtype : ",logtype);
     switch (logtype) {
       case 'HC':
-        this.registerForm.controls.worker.setValidators(null);
-        this.registerForm.controls.workerOther.setValidators(null);
+        this.registerForm.controls.worker1.setValidators(null);
+        this.registerForm.controls.worker2.setValidators(null);
         this.registerForm.controls.driller.setValidators(null);
         this.registerForm.controls.helper.setValidators(null);
         this.registerForm.controls.startMeter.setValidators(null);
@@ -442,8 +442,8 @@ private filterList3() {
       break;
 
       case 'EH':
-        this.registerForm.controls.worker.setValidators([Validators.required]);
-        this.registerForm.controls.workerOther.setValidators([Validators.required]);
+        this.registerForm.controls.worker1.setValidators([Validators.required]);
+        this.registerForm.controls.worker2.setValidators([Validators.required]);
         this.registerForm.controls.driller.setValidators(null);
         this.registerForm.controls.helper.setValidators(null);
         this.registerForm.controls.startMeter.setValidators(null);
@@ -451,8 +451,8 @@ private filterList3() {
       break;
 
       case 'EHP':
-        this.registerForm.controls.worker.setValidators([Validators.required]);
-        this.registerForm.controls.workerOther.setValidators([Validators.required]);
+        this.registerForm.controls.worker1.setValidators([Validators.required]);
+        this.registerForm.controls.worker2.setValidators([Validators.required]);
         this.registerForm.controls.startMeter.setValidators([Validators.required,Validators.min(0.00001)]);
         this.registerForm.controls.endMeter.setValidators([Validators.required]);
         this.registerForm.controls.driller.setValidators(null);
@@ -462,8 +462,8 @@ private filterList3() {
       case 'XH':
         this.registerForm.controls.driller.setValidators([Validators.required]);
         this.registerForm.controls.helper.setValidators([Validators.required]);
-        this.registerForm.controls.worker.setValidators(null);
-        this.registerForm.controls.workerOther.setValidators(null);
+        this.registerForm.controls.worker1.setValidators(null);
+        this.registerForm.controls.worker2.setValidators(null);
         this.registerForm.controls.startMeter.setValidators(null);
         this.registerForm.controls.endMeter.setValidators(null);
       break;
@@ -473,15 +473,15 @@ private filterList3() {
         this.registerForm.controls.helper.setValidators([Validators.required]);
         this.registerForm.controls.startMeter.setValidators([Validators.required,Validators.min(0.00001)]);
         this.registerForm.controls.endMeter.setValidators([Validators.required]);
-        this.registerForm.controls.worker.setValidators(null);
-        this.registerForm.controls.workerOther.setValidators(null);
+        this.registerForm.controls.worker1.setValidators(null);
+        this.registerForm.controls.worker2.setValidators(null);
       break;
     
       default:
         break;
     }
-    this.registerForm.controls.worker.reset();
-    this.registerForm.controls.workerOther.reset();
+    this.registerForm.controls.worker1.reset();
+    this.registerForm.controls.worker2.reset();
     this.registerForm.controls.driller.reset();
     this.registerForm.controls.helper.reset();
     this.registerForm.controls.startMeter.reset();

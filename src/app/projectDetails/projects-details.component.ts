@@ -81,7 +81,7 @@ export class ProjectDetailsComponent implements OnInit {
      }
   })
 
-    this.firestore.collection('projects/'+this.route.snapshot.paramMap.get('id')+'/geologists').snapshotChanges().subscribe(data => {
+    this.firestore.collection('projects/'+this.route.snapshot.paramMap.get('id')+'/geologists',ref=>ref.orderBy('lastName','asc')).snapshotChanges().subscribe(data => {
       this.project_geologist= data.map(e => {
         return {
           id: e.payload.doc.id,
@@ -129,7 +129,7 @@ export class ProjectDetailsComponent implements OnInit {
       console.log('this.project_holes',this.project_holes);
     });
 
-    this.firestore.collection('projects/'+this.route.snapshot.paramMap.get('id')+'/workers').snapshotChanges().subscribe(data => {
+    this.firestore.collection('projects/'+this.route.snapshot.paramMap.get('id')+'/workers',ref=>ref.orderBy('lastName','asc')).snapshotChanges().subscribe(data => {
       this.project_worker= data.map(e => {
         return {
           id: e.payload.doc.id,
@@ -139,7 +139,7 @@ export class ProjectDetailsComponent implements OnInit {
       console.log('this.project_worker',this.project_worker);
     });
 
-    this.firestore.collection('projects/'+this.route.snapshot.paramMap.get('id')+'/tasks').snapshotChanges().subscribe(data => {
+    this.firestore.collection('projects/'+this.route.snapshot.paramMap.get('id')+'/tasks',ref=>ref.orderBy('name','asc')).snapshotChanges().subscribe(data => {
       this.project_task= data.map(e => {
         return {
           id: e.payload.doc.id,
@@ -149,7 +149,7 @@ export class ProjectDetailsComponent implements OnInit {
       console.log('this.project_task',this.project_task);
     });
 
-    this.firestore.collection('projects/'+this.route.snapshot.paramMap.get('id')+'/coreSizes').snapshotChanges().subscribe(data => {
+    this.firestore.collection('projects/'+this.route.snapshot.paramMap.get('id')+'/coreSizes',ref=>ref.orderBy('core','asc')).snapshotChanges().subscribe(data => {
       this.project_coreSizes= data.map(e => {
         return {
           id: e.payload.doc.id,
@@ -159,7 +159,7 @@ export class ProjectDetailsComponent implements OnInit {
       console.log('this.project_coreSizes',this.project_coreSizes);
     });
     
-    this.firestore.collection('projects/'+this.route.snapshot.paramMap.get('id')+'/materials').snapshotChanges().subscribe(data => {
+    this.firestore.collection('projects/'+this.route.snapshot.paramMap.get('id')+'/materials',ref=>ref.orderBy('name','asc')).snapshotChanges().subscribe(data => {
       this.project_materials= data.map(e => {
         return {
           id: e.payload.doc.id,

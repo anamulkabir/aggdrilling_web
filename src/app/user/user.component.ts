@@ -29,7 +29,7 @@ export class UserComponent implements OnInit {
           id: e.payload.doc.id,lastName: name,
           ...e.payload.doc.data() as object
         } 
-      }).sort((a,b)=> (a.lastName > b.lastName? 1 : -1))
+      }).sort((a,b)=> (a.lastName > b.lastName ? 1 : -1))
       console.log('this.userList',this.userList);
     });
   }

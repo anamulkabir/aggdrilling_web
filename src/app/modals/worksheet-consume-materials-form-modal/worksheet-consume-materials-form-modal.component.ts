@@ -43,10 +43,10 @@ export class WorksheetConsumeMaterialsFormModalComponent implements OnInit {
     this.firestore.collection('projects/'+this.data.projectId+'/materials').snapshotChanges().subscribe(data => {
       let material= data.map(e => {
         return {
-         id: e.payload.doc.id,
+         id: e.payload.doc.id,name:name,
          ...e.payload.doc.data() as object
         } 
-      })
+      }).sort((a,b)=> (a.name > b.name ? 1 : -1))
       let materials=[];
       materials=material;
 

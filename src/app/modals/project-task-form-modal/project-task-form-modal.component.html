@@ -12,7 +12,7 @@
           noEntriesFoundLabel="No matching task found"
           i18n-noEntriesFoundLabel [formControl]="listFilterCtrl"></ngx-mat-select-search>
         </mat-option>
-        <mat-option  *ngFor="let item of filteredList | async" [value]="item">{{item.name}}</mat-option>
+        <mat-option  *ngFor="let item of filteredList | async" [value]="item">{{item.name +' - '+ item.taskType}}</mat-option>
       </mat-select>
       <mat-error *ngIf="submitted && f.taskId.errors" >
         <span *ngIf="f.taskId.errors.required"> * Task is required !!!</span>
@@ -21,7 +21,7 @@
 
     <p *ngIf="data.item!=undefined" style="margin: 0px;">Task</p>
     <mat-form-field appearance="outline" *ngIf="data.item!=undefined">
-      <mat-select placeholder="{{data.item!=undefined ? data.item.name : ''}}" formControlName="taskId" 
+      <mat-select placeholder="{{data.item!=undefined ? data.item.name +' - '+ data.item.taskType : ''}}" formControlName="taskId"
       [ngClass]="{ 'is-invalid': submitted && f.taskId.errors }">
         <mat-option>
           <ngx-mat-select-search placeholderLabel="Find task..." 
@@ -29,7 +29,7 @@
           noEntriesFoundLabel="No matching task found"
           i18n-noEntriesFoundLabel [formControl]="listFilterCtrl"></ngx-mat-select-search>
         </mat-option>
-        <mat-option  *ngFor="let item of filteredList | async" [value]="item">{{item.name}}</mat-option>
+        <mat-option  *ngFor="let item of filteredList | async" [value]="item">{{item.name +' - '+ item.taskType}}</mat-option>
       </mat-select>
       <mat-error *ngIf="submitted && f.taskId.errors" >
         <span *ngIf="f.taskId.errors.required"> * Task is required !!!</span>

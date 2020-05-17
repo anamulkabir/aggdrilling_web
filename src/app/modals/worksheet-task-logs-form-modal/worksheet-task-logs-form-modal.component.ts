@@ -17,10 +17,11 @@ import { takeUntil } from 'rxjs/operators';
 })
 
 export class WorksheetTaskLogsFormModalComponent implements OnInit, OnDestroy {
-  public timeList=['12:00 AM','12:30 AM','1:00 AM','1:30 AM','2:00 AM','2:30 AM','3:00 AM','3:30 AM','4:00 AM','4:30 AM','5:00 AM','5:30 AM',
-                  '6:00 AM','6:30 AM','7:00 AM','7:30 AM','8:00 AM','8:30 AM','9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM',
-                  '12:00 PM','12:30 PM','1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM','4:00 PM','4:30 PM','5:00 PM','5:30 PM',
-                  '6:00 PM','6:30 PM','7:00 PM','7:30 PM','8:00 PM','8:30 PM','9:00 PM','9:30 PM','10:00 PM','10:30 PM','11:00 PM','11:30 PM']
+  public timeList=['7:00 AM','7:30 AM','8:00 AM','8:30 AM','9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM',
+                    '12:00 PM','12:30 PM','1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM','4:00 PM','4:30 PM',
+                    '5:00 PM','5:30 PM','6:00 PM','6:30 PM','7:00 PM','7:30 PM','8:00 PM','8:30 PM','9:00 PM','9:30 PM',
+                    '10:00 PM','10:30 PM','11:00 PM','11:30 PM','12:00 AM','12:30 AM','1:00 AM','1:30 AM','2:00 AM','2:30 AM',
+                    '3:00 AM','3:30 AM','4:00 AM','4:30 AM','5:00 AM','5:30 AM','6:00 AM','6:30 AM']
   public taskList;
   public coreSizes;
   public workersList;
@@ -44,17 +45,17 @@ export class WorksheetTaskLogsFormModalComponent implements OnInit, OnDestroy {
   public listFilterCtrl6: FormControl = new FormControl();
   constructor(public dialog: MatDialog,private toastrService: ToastrService,private formBuilder: FormBuilder,private firestore:AngularFirestore,
     public afAuth: AngularFireAuth,public datePipe : DatePipe,public dialogRef: MatDialogRef<WorksheetTaskLogsFormModalComponent>,@Inject(MAT_DIALOG_DATA) public data: any) { }
-    
-  ngOnInit() { 
+
+  ngOnInit() {
 console.log('this.data',this.data);
 
     this.firestore.collection('projects/'+this.data.projectId+'/tasks').snapshotChanges().subscribe(data => {
       this.taskList= data.map(e => {
         return {
-          id: e.payload.doc.id,
+          id: e.payload.doc.id, name: name,
           ...e.payload.doc.data() as object
-        } 
-      })
+        }
+      }).sort((a,b)=> (a.name > b.name ? 1 : -1))
       console.log('taskList',this.taskList)
 
       this.filteredList2.next(this.taskList.slice());
@@ -70,7 +71,7 @@ console.log('this.data',this.data);
       return {
         id: e.payload.doc.id,
         ...e.payload.doc.data() as object
-      } 
+      }
     })
     console.log('coreSizes',this.coreSizes)
 
@@ -82,16 +83,16 @@ console.log('this.data',this.data);
        });
 });
 
-    this.firestore.collection('projects/'+this.data.projectId+'/workers',ref=>ref.where('designation','in',['driller','helper'])).snapshotChanges().subscribe(data => {
+    this.firestore.collection('projects/'+this.data.projectId+'/workers',ref=>ref.where('designation','in',['driller','helper','others'])).snapshotChanges().subscribe(data => {
       this.workersList= data.map(e => {
         return {
          id: e.payload.doc.id,
          ...e.payload.doc.data() as object
-        } 
+        }
       })
 
      console.log('this.workersList',this.workersList);
-    
+
 
      this.filteredList.next(this.workersList.slice());
         this.listFilterCtrl.valueChanges
@@ -100,17 +101,17 @@ console.log('this.data',this.data);
             this.filterList();
            });
           });
-           
-    this.firestore.collection('projects/'+this.data.projectId+'/workers',ref=>ref.where('designation','==','others')).snapshotChanges().subscribe(data => {
+
+    this.firestore.collection('projects/'+this.data.projectId+'/workers',ref=>ref.where('designation','in',['driller','helper','others'])).snapshotChanges().subscribe(data => {
       this.workersOtherList= data.map(e => {
         return {
          id: e.payload.doc.id,
          ...e.payload.doc.data() as object
-        } 
+        }
       })
 
      console.log('this.workersOtherList',this.workersOtherList);
-    
+
 
      this.filteredList4.next(this.workersOtherList.slice());
         this.listFilterCtrl4.valueChanges
@@ -120,17 +121,17 @@ console.log('this.data',this.data);
            });
           });
 
-           
+
     this.firestore.collection('projects/'+this.data.projectId+'/workers',ref=>ref.where('designation','==','driller')).snapshotChanges().subscribe(data => {
       this.drillersList= data.map(e => {
         return {
          id: e.payload.doc.id,
          ...e.payload.doc.data() as object
-        } 
+        }
       })
 
      console.log('this.drillersList',this.drillersList);
-    
+
 
      this.filteredList5.next(this.drillersList.slice());
         this.listFilterCtrl5.valueChanges
@@ -140,17 +141,17 @@ console.log('this.data',this.data);
            });
           });
 
-           
+
     this.firestore.collection('projects/'+this.data.projectId+'/workers',ref=>ref.where('designation','==','helper')).snapshotChanges().subscribe(data => {
       this.helpersList= data.map(e => {
         return {
          id: e.payload.doc.id,
          ...e.payload.doc.data() as object
-        } 
+        }
       })
 
      console.log('this.helpersList',this.helpersList);
-    
+
 
      this.filteredList6.next(this.helpersList.slice());
         this.listFilterCtrl6.valueChanges
@@ -184,7 +185,7 @@ console.log('this.data',this.data);
         return {
           id: e.payload.doc.id,
           ...e.payload.doc.data() as object
-        } 
+        }
       })
       console.log('user_info', user_info[0]);
     this.registerForm.controls.entryBy.setValue(user_info[0]);
@@ -226,7 +227,7 @@ console.log('this.data',this.data);
     }
     this.filteredList.next(
       this.workersList.filter(bank => bank.firstName.toLowerCase().indexOf(search) > -1 || bank.lastName.toLowerCase().indexOf(search) > -1)
-     
+
     );
 }
 private filterList4() {
@@ -242,7 +243,7 @@ private filterList4() {
   }
   this.filteredList4.next(
     this.workersOtherList.filter(bank => bank.firstName.toLowerCase().indexOf(search) > -1 || bank.lastName.toLowerCase().indexOf(search) > -1)
-   
+
   );
 }
 private filterList5() {
@@ -258,7 +259,7 @@ private filterList5() {
   }
   this.filteredList5.next(
     this.drillersList.filter(bank => bank.firstName.toLowerCase().indexOf(search) > -1 || bank.lastName.toLowerCase().indexOf(search) > -1)
-   
+
   );
 }
 private filterList6() {
@@ -274,7 +275,7 @@ private filterList6() {
   }
   this.filteredList6.next(
     this.helpersList.filter(bank => bank.firstName.toLowerCase().indexOf(search) > -1 || bank.lastName.toLowerCase().indexOf(search) > -1)
-   
+
   );
 }
 private filterList2() {
@@ -290,7 +291,7 @@ private filterList2() {
   }
   this.filteredList2.next(
     this.taskList.filter(bank => bank.name.toLowerCase().indexOf(search) > -1)
-   
+
   );
 }
 
@@ -307,18 +308,18 @@ private filterList3() {
   }
   this.filteredList3.next(
     this.coreSizes.filter(bank => bank.core.toLowerCase().indexOf(search) > -1)
-   
+
   );
 }
 
   onSubmit() {
-   
+
     this.submitted = true;
     if (this.registerForm.invalid) {
         return;
-    }   
+    }
         let body=
-        { 
+        {
           entryDate:this.datePipe.transform(this.registerForm.controls.entryDate.value, 'yyyy-MM-dd hh:mm:ss a'),
           task: this.registerForm.controls.task.value,
           shift: this.registerForm.controls.shift.value,
@@ -343,7 +344,7 @@ private filterList3() {
             return {
               id: e.payload.doc.id,
               ...e.payload.doc.data() as object
-            } 
+            }
           })
           console.log('user_info', user_info[0]);
 
@@ -354,7 +355,7 @@ private filterList3() {
             changedBy:user_info[0],
             action:'created',
             collectionName:'task logs',
-            changedItem:{ 
+            changedItem:{
                    taskLogs:{
                              id:ref.id,
                              task: this.registerForm.controls.task.value,
@@ -375,22 +376,22 @@ private filterList3() {
                            }
                          }
                         }
-   
+
            this.firestore.collection('projects/'+this.data.projectId+'/worksheet/'+this.data.worksheetId+'/activityLogs').add(changedData).then(()=>{
            })
           this.toastrService.success('Record added successfully !', 'Success');
         }).catch((error) => {
           this.toastrService.error(error.message);
-        })         
+        })
     }
-    else {     
+    else {
       this.firestore.collection('projects/'+this.data.projectId+'/worksheet/'+this.data.worksheetId+'/taskLogs').doc(this.registerForm.value.id).update(body).then(()=>{
        let changedData={
          changeDate:this.datePipe.transform(new Date(), 'yyyy-MM-dd hh:mm:ss a'),
          changedBy:user_info[0],
          action:'updated',
          collectionName:'task logs',
-         changedItem:{ 
+         changedItem:{
                 taskLogs:{
                           id:this.registerForm.value.id,
                           task: this.registerForm.controls.task.value,
@@ -417,10 +418,10 @@ private filterList3() {
         this.toastrService.success('Record updated successfully !', 'Success');
       }).catch((error) => {
         this.toastrService.error(error.message);
-      }) 
+      })
     }
   })
-    
+
     this.closeModal();
   }
 
@@ -476,7 +477,7 @@ private filterList3() {
         this.registerForm.controls.worker1.setValidators(null);
         this.registerForm.controls.worker2.setValidators(null);
       break;
-    
+
       default:
         break;
     }
@@ -498,18 +499,18 @@ private filterList3() {
     }
 
     assignWorkHours(){
-      if (new Date("1970-1-1 " + this.registerForm.controls.endTime.value)<new Date("1970-1-1 " + this.registerForm.controls.startTime.value)) 
+      if (new Date("1970-1-1 " + this.registerForm.controls.endTime.value)<new Date("1970-1-1 " + this.registerForm.controls.startTime.value))
       {
         let hours=( Number(new Date("1970-1-2 " + this.registerForm.controls.endTime.value)) - Number(new Date("1970-1-1 " + this.registerForm.controls.startTime.value)) ) / 1000 / 60 / 60;
         this.registerForm.controls.workHours.setValue(hours);
-      } 
+      }
       else {
         let hours=( Number(new Date("1970-1-1 " + this.registerForm.controls.endTime.value)) - Number(new Date("1970-1-1 " + this.registerForm.controls.startTime.value)) ) / 1000 / 60 / 60;
         this.registerForm.controls.workHours.setValue(hours);
       }
-     
-  
-    
+
+
+
     }
 
   ngOnDestroy() {

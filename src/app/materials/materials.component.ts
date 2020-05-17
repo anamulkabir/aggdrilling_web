@@ -25,7 +25,7 @@ export class MaterialsComponent implements OnInit {
           id: e.payload.doc.id, name: name,
           ...e.payload.doc.data() as object
         } 
-      }).sort((a,b)=> (a.name > b.name? 1 : -1))
+      }).sort((a,b)=> (a.name > b.name ? 1 : -1))
       console.log('this.materialList',this.materialList);
     });
     this.firestore.collection('unitDefinition').snapshotChanges().subscribe(data => {

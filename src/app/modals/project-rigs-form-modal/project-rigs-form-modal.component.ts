@@ -29,10 +29,10 @@ export class ProjectRigsFormModalComponent implements OnInit {
     this.firestore.collection('projects/'+this.data.projectId+'/rigs').snapshotChanges().subscribe(data => {
       this.project_rigs= data.map(e => {
         return {
-          id: e.payload.doc.id,
+          id: e.payload.doc.id,serial: name,
           ...e.payload.doc.data() as object
         } 
-      })
+      }).sort((a,b)=> (a.serial > b.serial ? 1 : -1))
       console.log('this.project_rigs',this.project_rigs);
     });
 

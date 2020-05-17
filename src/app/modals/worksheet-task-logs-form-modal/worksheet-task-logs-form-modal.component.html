@@ -75,11 +75,8 @@
     
       <p  *ngIf="this.registerForm.controls.task.value.logType=='EHP' || this.registerForm.controls.task.value.logType=='EH'" style="margin: 0px;" >Worker</p>
       <mat-form-field appearance="outline" *ngIf="this.registerForm.controls.task.value.logType=='EHP' || this.registerForm.controls.task.value.logType=='EH'" >
-<<<<<<< HEAD
-        <mat-select placeholder="{{data.item!=undefined ? data.item.worker1.firstName+' '+data.item.worker1.lastName : 'Select worker'}}" formControlName="worker1" 
-=======
+
         <mat-select placeholder="{{data.item!=undefined ? data.item.worker1.lastName+', '+data.item.worker1.firstName : 'Select worker'}}" formControlName="worker1"
->>>>>>> 963898e41cfc675d73db3bbbacd93b0eecd35e23
         [ngClass]="{ 'is-invalid': submitted && f.worker1.errors }">
           <mat-option>
             <ngx-mat-select-search placeholderLabel="Find worker..." 
@@ -96,11 +93,9 @@
 
       <p  *ngIf="this.registerForm.controls.task.value.logType=='EHP' || this.registerForm.controls.task.value.logType=='EH'" style="margin: 0px;" >Worker2</p>
       <mat-form-field appearance="outline" *ngIf="this.registerForm.controls.task.value.logType=='EHP' || this.registerForm.controls.task.value.logType=='EH'" >
-<<<<<<< HEAD
-        <mat-select placeholder="{{data.item!=undefined ? data.item.worker2.firstName+' '+data.item.worker2.lastName : 'Select worker other'}}" formControlName="worker2" 
-=======
+
+        
         <mat-select placeholder="{{data.item!=undefined ? data.item.worker2.lastName+', '+data.item.worker2.firstName : 'Select worker 2'}}" formControlName="worker2"
->>>>>>> 963898e41cfc675d73db3bbbacd93b0eecd35e23
         [ngClass]="{ 'is-invalid': submitted && f.worker2.errors }">
           <mat-option>
             <ngx-mat-select-search placeholderLabel="Find worker 2..."
@@ -111,11 +106,10 @@
           <mat-option *ngFor="let item of filteredList4 | async" [value]="item">{{item.lastName}}, {{item.firstName}} > {{item.designation}}</mat-option>
         </mat-select>
         <mat-error *ngIf="submitted && f.worker2.errors" >
-<<<<<<< HEAD
+
           <span *ngIf="f.worker2.errors.required">* Worker other is required !</span>
-=======
+
           <span *ngIf="f.worker2.errors.required">* Worker 2 is required !</span>
->>>>>>> 963898e41cfc675d73db3bbbacd93b0eecd35e23
         </mat-error>
       </mat-form-field>
 
@@ -178,18 +172,6 @@
       <textarea matInput placeholder="type comment" formControlName="comment" [ngClass]="{ 'is-invalid': submitted && f.comment.errors }"></textarea>
     </mat-form-field>
 
-<<<<<<< HEAD
-      <p  style="margin: 0px;" >Comment</p>
-      <mat-form-field appearance="outline" >
-        <textarea matInput placeholder="type comment" formControlName="comment" [ngClass]="{ 'is-invalid': submitted && f.comment.errors }"></textarea>
-      </mat-form-field>
-=======
-
-<!--      <p *ngIf="this.registerForm.controls.task.value.logType=='HC'" style="margin: 0px;" >Comment</p>-->
-<!--      <mat-form-field appearance="outline" *ngIf="this.registerForm.controls.task.value.logType=='HC'" >-->
-<!--        <textarea matInput placeholder="type comment" formControlName="comment" [ngClass]="{ 'is-invalid': submitted && f.comment.errors }"></textarea>-->
-<!--      </mat-form-field>-->
->>>>>>> 963898e41cfc675d73db3bbbacd93b0eecd35e23
   
 <div style="float: right;">
    <button type="submit" *ngIf="registerForm.value.id==null" class="btn btn-success btn-sm p-0" style="height: 29px;width: 40px;margin-top:-15px;" >Add</button>

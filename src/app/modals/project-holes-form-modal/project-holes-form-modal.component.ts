@@ -30,9 +30,12 @@ export class ProjectHolesFormModalComponent implements OnInit {
         } 
       })
       this.project_holes=[];
+      
+      if(holeList.length!=0){
       for (let i = 0; i < holeList[0].holes.length; i++) {
         this.project_holes.push(holeList[0].holes[i]);
       }
+    }
       console.log('this.project_holes',this.project_holes);
       if (this.data.item!==undefined) {
         console.log('this.data.item',this.data.item);
@@ -71,6 +74,7 @@ export class ProjectHolesFormModalComponent implements OnInit {
         }) 
       }
       else{
+        
         this.project_holes.push(this.registerForm.controls.name.value);
         let body=
         { 
@@ -78,7 +82,7 @@ export class ProjectHolesFormModalComponent implements OnInit {
         }
         console.log(body);
         
-        this.firestore.collection('projects/'+this.data.projectId+'/holes').doc('holes').update(body).then(()=>{
+        this.firestore.collection('projects/'+this.data.projectId+'/holes').doc('holes').set(body).then(()=>{
           this.toastrService.success('Record saved successfully !', 'Success');
         }).catch((error) => {
           this.toastrService.error(error.message);

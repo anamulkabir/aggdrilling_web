@@ -122,10 +122,13 @@ export class ProjectDetailsComponent implements OnInit {
           ...e.payload.doc.data() as object
         } 
       })
+      console.log('holeList',holeList);
       this.project_holes=[];
+      if(holeList.length!=0){
       for (let i = 0; i < holeList[0].holes.length; i++) {
         this.project_holes.push(holeList[0].holes[i]);
       }
+    }
       console.log('this.project_holes',this.project_holes);
     });
 

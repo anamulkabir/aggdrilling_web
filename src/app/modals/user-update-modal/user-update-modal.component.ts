@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ToastrService } from 'ngx-toastr';
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-user-update-modal',
@@ -55,6 +56,29 @@ export class UserUpdateModalComponent implements OnInit {
         }) 
         this.closeModal();     
   }
+
+    delete(item){
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            focusCancel: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.value) {
+                this.firestore.doc('users/' + item.id).delete();
+                Swal.fire(
+                    'Deleted!',
+                    'User has been deleted.',
+                    'success'
+                )
+                this.dialog.closeAll();
+            }
+        })
+    }
 
   closeModal() {
     this.dialog.closeAll();

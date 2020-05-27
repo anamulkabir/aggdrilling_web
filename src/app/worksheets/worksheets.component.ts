@@ -125,10 +125,10 @@ export class WorksheetsComponent implements OnInit {
                 let worksheetList=[]
                 worksheetList= data.map(e => {
                   return {
-                    id: e.payload.doc.id,
+                    id: e.payload.doc.id, workDate: name, holes: name,
                     ...e.payload.doc.data() as object
                   } 
-                })
+                }).sort((a, b) => (a.holes < b.holes ? 1 : -1)).sort((a, b) => (a.workDate < b.workDate ? 1 : -1))
                 console.log(action);
                 if (action.includes('add')) {
                   this.addWorksheetButtonShow=true;

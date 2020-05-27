@@ -56,7 +56,7 @@
       </mat-form-field>
   
       <p style="margin: 0px;" >End time</p>
-      <mat-form-field  appearance="outline" >
+      <mat-form-field  id="endTimeField" appearance="outline" >
         <mat-select placeholder="{{data.item!=undefined ? data.item.endTime : 'Select tmie'}}"  formControlName="endTime" 
         [ngClass]="{ 'is-invalid': submitted && f.endTime.errors }" (selectionChange)="assignWorkHours()">
           <mat-option *ngFor="let item of timeList" [value]="item">{{item}}</mat-option>
@@ -73,7 +73,7 @@
       </mat-error>
         
     
-      <p  *ngIf="this.registerForm.controls.task.value.logType=='EHP' || this.registerForm.controls.task.value.logType=='EH'" style="margin: 0px;" >Worker</p>
+      <p  *ngIf="this.registerForm.controls.task.value.logType=='EHP' || this.registerForm.controls.task.value.logType=='EH'" style="margin: 0px;" >Worker1</p>
       <mat-form-field appearance="outline" *ngIf="this.registerForm.controls.task.value.logType=='EHP' || this.registerForm.controls.task.value.logType=='EH'" >
 
         <mat-select placeholder="{{data.item!=undefined ? data.item.worker1.lastName+', '+data.item.worker1.firstName : 'Select worker'}}" formControlName="worker1"
@@ -154,12 +154,13 @@
         <mat-error *ngIf="submitted && f.startMeter.errors" >
           <span *ngIf="f.startMeter.errors.required">* Start meter is required !</span>
           <span *ngIf="f.startMeter.errors.min">* Start meter can't be less then 0.</span>
+          <span *ngIf="f.startMeter.errors.max">* Start meter can't be greater then End Meter.</span>
         </mat-error>
       </mat-form-field>
   
       <p *ngIf="this.registerForm.controls.task.value.logType=='EHP' || this.registerForm.controls.task.value.logType=='XHP'" style="margin: 0px;" >End meter</p>
       <mat-form-field appearance="outline" *ngIf="this.registerForm.controls.task.value.logType=='EHP' || this.registerForm.controls.task.value.logType=='XHP'" >
-        <input type="number" matInput placeholder="End Meter" (click)="meterToRengeValidate()" (change)="meterToRengeValidate()" 
+        <input type="number" matInput placeholder="End Meter" (click)="meterToRengeValidate()" (change)="meterToRengeValidate()"
         formControlName="endMeter" [ngClass]="{ 'is-invalid': submitted && f.endMeter.errors }">
         <mat-error *ngIf="submitted && f.endMeter.errors" >
           <span *ngIf="f.endMeter.errors.required">* End meter can't be less then start meter.</span>

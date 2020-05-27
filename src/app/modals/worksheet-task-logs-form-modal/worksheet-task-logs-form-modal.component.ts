@@ -8,7 +8,6 @@ import { DatePipe } from '@angular/common';
 import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-
 @Component({
   selector: 'app-worksheet-task-logs-form-modal',
   templateUrl: './worksheet-task-logs-form-modal.component.html',
@@ -17,11 +16,11 @@ import { takeUntil } from 'rxjs/operators';
 })
 
 export class WorksheetTaskLogsFormModalComponent implements OnInit, OnDestroy {
-  public timeList=['7:00 AM','7:30 AM','8:00 AM','8:30 AM','9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM',
-                    '12:00 PM','12:30 PM','1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM','4:00 PM','4:30 PM',
-                    '5:00 PM','5:30 PM','6:00 PM','6:30 PM','7:00 PM','7:30 PM','8:00 PM','8:30 PM','9:00 PM','9:30 PM',
-                    '10:00 PM','10:30 PM','11:00 PM','11:30 PM','12:00 AM','12:30 AM','1:00 AM','1:30 AM','2:00 AM','2:30 AM',
-                    '3:00 AM','3:30 AM','4:00 AM','4:30 AM','5:00 AM','5:30 AM','6:00 AM','6:30 AM']
+  public timeList = ['7:00 AM', '7:30 AM', '8:00 AM', '8:30 AM', '9:00 AM', '9:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM',
+                    '12:00 PM', '12:30 PM', '1:00 PM', '1:30 PM', '2:00 PM', '2:30 PM', '3:00 PM', '3:30 PM', '4:00 PM', '4:30 PM',
+                    '5:00 PM', '5:30 PM', '6:00 PM', '6:30 PM', '7:00 PM', '7:30 PM', '8:00 PM', '8:30 PM', '9:00 PM', '9:30 PM',
+                    '10:00 PM', '10:30 PM', '11:00 PM', '11:30 PM', '12:00 AM', '12:30 AM', '1:00 AM', '1:30 AM', '2:00 AM', '2:30 AM',
+                    '3:00 AM', '3:30 AM', '4:00 AM', '4:30 AM', '5:00 AM', '5:30 AM', '6:00 AM', '6:30 AM']
   public taskList;
   public coreSizes;
   public workersList;
@@ -43,11 +42,11 @@ export class WorksheetTaskLogsFormModalComponent implements OnInit, OnDestroy {
   public listFilterCtrl4: FormControl = new FormControl();
   public listFilterCtrl5: FormControl = new FormControl();
   public listFilterCtrl6: FormControl = new FormControl();
-  constructor(public dialog: MatDialog,private toastrService: ToastrService,private formBuilder: FormBuilder,private firestore:AngularFirestore,
-    public afAuth: AngularFireAuth,public datePipe : DatePipe,public dialogRef: MatDialogRef<WorksheetTaskLogsFormModalComponent>,@Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(public dialog: MatDialog, private toastrService: ToastrService, private formBuilder: FormBuilder, private firestore: AngularFirestore,
+              public afAuth: AngularFireAuth, public datePipe: DatePipe, public dialogRef: MatDialogRef<WorksheetTaskLogsFormModalComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
-console.log('this.data',this.data);
+console.log('this.data', this.data);
 
     this.firestore.collection('projects/'+this.data.projectId+'/tasks').snapshotChanges().subscribe(data => {
       this.taskList= data.map(e => {
@@ -168,7 +167,7 @@ console.log('this.data',this.data);
         shift: ['', Validators.required],
         startTime: ['', Validators.required],
         endTime: ['', Validators.required],
-        workHours: ['', [Validators.required,Validators.min(.00001),Validators.max(12)]],
+        workHours: ['', [Validators.required, Validators.min(.00001), Validators.max(12)]],
         worker1: [],
         worker2: [],
         driller: [],
@@ -191,7 +190,7 @@ console.log('this.data',this.data);
     this.registerForm.controls.entryBy.setValue(user_info[0]);
     })
         this.registerForm.controls.entryDate.setValue(new Date());
-      if (this.data.item!==undefined) {
+      if (this.data.item !== undefined) {
         this.registerForm.controls.id.setValue(this.data.item.id);
         this.registerForm.controls.entryBy.setValue(this.data.item.entryBy);
         this.registerForm.controls.entryDate.setValue(new Date(this.data.item.entryDate));
@@ -318,19 +317,19 @@ private filterList3() {
     if (this.registerForm.invalid) {
         return;
     }
-        let body=
+        let body =
         {
-          entryDate:this.datePipe.transform(this.registerForm.controls.entryDate.value, 'yyyy-MM-dd hh:mm:ss a'),
+          entryDate: this.datePipe.transform(this.registerForm.controls.entryDate.value, 'yyyy-MM-dd hh:mm:ss a'),
           task: this.registerForm.controls.task.value,
           shift: this.registerForm.controls.shift.value,
           startTime: this.registerForm.controls.startTime.value,
           endTime: this.registerForm.controls.endTime.value,
-          workHours:this.registerForm.controls.workHours.value,
+          workHours: this.registerForm.controls.workHours.value,
           worker1: this.registerForm.controls.worker1.value,
           worker2: this.registerForm.controls.worker2.value,
           driller: this.registerForm.controls.driller.value,
           helper: this.registerForm.controls.helper.value,
-          startMeter:this.registerForm.controls.startMeter.value,
+          startMeter: this.registerForm.controls.startMeter.value,
           endMeter: this.registerForm.controls.endMeter.value,
           entryBy: this.registerForm.controls.entryBy.value,
           coreSize: this.registerForm.controls.coreSize.value,
@@ -393,15 +392,15 @@ private filterList3() {
          collectionName:'task logs',
          changedItem:{
                 taskLogs:{
-                          id:this.registerForm.value.id,
+                          id: this.registerForm.value.id,
                           task: this.registerForm.controls.task.value,
                           shift: this.registerForm.controls.shift.value,
-                          workHours:this.registerForm.controls.workHours.value,
+                          workHours: this.registerForm.controls.workHours.value,
                           worker1: this.registerForm.controls.worker1.value,
                           worker2: this.registerForm.controls.worker2.value,
                           driller: this.registerForm.controls.driller.value,
                           helper: this.registerForm.controls.helper.value,
-                          startMeter:this.registerForm.controls.startMeter.value,
+                          startMeter: this.registerForm.controls.startMeter.value,
                           endMeter: this.registerForm.controls.endMeter.value,
                           entryBy: this.registerForm.controls.entryBy.value,
                           entryDate: this.datePipe.transform(this.registerForm.controls.entryDate.value, 'yyyy-MM-dd hh:mm:ss a'),
@@ -444,7 +443,7 @@ private filterList3() {
 
       case 'EH':
         this.registerForm.controls.worker1.setValidators([Validators.required]);
-        this.registerForm.controls.worker2.setValidators([Validators.required]);
+        this.registerForm.controls.worker2.setValidators(null);
         this.registerForm.controls.driller.setValidators(null);
         this.registerForm.controls.helper.setValidators(null);
         this.registerForm.controls.startMeter.setValidators(null);
@@ -453,9 +452,9 @@ private filterList3() {
 
       case 'EHP':
         this.registerForm.controls.worker1.setValidators([Validators.required]);
-        this.registerForm.controls.worker2.setValidators([Validators.required]);
-        this.registerForm.controls.startMeter.setValidators([Validators.required,Validators.min(0.00001)]);
-        this.registerForm.controls.endMeter.setValidators([Validators.required]);
+        this.registerForm.controls.worker2.setValidators(null);
+        this.registerForm.controls.startMeter.setValidators(null);
+        this.registerForm.controls.endMeter.setValidators(null);
         this.registerForm.controls.driller.setValidators(null);
         this.registerForm.controls.helper.setValidators(null);
       break;
@@ -472,8 +471,8 @@ private filterList3() {
       case 'XHP':
         this.registerForm.controls.driller.setValidators([Validators.required]);
         this.registerForm.controls.helper.setValidators([Validators.required]);
-        this.registerForm.controls.startMeter.setValidators([Validators.required,Validators.min(0.00001)]);
-        this.registerForm.controls.endMeter.setValidators([Validators.required]);
+        this.registerForm.controls.startMeter.setValidators(null);
+        this.registerForm.controls.endMeter.setValidators(null);
         this.registerForm.controls.worker1.setValidators(null);
         this.registerForm.controls.worker2.setValidators(null);
       break;
@@ -490,26 +489,21 @@ private filterList3() {
   }
 
 
-    public meterToRengeValidate(){
-      this.registerForm.controls.startMeter.setValidators([Validators.required,Validators.min(0)]);
-      this.registerForm.controls.endMeter.setValidators([Validators.required,Validators.min((this.registerForm.controls.startMeter.value)+(0.00001))]);
-      if(this.registerForm.controls.startMeter.value>=this.registerForm.controls.endMeter.value){
-        this.registerForm.controls.endMeter.setValue(null);
-      }
+    public meterToRengeValidate() {
+        this.registerForm.controls.startMeter.setValidators([Validators.max(this.registerForm.controls.endMeter.value)]);
+        this.registerForm.controls.endMeter.setValidators([Validators.min(this.registerForm.controls.startMeter.value)]);
     }
 
     assignWorkHours(){
-      if (new Date("1970-1-1 " + this.registerForm.controls.endTime.value)<new Date("1970-1-1 " + this.registerForm.controls.startTime.value))
+      if (new Date("1970-1-1 " + this.registerForm.controls.endTime.value) <= new Date("1970-1-1 " + this.registerForm.controls.startTime.value))
       {
         let hours=( Number(new Date("1970-1-2 " + this.registerForm.controls.endTime.value)) - Number(new Date("1970-1-1 " + this.registerForm.controls.startTime.value)) ) / 1000 / 60 / 60;
         this.registerForm.controls.workHours.setValue(hours);
-      }
+        }
       else {
         let hours=( Number(new Date("1970-1-1 " + this.registerForm.controls.endTime.value)) - Number(new Date("1970-1-1 " + this.registerForm.controls.startTime.value)) ) / 1000 / 60 / 60;
         this.registerForm.controls.workHours.setValue(hours);
       }
-
-
 
     }
 
@@ -517,5 +511,6 @@ private filterList3() {
     this._onDestroy.next();
    this._onDestroy.complete();
   }
+
 
 }

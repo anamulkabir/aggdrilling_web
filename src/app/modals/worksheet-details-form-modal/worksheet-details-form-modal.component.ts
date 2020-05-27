@@ -255,10 +255,10 @@ export class WorksheetDetailsFormModalComponent implements OnInit {
                         this.firestore.collection('projects/'+this.data.projectId+'/worksheet/'+this.data.worksheetId+'/taskLogs').snapshotChanges().subscribe(data => {
                           this.project_worksheet_taskLogs= data.map(e => {
                             return {
-                              id: e.payload.doc.id,
+                              id: e.payload.doc.id, startMeter: name,
                               ...e.payload.doc.data() as object
                             } 
-                          })
+                          }).sort((a, b) => (b.startMeter - a.startMeter))
                           console.log('this.project_worksheet_taskLogs',this.project_worksheet_taskLogs);
                         });
                       

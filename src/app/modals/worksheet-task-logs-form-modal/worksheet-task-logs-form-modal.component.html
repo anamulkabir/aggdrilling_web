@@ -175,8 +175,8 @@
 
   
 <div style="float: right;">
-   <button type="submit" *ngIf="registerForm.value.id==null" class="btn btn-success btn-sm p-0" style="height: 29px;width: 40px;margin-top:-15px;" >Add</button>
-   <button type="submit" *ngIf="registerForm.value.id!=null" class="btn btn-success btn-sm p-0" style="height: 29px;width: 50px;margin-top:-15px;" >Update</button>
+   <button type="submit" *ngIf="registerForm.value.id==null" (click)="assignWorkHours()" class="btn btn-success btn-sm p-0" style="height: 29px;width: 40px;margin-top:-15px;" >Add</button>
+   <button type="submit" *ngIf="registerForm.value.id!=null" (click)="assignWorkHours()" class="btn btn-success btn-sm p-0" style="height: 29px;width: 50px;margin-top:-15px;" >Update</button>
 </div>
 
 </form>

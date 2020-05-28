@@ -54,7 +54,7 @@ console.log('this.data', this.data);
           id: e.payload.doc.id, name: name,
           ...e.payload.doc.data() as object
         }
-      }).sort((a,b)=> (a.name > b.name ? 1 : -1))
+      }).sort((a, b) => (a.name > b.name ? 1 : -1))
       console.log('taskList',this.taskList)
 
       this.filteredList2.next(this.taskList.slice());
@@ -68,10 +68,10 @@ console.log('this.data', this.data);
   this.firestore.collection('projects/'+this.data.projectId+'/coreSizes').snapshotChanges().subscribe(data => {
     this.coreSizes= data.map(e => {
       return {
-        id: e.payload.doc.id,
+        id: e.payload.doc.id, core: name,
         ...e.payload.doc.data() as object
       }
-    })
+    }).sort((a, b) => (a.name > b.name ? 1 : -1))
     console.log('coreSizes',this.coreSizes)
 
     this.filteredList3.next(this.coreSizes.slice());
@@ -85,10 +85,10 @@ console.log('this.data', this.data);
     this.firestore.collection('projects/'+this.data.projectId+'/workers',ref=>ref.where('designation','in',['driller','helper','others'])).snapshotChanges().subscribe(data => {
       this.workersList= data.map(e => {
         return {
-         id: e.payload.doc.id,
+         id: e.payload.doc.id, lastNAme: name,
          ...e.payload.doc.data() as object
         }
-      })
+      }).sort((a, b) => (a.lastName > b.lastName ? 1 : -1))
 
      console.log('this.workersList',this.workersList);
 
@@ -104,10 +104,10 @@ console.log('this.data', this.data);
     this.firestore.collection('projects/'+this.data.projectId+'/workers',ref=>ref.where('designation','in',['driller','helper','others'])).snapshotChanges().subscribe(data => {
       this.workersOtherList= data.map(e => {
         return {
-         id: e.payload.doc.id,
+         id: e.payload.doc.id, lastName: name,
          ...e.payload.doc.data() as object
         }
-      })
+      }).sort((a, b) => (a.lastName > b.lastName ? 1 : -1))
 
      console.log('this.workersOtherList',this.workersOtherList);
 
@@ -124,10 +124,10 @@ console.log('this.data', this.data);
     this.firestore.collection('projects/'+this.data.projectId+'/workers',ref=>ref.where('designation','==','driller')).snapshotChanges().subscribe(data => {
       this.drillersList= data.map(e => {
         return {
-         id: e.payload.doc.id,
+         id: e.payload.doc.id, lastName: name,
          ...e.payload.doc.data() as object
         }
-      })
+      }).sort((a, b) => (a.lastName > b.lastName ? 1 : -1))
 
      console.log('this.drillersList',this.drillersList);
 
@@ -144,10 +144,10 @@ console.log('this.data', this.data);
     this.firestore.collection('projects/'+this.data.projectId+'/workers',ref=>ref.where('designation','==','helper')).snapshotChanges().subscribe(data => {
       this.helpersList= data.map(e => {
         return {
-         id: e.payload.doc.id,
+         id: e.payload.doc.id, lastName: name,
          ...e.payload.doc.data() as object
         }
-      })
+      }).sort((a, b) => (a.lastName > b.lastName ? 1 : -1))
 
      console.log('this.helpersList',this.helpersList);
 
@@ -208,6 +208,9 @@ console.log('this.data', this.data);
         this.registerForm.controls.coreSize.setValue(this.data.item.coreSize);
         this.registerForm.controls.comment.setValue(this.data.item.comment);
       }
+
+      this.registerForm.controls.startMeter.setValidators([Validators.max(this.registerForm.controls.endMeter.value)]);
+      this.registerForm.controls.endMeter.setValidators([Validators.min(this.registerForm.controls.startMeter.value)]);
   }
 
 
@@ -317,6 +320,7 @@ private filterList3() {
     if (this.registerForm.invalid) {
         return;
     }
+
         let body =
         {
           entryDate: this.datePipe.transform(this.registerForm.controls.entryDate.value, 'yyyy-MM-dd hh:mm:ss a'),
@@ -490,8 +494,8 @@ private filterList3() {
 
 
     public meterToRengeValidate() {
-        this.registerForm.controls.startMeter.setValidators([Validators.max(this.registerForm.controls.endMeter.value)]);
-        this.registerForm.controls.endMeter.setValidators([Validators.min(this.registerForm.controls.startMeter.value)]);
+        // this.registerForm.controls.startMeter.setValidators([Validators.max(this.registerForm.controls.endMeter.value)]);
+        // this.registerForm.controls.endMeter.setValidators([Validators.min(this.registerForm.controls.startMeter.value)]);
     }
 
     assignWorkHours(){

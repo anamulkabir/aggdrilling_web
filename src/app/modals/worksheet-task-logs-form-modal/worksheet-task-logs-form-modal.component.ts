@@ -49,7 +49,7 @@ export class WorksheetTaskLogsFormModalComponent implements OnInit, OnDestroy {
 console.log('this.data', this.data);
 
     this.firestore.collection('projects/'+this.data.projectId+'/tasks').snapshotChanges().subscribe(data => {
-      this.taskList= data.map(e => {
+      this.taskList = data.map(e => {
         return {
           id: e.payload.doc.id, name: name,
           ...e.payload.doc.data() as object

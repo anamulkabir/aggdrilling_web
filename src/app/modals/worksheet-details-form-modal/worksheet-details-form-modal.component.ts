@@ -599,7 +599,7 @@ export class WorksheetDetailsFormModalComponent implements OnInit {
       data: {
         projectId: this.data.projectId,
         worksheetId: this.data.worksheetId,
-        item:item
+        item: item
       },
       backdropClass: 'backdropBackground'
     });

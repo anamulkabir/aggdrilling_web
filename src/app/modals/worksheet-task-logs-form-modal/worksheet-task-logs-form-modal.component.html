@@ -7,7 +7,7 @@
         <mat-error *ngIf="submitted && f.task.errors" >
           <span *ngIf="f.task.errors.required"> * Task is required !!!</span>
         </mat-error>
-        <mat-select placeholder="{{data.item!=undefined ? data.item.task.name + ' - ' + data.item.task.taskType : 'Select task'}}" formControlName="task"
+        <mat-select placeholder="{{data.item!=undefined ? (data.item.task ? data.item.task.name + ' - ' + data.item.task.taskType : 'Select task')  : 'Select task'}}" formControlName="task"
         [ngClass]="{ 'is-invalid': submitted && f.task.errors }" (selectionChange)="get_log_task_status()">
         <mat-option>
           <ngx-mat-select-search placeholderLabel="Find task..." 
@@ -21,7 +21,7 @@
 
     <p  *ngIf="this.registerForm.controls.task.value.logType=='EHP' || this.registerForm.controls.task.value.logType=='XHP'" style="margin: 0px;" >Core size</p>
     <mat-form-field appearance="outline" *ngIf="this.registerForm.controls.task.value.logType=='EHP' || this.registerForm.controls.task.value.logType=='XHP'" >
-      <mat-select placeholder="{{data.item!=undefined ? data.item.coreSize.core : 'Select core size'}}" formControlName="coreSize" [ngClass]="{ 'is-invalid': submitted && f.coreSize.errors }">
+      <mat-select placeholder="{{data.item!==undefined ? (data.item.coreSize ? data.item.coreSize.core : 'Select core size') : 'Select core size'}}" formControlName="coreSize" [ngClass]="{ 'is-invalid': submitted && f.coreSize.errors }">
         <mat-option>
           <ngx-mat-select-search placeholderLabel="Find core size..."
                                  i18n-placeholderLabel
@@ -76,7 +76,7 @@
       <p  *ngIf="this.registerForm.controls.task.value.logType=='EHP' || this.registerForm.controls.task.value.logType=='EH'" style="margin: 0px;" >Worker1</p>
       <mat-form-field appearance="outline" *ngIf="this.registerForm.controls.task.value.logType=='EHP' || this.registerForm.controls.task.value.logType=='EH'" >
 
-        <mat-select placeholder="{{data.item!=undefined ? data.item.worker1.lastName+', '+data.item.worker1.firstName : 'Select worker'}}" formControlName="worker1"
+        <mat-select placeholder="{{data.item!=undefined ? (data.item.worker1 ? data.item.worker1.lastName+', '+data.item.worker1.firstName : 'Select worker' ) : 'Select worker'}}" formControlName="worker1"
         [ngClass]="{ 'is-invalid': submitted && f.worker1.errors }">
           <mat-option>
             <ngx-mat-select-search placeholderLabel="Find worker..." 
@@ -95,7 +95,7 @@
       <mat-form-field appearance="outline" *ngIf="this.registerForm.controls.task.value.logType=='EHP' || this.registerForm.controls.task.value.logType=='EH'" >
 
         
-        <mat-select placeholder="{{data.item!=undefined ? data.item.worker2.lastName+', '+data.item.worker2.firstName : 'Select worker 2'}}" formControlName="worker2"
+        <mat-select placeholder="{{data.item!=undefined ? (data.item.worker2 ? data.item.worker2.lastName+', '+data.item.worker2.firstName : 'Select worker 2' ) : 'Select worker 2'}}" formControlName="worker2"
         [ngClass]="{ 'is-invalid': submitted && f.worker2.errors }">
           <mat-option>
             <ngx-mat-select-search placeholderLabel="Find worker 2..."
@@ -115,7 +115,7 @@
 
       <p  *ngIf="this.registerForm.controls.task.value.logType=='XHP' || this.registerForm.controls.task.value.logType=='XH'" style="margin: 0px;" >Driller</p>
       <mat-form-field appearance="outline" *ngIf="this.registerForm.controls.task.value.logType=='XHP' || this.registerForm.controls.task.value.logType=='XH'" >
-        <mat-select placeholder="{{data.item!=undefined ? data.item.driller.lastName+' '+data.item.driller.firstName : 'Select driller'}}" formControlName="driller"
+        <mat-select placeholder="{{data.item!=undefined ? (data.item.driller ? data.item.driller.lastName+' '+data.item.driller.firstName : 'Select driller')  : 'Select driller'}}" formControlName="driller"
         [ngClass]="{ 'is-invalid': submitted && f.driller.errors }">
           <mat-option>
             <ngx-mat-select-search placeholderLabel="Find driller..." 
@@ -132,7 +132,7 @@
 
       <p  *ngIf="this.registerForm.controls.task.value.logType=='XHP' || this.registerForm.controls.task.value.logType=='XH'" style="margin: 0px;" >Helper</p>
       <mat-form-field appearance="outline" *ngIf="this.registerForm.controls.task.value.logType=='XHP' || this.registerForm.controls.task.value.logType=='XH'" >
-        <mat-select placeholder="{{data.item!=undefined ? data.item.helper.lastName+' '+data.item.helper.firstName : 'Select helper'}}" formControlName="helper"
+        <mat-select placeholder="{{data.item!=undefined ? ( data.item.helper ? data.item.helper.lastName+' '+data.item.helper.firstName : 'Select helper') : 'Select helper'}}" formControlName="helper"
         [ngClass]="{ 'is-invalid': submitted && f.helper.errors }">
           <mat-option>
             <ngx-mat-select-search placeholderLabel="Find helper..." 

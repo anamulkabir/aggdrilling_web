@@ -22,9 +22,9 @@ export class WorkerFormModalComponent implements OnInit {
         id: [],
         firstName: ['', Validators.required],
         lastName: ['', Validators.required],
-        skills:['', Validators.required],
+        skills:[''],
         designation: ['', Validators.required],
-        type: ['', Validators.required],
+        type: [''],
         phone: ['', Validators.required],
         emgCntactName: ['', Validators.required],
         emgCntactPhone: ['', Validators.required]

@@ -39,10 +39,10 @@ export class ProjectCoreSizeFormModalComponent implements OnInit {
     this.firestore.collection('coreSizes').snapshotChanges().subscribe(data => {
       let coreSizes= data.map(e => {
         return {
-         id: e.payload.doc.id,
+         id: e.payload.doc.id, core: name,
          ...e.payload.doc.data() as object
         } 
-      })
+      }).sort((a, b) => (a.core > b.core ? 1 : -1))
       for( var i=coreSizes.length - 1; i>=0; i--){
         for( var j=0; j<this.project_core_sizes.length; j++){
             if(coreSizes[i] && (coreSizes[i].id === this.project_core_sizes[j].coreSizeId)){

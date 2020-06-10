@@ -26,7 +26,7 @@ export class TaskFormModalComponent implements OnInit {
         name: ['', Validators.required],
         logType: ['', Validators.required],
         taskType: ['', Validators.required],
-        description: ['', Validators.required],
+        description: [''],
         isActive:[]
     });
     this.firestore.collection('logTypes').snapshotChanges().subscribe(data => {

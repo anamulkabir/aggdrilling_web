@@ -130,7 +130,9 @@
    <div class="table table-hover scrollable-table-wrapper" >
     <table class="table" style="width: 100%;">
        <thead class=" text-primary">
-        <th>SL</th><th>Last name</th><th>First name</th><th>Skills</th><th>Designation</th><th>Type</th><th>Options</th>
+        <th>SL</th><th>Last name</th><th>First name</th><th>Skills</th><th>Designation</th>
+<!--        <th>Type</th>-->
+        <th>Options</th>
       </thead>      
       <tbody>
         <tr *ngFor="let item of project_worker;let i=index;"  >
@@ -139,7 +141,7 @@
           <td > {{item.firstName}}</td>
           <td > {{item.skills}}</td>
           <td > {{item.designation}}</td>
-          <td > {{item.type}}</td>
+<!--          <td > {{item.type}}</td>-->
           <td >
             <a  href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="material-icons">keyboard_arrow_down</i>

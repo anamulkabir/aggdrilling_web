@@ -71,7 +71,7 @@ console.log('this.data', this.data);
         id: e.payload.doc.id, core: name,
         ...e.payload.doc.data() as object
       }
-    }).sort((a, b) => (a.name > b.name ? 1 : -1))
+    }).sort((a, b) => (a.core > b.core ? 1 : -1))
     console.log('coreSizes',this.coreSizes)
 
     this.filteredList3.next(this.coreSizes.slice());
@@ -85,7 +85,7 @@ console.log('this.data', this.data);
     this.firestore.collection('projects/'+this.data.projectId+'/workers',ref=>ref.where('designation','in',['driller','helper','others'])).snapshotChanges().subscribe(data => {
       this.workersList= data.map(e => {
         return {
-         id: e.payload.doc.id, lastNAme: name,
+         id: e.payload.doc.id, lastName: name,
          ...e.payload.doc.data() as object
         }
       }).sort((a, b) => (a.lastName > b.lastName ? 1 : -1))

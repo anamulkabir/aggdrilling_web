@@ -31,23 +31,12 @@
         <mat-option *ngFor="let item of filteredList3 | async" [value]="item">{{item.core}}</mat-option>
       </mat-select>
     </mat-form-field>
-   
-      <p style="margin: 0px;" >Shift</p>
-      <mat-form-field  appearance="outline" >
-        <mat-select placeholder="Select shift" formControlName="shift" [ngClass]="{ 'is-invalid': submitted && f.shift.errors }">
-          <mat-option value="D">Day</mat-option>
-          <mat-option value="N">Night</mat-option>
-        </mat-select>
-        <mat-error *ngIf="submitted && f.shift.errors" >
-          <span *ngIf="f.shift.errors.required">* Shift is required !</span>
-        </mat-error>
-      </mat-form-field>
 
 
         <p style="margin: 0px;" >Start time</p>
       <mat-form-field appearance="outline" >
         <mat-select placeholder="{{data.item!=undefined ? data.item.startTime : 'Select tmie'}}"  formControlName="startTime" 
-        [ngClass]="{ 'is-invalid': submitted && f.startTime.errors }" (selectionChange)="assignWorkHours()">
+        [ngClass]="{ 'is-invalid': submitted && f.startTime.errors }" (selectionChange)="assignWorkHours();assignShift();">
           <mat-option *ngFor="let item of timeList" [value]="item">{{item}}</mat-option>
         </mat-select>
         <mat-error *ngIf="submitted && f.startTime.errors" >

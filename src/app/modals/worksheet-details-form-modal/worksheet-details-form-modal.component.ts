@@ -272,6 +272,7 @@ export class WorksheetDetailsFormModalComponent implements OnInit {
                                 if (new Date('1970-1-1 ' + a.startTime) > new Date('1970-1-1 ' + b.startTime)) {
                                   return 1;
                                 }
+                                return 0;
                               }                          )
                           console.log('this.project_worksheet_taskLogs',this.project_worksheet_taskLogs);
                         });

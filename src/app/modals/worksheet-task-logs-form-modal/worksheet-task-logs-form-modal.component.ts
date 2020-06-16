@@ -498,6 +498,15 @@ private filterList3() {
         // this.registerForm.controls.endMeter.setValidators([Validators.min(this.registerForm.controls.startMeter.value)]);
     }
 
+    setShift() {
+        if (new Date('1970-1-1 ' + this.registerForm.controls.startTime.value) >= new Date('1970-1-1 ' + '7:00 AM') && new Date('1970-1-1 ' + this.registerForm.controls.startTime.value) < new Date('1970-1-1 ' + '7:00 PM'))
+        {
+            this.registerForm.controls.shift.setValue('D');
+        } else {
+        this.registerForm.controls.shift.setValue('N');
+        }
+    }
+
     assignWorkHours(){
       if (new Date("1970-1-1 " + this.registerForm.controls.endTime.value) <= new Date("1970-1-1 " + this.registerForm.controls.startTime.value))
       {

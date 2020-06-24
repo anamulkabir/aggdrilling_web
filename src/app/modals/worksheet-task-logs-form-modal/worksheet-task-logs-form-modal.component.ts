@@ -498,19 +498,13 @@ private filterList3() {
         // this.registerForm.controls.endMeter.setValidators([Validators.min(this.registerForm.controls.startMeter.value)]);
     }
 
-
-    assignShift(){
-      let tList = ['7:00 AM', '7:30 AM', '8:00 AM', '8:30 AM', '9:00 AM', '9:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM',
-                    '12:00 PM', '12:30 PM', '1:00 PM', '1:30 PM', '2:00 PM', '2:30 PM', '3:00 PM', '3:30 PM', '4:00 PM', '4:30 PM',
-                    '5:00 PM', '5:30 PM', '6:00 PM', '6:30 PM', '7:00 PM'];
-                    
-                    this.registerForm.controls.shift.setValue('N');
-                    for (let i = 0; i < tList.length; i++) {
-                     if (this.registerForm.controls.startTime.value==tList[i])
-                      {
-                        this.registerForm.controls.shift.setValue('D');
-                      }                       
-                    }
+    setShift() {
+        if (new Date('1970-1-1 ' + this.registerForm.controls.startTime.value) >= new Date('1970-1-1 ' + '7:00 AM') && new Date('1970-1-1 ' + this.registerForm.controls.startTime.value) < new Date('1970-1-1 ' + '7:00 PM'))
+        {
+            this.registerForm.controls.shift.setValue('D');
+        } else {
+        this.registerForm.controls.shift.setValue('N');
+        }
     }
 
     assignWorkHours(){

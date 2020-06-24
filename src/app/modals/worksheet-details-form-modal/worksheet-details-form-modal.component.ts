@@ -255,10 +255,25 @@ export class WorksheetDetailsFormModalComponent implements OnInit {
                         this.firestore.collection('projects/'+this.data.projectId+'/worksheet/'+this.data.worksheetId+'/taskLogs').snapshotChanges().subscribe(data => {
                           this.project_worksheet_taskLogs= data.map(e => {
                             return {
-                              id: e.payload.doc.id, startMeter: name,
+                              id: e.payload.doc.id, shift: name, startTime: name,
                               ...e.payload.doc.data() as object
                             } 
-                          }).sort((a, b) => (b.startMeter - a.startMeter))
+                          }).sort(
+                              function mysortfunction(a, b) {
+                                if (a.shift < b.shift) {
+                                  return -1;
+                                }
+                                if (a.shift > b.shift) {
+                                  return 1;
+                                }
+                                if (new Date('1970-1-1 ' + a.startTime) < new Date('1970-1-1 ' + b.startTime)) {
+                                  return -1;
+                                }
+                                if (new Date('1970-1-1 ' + a.startTime) > new Date('1970-1-1 ' + b.startTime)) {
+                                  return 1;
+                                }
+                                return 0;
+                              }                          )
                           console.log('this.project_worksheet_taskLogs',this.project_worksheet_taskLogs);
                         });
                       

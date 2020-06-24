@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import Swal from "sweetalert2";
 @Component({
   selector: 'app-user-project-permit-modal',
   templateUrl: './user-project-permit-modal.component.html',
@@ -71,6 +72,7 @@ export class UserProjectPermitFormModalComponent implements OnInit, OnDestroy {
       this.registerForm.controls.project.setValue(this.data.item.project);
       this.registerForm.controls.permitSteps.setValue(this.data.item.permitSteps);
     }
+
   }
 
   get f() { return this.registerForm.controls; }
@@ -123,6 +125,7 @@ getDescription(item){
       else {     
         this.firestore.collection('users/'+this.data.userId+'/permitProjects').doc(this.registerForm.value.id).update(body).then(()=>{
           this.toastrService.success('Record updated successfully !', 'Success');
+          console.log(this.registerForm.value.id);
         }).catch((error) => {
           this.toastrService.error(error.message);
         }) 
@@ -133,6 +136,30 @@ getDescription(item){
 
   closeModal() {
     this.dialog.closeAll();
+  }
+
+  deleteProjectPermit(){
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.value) {
+        this.firestore.doc('users/'+this.data.userId+'/permitProjects/'+ this.registerForm.value.id).delete().catch((error) => {
+          this.toastrService.error(error.message);
+        })
+        Swal.fire(
+            'Deleted!',
+            'Record has been deleted.',
+            'success'
+        )
+      }
+    })
+    this.closeModal();
   }
 
   ngOnDestroy() {

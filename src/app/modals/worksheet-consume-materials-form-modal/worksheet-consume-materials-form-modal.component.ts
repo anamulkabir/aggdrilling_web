@@ -131,7 +131,7 @@ export class WorksheetConsumeMaterialsFormModalComponent implements OnInit {
         { 
           entryDate:this.datePipe.transform(this.registerForm.controls.entryDate.value, 'yyyy-MM-dd hh:mm:ss a'),
           entryBy: this.registerForm.controls.entryBy.value,
-          material:{materialId:this.registerForm.controls.material.value.materialId,name:this.registerForm.controls.material.value.name, details:this.registerForm.controls.material.value.details},
+          material:{materialId:this.registerForm.controls.material.value.materialId,refKey:this.registerForm.controls.material.value.refKey,name:this.registerForm.controls.material.value.name, details:this.registerForm.controls.material.value.details, unitPrice:this.registerForm.controls.material.value.unitPrice},
           qty: this.registerForm.controls.qty.value
         }
         console.log(body);

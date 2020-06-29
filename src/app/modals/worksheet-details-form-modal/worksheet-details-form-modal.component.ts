@@ -35,15 +35,19 @@ export class WorksheetDetailsFormModalComponent implements OnInit {
   public forwardWorksheetBtnShow=false;
   public worksheetStatus;
   public userStatus;
-  public worksheetReport;
+  public drillingSheet;
+  public serviceSheet;
+  public equipmentSheet;
+  public consumedMaterialsSheet;
+  public payrollSheet;
   public holesView=false;
   registerForm: FormGroup;
   submitted = false;
   constructor(private firestore:AngularFirestore,private afAuth:AngularFireAuth,private route: ActivatedRoute,private router: Router,public dialog: MatDialog,
     private toastrService: ToastrService,private excelService:UserService,private location: Location,public datePipe : DatePipe,private formBuilder: FormBuilder,public dialogRef: MatDialogRef<WorksheetDetailsFormModalComponent>,@Inject(MAT_DIALOG_DATA) public data: any){}
 
+   
   ngOnInit() {
-
 
     console.log('ID : ',this.data.projectId,this.data.worksheetId);
     this.firestore.collection('projects/'+this.data.projectId+'/rigs').snapshotChanges().subscribe(data => {
@@ -796,32 +800,206 @@ export class WorksheetDetailsFormModalComponent implements OnInit {
     this.registerForm.controls.holes.setValue(null);
   }
 
+
+  public getTwentyFourHourTime(amPmString) { 
+    var d = new Date("1/1/2013 " + amPmString); 
+    if( d.getMinutes()>0){
+      return d.getHours() + ':' + d.getMinutes();    
+    } 
+    else{
+      return d.getHours() + ':' + d.getMinutes()+'0';   
+    }
+}
+
   exportexcel(): void 
   {
-    this.worksheetReport=[];
+    this.drillingSheet=[];
+    this.serviceSheet=[];
+    this.equipmentSheet=[];
+    this.consumedMaterialsSheet=[];
+    this.payrollSheet=[];
 
     for (let i = 0; i < this.project_worksheet_taskLogs.length; i++) {
-     this.worksheetReport.push(
+         
+let _shift;
+
+if (this.project_worksheet_taskLogs[i].shift=='D') {
+  _shift='Day';
+}
+else{
+  _shift='Night';
+}
+
+let _core_size;
+
+if (this.project_worksheet_taskLogs[i].coreSize!=undefined) {
+  _core_size=this.project_worksheet_taskLogs[i].coreSize.core;
+}
+else{
+  _core_size='';
+}
+
+if(this.project_worksheet_taskLogs[i].task.taskType=='Drilling' || this.project_worksheet_taskLogs[i].task.taskType=='drilling'){
+     this.drillingSheet.push(
        {
-         'Work Date':this.datePipe.transform(this.registerForm.controls.workDate.value, 'yyyy-MM-dd'),
-         Rigs:this.registerForm.controls.rigs.value.serial,
-         Holes:this.registerForm.controls.holes.value.name,
-         Task:this.project_worksheet_taskLogs[i].task.name,
-         Shift:this.project_worksheet_taskLogs[i].shift,
-         'Start Time':this.project_worksheet_taskLogs[i].startTime,
-         'End Time':this.project_worksheet_taskLogs[i].endTime,
-         'Work Hours':this.project_worksheet_taskLogs[i].workHours,
-         'Worker':this.project_worksheet_taskLogs[i].worker.firstName +' '+this.project_worksheet_taskLogs[i].worker.lastName,
-         'Start Meter':this.project_worksheet_taskLogs[i].startMeter,
-         'End Meter':this.project_worksheet_taskLogs[i].endMeter,
-         'Core Size':this.project_worksheet_taskLogs[i].coreSize.core,
-         Comment:this.project_worksheet_taskLogs[i].comment
+         'Rig ID':this.registerForm.controls.rigs.value.rid,
+         'Work Date':this.datePipe.transform(this.registerForm.controls.workDate.value, 'dd-MMM-yy'),
+         Shift:_shift,
+         'Hole #':this.registerForm.controls.holes.value,
+         'Core Size':_core_size,
+         'Drilling Type':this.project_worksheet_taskLogs[i].task.name,
+         'Start Meterage':this.project_worksheet_taskLogs[i].startMeter,
+         'End Meterage':this.project_worksheet_taskLogs[i].endMeter
        }
      )
-      
     }
 
-    this.excelService.exportAsExcelFile(this.worksheetReport, 'Rigs_No_'+this.registerForm.controls.rigs.value.serial+'_WorkDate_'+this.datePipe.transform(this.registerForm.controls.workDate.value, 'yyyy-MM-dd'));
+if(this.project_worksheet_taskLogs[i].task.taskType=='Service' || this.project_worksheet_taskLogs[i].task.taskType=='service'){
+  let _day_driller=0;
+  let _day_helper=0;
+  let _night_driller=0;
+  let _night_helper=0;
+  let _other=0;
+  if(this.project_worksheet_taskLogs[i].shift=='D'){
+    if (this.project_worksheet_taskLogs[i].worker1!=undefined) {
+      if(this.project_worksheet_taskLogs[i].worker1.designation=='driller'){
+        _day_driller+=1;
+      }
+      if(this.project_worksheet_taskLogs[i].worker1.designation=='helper'){
+        _day_helper+=1;
+      }
+      if(this.project_worksheet_taskLogs[i].worker1.designation=='others'){
+        _other+=1;
+      }
+    }
+    if (this.project_worksheet_taskLogs[i].worker2!=undefined) {
+      if(this.project_worksheet_taskLogs[i].worker2.designation=='driller'){
+        _day_driller+=1;
+      }
+      if(this.project_worksheet_taskLogs[i].worker2.designation=='helper'){
+        _day_helper+=1;
+      }
+      if(this.project_worksheet_taskLogs[i].worker2.designation=='others'){
+        _other+=1;
+      }
+    }
+}
+
+if(this.project_worksheet_taskLogs[i].shift=='N'){
+  if (this.project_worksheet_taskLogs[i].worker1!=undefined) {
+    if(this.project_worksheet_taskLogs[i].worker1.designation=='driller'){
+      _night_driller+=1;
+    }
+    if(this.project_worksheet_taskLogs[i].worker1.designation=='helper'){
+      _night_helper+=1;
+    }
+    if(this.project_worksheet_taskLogs[i].worker1.designation=='others'){
+      _other+=1;
+    }
+  }
+  if (this.project_worksheet_taskLogs[i].worker2!=undefined) {
+    if(this.project_worksheet_taskLogs[i].worker2.designation=='driller'){
+      _night_driller+=1;
+    }
+    if(this.project_worksheet_taskLogs[i].worker2.designation=='helper'){
+      _night_helper+=1;
+    }
+    if(this.project_worksheet_taskLogs[i].worker2.designation=='others'){
+      _other+=1;
+    }
+  }
+}
+     this.serviceSheet.push(
+      {
+        'Work Date':this.datePipe.transform(this.registerForm.controls.workDate.value, 'dd-MMM-yy'),
+        'Rig ID':this.registerForm.controls.rigs.value.rid,
+        'Service Type':this.project_worksheet_taskLogs[i].task.name,
+        'Day Driller':_day_driller,
+        'Day Helper':_day_helper,
+        'Night Driller':_night_driller,
+        'Night Helper':_night_helper,
+        'Day/N - Other':_other
+      }
+    )
+  }
+
+if(this.project_worksheet_taskLogs[i].task.taskType=='Equipment' || this.project_worksheet_taskLogs[i].task.taskType=='equipment'){
+    this.equipmentSheet.push(
+      {
+        'Work Date':this.datePipe.transform(this.registerForm.controls.workDate.value, 'dd-MMM-yy'),
+        'Rig ID':this.registerForm.controls.rigs.value.rid,
+         Shift:_shift,
+        'Hours':this.project_worksheet_taskLogs[i].workHours,
+        'Equipment Type':this.project_worksheet_taskLogs[i].task.name
+        
+      }
+    )
+  }
+
+    if(this.project_worksheet_taskLogs[i].driller!=null){
+    this.payrollSheet.push(      
+      {
+       'Work Date':this.datePipe.transform(this.registerForm.controls.workDate.value, 'dd-MMM-yy'),
+       'Rig ID':this.registerForm.controls.rigs.value.rid,
+       'Employee ID':this.project_worksheet_taskLogs[i].driller.workerId,
+       'Start Time':this.getTwentyFourHourTime(this.project_worksheet_taskLogs[i].startTime),
+       'End Time':this.getTwentyFourHourTime(this.project_worksheet_taskLogs[i].endTime),
+        Shift:_shift
+        // Comment:this.project_worksheet_taskLogs[i].comment
+      }
+    )
+  }
+if(this.project_worksheet_taskLogs[i].helper!=null){
+    this.payrollSheet.push(      
+      {
+       'Work Date':this.datePipe.transform(this.registerForm.controls.workDate.value, 'dd-MMM-yy'),
+       'Rig ID':this.registerForm.controls.rigs.value.rid,
+       'Employee ID':this.project_worksheet_taskLogs[i].helper.workerId,
+       'Start Time':this.getTwentyFourHourTime(this.project_worksheet_taskLogs[i].startTime),
+       'End Time':this.getTwentyFourHourTime(this.project_worksheet_taskLogs[i].endTime),
+        Shift:_shift
+      }
+    )
+  }
+ if(this.project_worksheet_taskLogs[i].worker1!=null){
+    this.payrollSheet.push(      
+      {
+       'Work Date':this.datePipe.transform(this.registerForm.controls.workDate.value, 'dd-MMM-yy'),
+       'Rig ID':this.registerForm.controls.rigs.value.rid,
+       'Employee ID':this.project_worksheet_taskLogs[i].worker1.workerId,
+       'Start Time':this.getTwentyFourHourTime(this.project_worksheet_taskLogs[i].startTime),
+       'End Time':this.getTwentyFourHourTime(this.project_worksheet_taskLogs[i].endTime),
+        Shift:_shift
+      }
+    )
+  }
+if(this.project_worksheet_taskLogs[i].worker2!=null){
+    this.payrollSheet.push(      
+      {
+       'Work Date':this.datePipe.transform(this.registerForm.controls.workDate.value, 'dd-MMM-yy'),
+       'Rig ID':this.registerForm.controls.rigs.value.rid,
+       'Employee ID':this.project_worksheet_taskLogs[i].worker2.workerId,
+       'Start Time':this.getTwentyFourHourTime(this.project_worksheet_taskLogs[i].startTime),
+       'End Time':this.getTwentyFourHourTime(this.project_worksheet_taskLogs[i].endTime),
+        Shift:_shift
+      }
+    )
+  }
+      
+    }
+    for (let i = 0; i < this.project_worksheet_consumeMaterials.length; i++) {
+      this.consumedMaterialsSheet.push(
+        {
+        'Work Date':this.datePipe.transform(this.registerForm.controls.workDate.value, 'dd-MMM-yy'),
+        'Rig ID':this.registerForm.controls.rigs.value.rid,
+        'Material':this.project_worksheet_consumeMaterials[i].material.refKey,
+        'Quantity':this.project_worksheet_consumeMaterials[i].qty,
+        'Unit Price':this.project_worksheet_consumeMaterials[i].material.unitPrice,
+        }
+      )
+    }
+console.log(this.drillingSheet,this.serviceSheet,this.equipmentSheet,this.consumedMaterialsSheet,this.payrollSheet);
+    this.excelService.exportAsExcelFile(this.drillingSheet,this.serviceSheet,this.equipmentSheet,this.consumedMaterialsSheet,this.payrollSheet, 'Rigs_No_'+this.registerForm.controls.rigs.value.serial+'_WorkDate_'+this.datePipe.transform(this.registerForm.controls.workDate.value, 'yyyy-MM-dd'));
   }
 
 }

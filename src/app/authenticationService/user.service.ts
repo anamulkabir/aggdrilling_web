@@ -13,12 +13,16 @@ const mappedJson = [];
 })
 export class UserService {
   constructor() { }
-  public exportAsExcelFile(json: any[], excelFileName: string): void {
+  public exportAsExcelFile(json: any[], json2: any[], json3: any[], json4: any[], json5: any[], excelFileName: string): void {
   /*** 
   *We haven't done anything just yet so let's just pass json in utils.json_to_sheet() for now
   */
   const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
-  const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+  const worksheet2: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json2);
+  const worksheet3: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json3);
+  const worksheet4: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json4);
+  const worksheet5: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json5);
+  const workbook: XLSX.WorkBook = { Sheets: { 'Drilling': worksheet,'Services': worksheet2,'Equipment': worksheet3,'Materials Consumed': worksheet4,'Payroll': worksheet5 }, SheetNames: ['Drilling','Services','Equipment','Materials Consumed','Payroll'] };
   const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
   this.saveAsExcelFile(excelBuffer, excelFileName);
   }
@@ -30,3 +34,11 @@ export class UserService {
   FileSaver.saveAs(data, fileName + EXCEL_EXTENSION);
   }
   }
+
+
+//   var wb = XLSX.utils.book_new();
+// for (var i = 0; i < sheetName.length; i++) {
+// 	var ws = XLSX.utils.json_to_sheet(dataFinal[i],{skipHeader: 1});
+// 	XLSX.utils.book_append_sheet(wb, ws, sheetName[i]);
+// }
+// XLSX.writeFile(wb, "excel_name.xlsx");

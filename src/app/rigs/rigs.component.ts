@@ -21,10 +21,10 @@ export class RigsComponent implements OnInit {
     this.firestore.collection('rigs').snapshotChanges().subscribe(data => {
       this.rigsList= data.map(e => {
         return {
-          id: e.payload.doc.id,rid:name,
+          id: e.payload.doc.id,serial:name,
           ...e.payload.doc.data() as object
         } 
-      }).sort((a,b)=> (a.rid - b.rid))
+      }).sort((a,b)=> (a.serial > b.serial ? 1 : -1))
       console.log('this.rigsList',this.rigsList);
     });
   }

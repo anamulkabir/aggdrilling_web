@@ -20,6 +20,7 @@ export class WorkerFormModalComponent implements OnInit {
   ngOnInit() { 
     this.registerForm = this.formBuilder.group({
         id: [],
+        employeeId: ['', Validators.required],
         firstName: ['', Validators.required],
         lastName: ['', Validators.required],
         skills:[''],
@@ -31,6 +32,7 @@ export class WorkerFormModalComponent implements OnInit {
     });
     if (this.data.item!==undefined) {
       this.registerForm.controls.id.setValue(this.data.item.id);
+      this.registerForm.controls.employeeId.setValue(this.data.item.employeeId);
       this.registerForm.controls.firstName.setValue(this.data.item.firstName);
       this.registerForm.controls.lastName.setValue(this.data.item.lastName);
       this.registerForm.controls.skills.setValue(this.data.item.skills);
@@ -52,7 +54,8 @@ export class WorkerFormModalComponent implements OnInit {
     
     this.submit_button=true;
         let body=
-        { 
+        {
+          employeeId:this.registerForm.controls.employeeId.value,
           firstName:this.registerForm.controls.firstName.value,
           lastName:this.registerForm.controls.lastName.value,
           skills:this.registerForm.controls.skills.value,

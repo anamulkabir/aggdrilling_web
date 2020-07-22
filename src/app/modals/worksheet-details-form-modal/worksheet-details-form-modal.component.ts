@@ -12,6 +12,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { UserService } from 'app/authenticationService/user.service';
 import { ActivityLogDetailsModalComponent } from '../activity-log-details-modal/activity-log-details-modal.component';
 import { WorksheetTaskLogsFormModalComponent } from '../worksheet-task-logs-form-modal/worksheet-task-logs-form-modal.component';
+import {slides} from "googleapis/build/src/apis/slides";
 
 @Component({
   selector: 'app-worksheet-details-form-modal',
@@ -40,7 +41,10 @@ export class WorksheetDetailsFormModalComponent implements OnInit {
   public equipmentSheet;
   public consumedMaterialsSheet;
   public payrollSheet;
+  public workersSheet;
   public holesView=false;
+  public rigExcelId;
+  public workerList;
   registerForm: FormGroup;
   submitted = false;
   constructor(private firestore:AngularFirestore,private afAuth:AngularFireAuth,private route: ActivatedRoute,private router: Router,public dialog: MatDialog,
@@ -58,6 +62,16 @@ export class WorksheetDetailsFormModalComponent implements OnInit {
         } 
       })
       console.log('this.project_rigs',this.project_rigs);
+    });
+
+    this.firestore.collection('workers').snapshotChanges().subscribe(data => {
+      this.workerList= data.map(e => {
+        return {
+          id: e.payload.doc.id,lastName: name,
+          ...e.payload.doc.data() as object
+        }
+      }).sort((a,b)=> (a.lastName > b.lastName? 1 : -1))
+      console.log('this.workerList',this.workerList);
     });
 
    
@@ -104,6 +118,7 @@ export class WorksheetDetailsFormModalComponent implements OnInit {
         this.holesView=true;
         this.registerForm.controls.id.setValue(this.data.item.id);
         this.registerForm.controls.rigs.setValue(this.data.item.rigs);
+
         this.registerForm.controls.holes.setValue(this.data.item.holes);
         this.registerForm.controls.dip.setValue(this.data.item.dip);
         this.registerForm.controls.entryBy.setValue(this.data.item.entryBy);
@@ -813,11 +828,15 @@ export class WorksheetDetailsFormModalComponent implements OnInit {
 
   exportexcel(): void 
   {
+
+    this.rigExcelId = this.registerForm.controls.rigs.value.rid;
+    this.rigExcelId = this.rigExcelId.substr(-2,2);
     this.drillingSheet=[];
     this.serviceSheet=[];
     this.equipmentSheet=[];
     this.consumedMaterialsSheet=[];
     this.payrollSheet=[];
+    this.workersSheet=[];
 
     for (let i = 0; i < this.project_worksheet_taskLogs.length; i++) {
          
@@ -842,8 +861,8 @@ else{
 if(this.project_worksheet_taskLogs[i].task.taskType=='Drilling' || this.project_worksheet_taskLogs[i].task.taskType=='drilling'){
      this.drillingSheet.push(
        {
-         'Rig ID':this.registerForm.controls.rigs.value.rid,
-         'Work Date':this.datePipe.transform(this.registerForm.controls.workDate.value, 'dd-MMM-yy'),
+         'Rig ID': this.rigExcelId,
+         'Work Date':this.datePipe.transform(this.registerForm.controls.workDate.value, 'yyyy-MMM-dd'),
          Shift:_shift,
          'Hole #':this.registerForm.controls.holes.value,
          'Core Size':_core_size,
@@ -911,13 +930,13 @@ if(this.project_worksheet_taskLogs[i].shift=='N'){
 }
      this.serviceSheet.push(
       {
-        'Work Date':this.datePipe.transform(this.registerForm.controls.workDate.value, 'dd-MMM-yy'),
-        'Rig ID':this.registerForm.controls.rigs.value.rid,
+        'Work Date':this.datePipe.transform(this.registerForm.controls.workDate.value, 'yyyy-MMM-dd'),
+        'Rig ID':this.rigExcelId,
         'Service Type':this.project_worksheet_taskLogs[i].task.name,
-        'Day Driller':_day_driller,
-        'Day Helper':_day_helper,
-        'Night Driller':_night_driller,
-        'Night Helper':_night_helper,
+        'Day - Driller':_day_driller,
+        'Day - Helper':_day_helper,
+        'Night - Driller':_night_driller,
+        'Night - Helper':_night_helper,
         'Day/N - Other':_other
       }
     )
@@ -926,8 +945,8 @@ if(this.project_worksheet_taskLogs[i].shift=='N'){
 if(this.project_worksheet_taskLogs[i].task.taskType=='Equipment' || this.project_worksheet_taskLogs[i].task.taskType=='equipment'){
     this.equipmentSheet.push(
       {
-        'Work Date':this.datePipe.transform(this.registerForm.controls.workDate.value, 'dd-MMM-yy'),
-        'Rig ID':this.registerForm.controls.rigs.value.rid,
+        'Work Date':this.datePipe.transform(this.registerForm.controls.workDate.value, 'yyyy-MMM-dd'),
+        'Rig ID':this.rigExcelId,
          Shift:_shift,
         'Hours':this.project_worksheet_taskLogs[i].workHours,
         'Equipment Type':this.project_worksheet_taskLogs[i].task.name
@@ -939,12 +958,12 @@ if(this.project_worksheet_taskLogs[i].task.taskType=='Equipment' || this.project
     if(this.project_worksheet_taskLogs[i].driller!=null){
     this.payrollSheet.push(      
       {
-       'Work Date':this.datePipe.transform(this.registerForm.controls.workDate.value, 'dd-MMM-yy'),
-       'Rig ID':this.registerForm.controls.rigs.value.rid,
-       'Employee ID':this.project_worksheet_taskLogs[i].driller.workerId,
+       'Work Date':this.datePipe.transform(this.registerForm.controls.workDate.value, 'yyyy-MMM-dd'),
+       'Rig ID':this.rigExcelId,
+       'Employee ID':this.project_worksheet_taskLogs[i].driller.employeeId,
        'Start Time':this.getTwentyFourHourTime(this.project_worksheet_taskLogs[i].startTime),
        'End Time':this.getTwentyFourHourTime(this.project_worksheet_taskLogs[i].endTime),
-        Shift:_shift
+        // Shift:_shift
         // Comment:this.project_worksheet_taskLogs[i].comment
       }
     )
@@ -952,54 +971,71 @@ if(this.project_worksheet_taskLogs[i].task.taskType=='Equipment' || this.project
 if(this.project_worksheet_taskLogs[i].helper!=null){
     this.payrollSheet.push(      
       {
-       'Work Date':this.datePipe.transform(this.registerForm.controls.workDate.value, 'dd-MMM-yy'),
-       'Rig ID':this.registerForm.controls.rigs.value.rid,
-       'Employee ID':this.project_worksheet_taskLogs[i].helper.workerId,
+       'Work Date':this.datePipe.transform(this.registerForm.controls.workDate.value, 'yyyy-MMM-dd'),
+       'Rig ID':this.rigExcelId,
+       'Employee ID':this.project_worksheet_taskLogs[i].helper.employeeId,
        'Start Time':this.getTwentyFourHourTime(this.project_worksheet_taskLogs[i].startTime),
        'End Time':this.getTwentyFourHourTime(this.project_worksheet_taskLogs[i].endTime),
-        Shift:_shift
+        // Shift:_shift
       }
     )
   }
  if(this.project_worksheet_taskLogs[i].worker1!=null){
     this.payrollSheet.push(      
       {
-       'Work Date':this.datePipe.transform(this.registerForm.controls.workDate.value, 'dd-MMM-yy'),
-       'Rig ID':this.registerForm.controls.rigs.value.rid,
-       'Employee ID':this.project_worksheet_taskLogs[i].worker1.workerId,
+       'Work Date':this.datePipe.transform(this.registerForm.controls.workDate.value, 'yyyy-MMM-dd'),
+       'Rig ID':this.rigExcelId,
+       'Employee ID':this.project_worksheet_taskLogs[i].worker1.employeeId,
        'Start Time':this.getTwentyFourHourTime(this.project_worksheet_taskLogs[i].startTime),
        'End Time':this.getTwentyFourHourTime(this.project_worksheet_taskLogs[i].endTime),
-        Shift:_shift
+        // Shift:_shift
       }
     )
   }
 if(this.project_worksheet_taskLogs[i].worker2!=null){
     this.payrollSheet.push(      
       {
-       'Work Date':this.datePipe.transform(this.registerForm.controls.workDate.value, 'dd-MMM-yy'),
-       'Rig ID':this.registerForm.controls.rigs.value.rid,
-       'Employee ID':this.project_worksheet_taskLogs[i].worker2.workerId,
+       'Work Date':this.datePipe.transform(this.registerForm.controls.workDate.value, 'yyyy-MMM-dd'),
+       'Rig ID':this.rigExcelId,
+       'Employee ID':this.project_worksheet_taskLogs[i].worker2.employeeId,
        'Start Time':this.getTwentyFourHourTime(this.project_worksheet_taskLogs[i].startTime),
        'End Time':this.getTwentyFourHourTime(this.project_worksheet_taskLogs[i].endTime),
-        Shift:_shift
+        // Shift:_shift
       }
     )
   }
       
     }
+
     for (let i = 0; i < this.project_worksheet_consumeMaterials.length; i++) {
       this.consumedMaterialsSheet.push(
         {
-        'Work Date':this.datePipe.transform(this.registerForm.controls.workDate.value, 'dd-MMM-yy'),
-        'Rig ID':this.registerForm.controls.rigs.value.rid,
+        'Work Date':this.datePipe.transform(this.registerForm.controls.workDate.value, 'yyyy-MMM-dd'),
+        'Rig ID': this.rigExcelId,
         'Material':this.project_worksheet_consumeMaterials[i].material.refKey,
         'Quantity':this.project_worksheet_consumeMaterials[i].qty,
-        'Unit Price':this.project_worksheet_consumeMaterials[i].material.unitPrice,
+        'Notes':this.project_worksheet_consumeMaterials[i].material.unitPrice,
         }
       )
     }
-console.log(this.drillingSheet,this.serviceSheet,this.equipmentSheet,this.consumedMaterialsSheet,this.payrollSheet);
-    this.excelService.exportAsExcelFile(this.drillingSheet,this.serviceSheet,this.equipmentSheet,this.consumedMaterialsSheet,this.payrollSheet, 'Rigs_No_'+this.registerForm.controls.rigs.value.serial+'_WorkDate_'+this.datePipe.transform(this.registerForm.controls.workDate.value, 'yyyy-MM-dd'));
+
+    for (let i = 0; i < this.workerList.length; i++) {
+      this.workersSheet.push(
+          {
+            'Employee ID': this.workerList[i].employeeId,
+            'Last Name': this.workerList[i].lastName,
+            'First Name': this.workerList[i].firstName,
+            'Phone # - Cell': this.workerList[i].phone,
+            'Emergency Contact First Name': this.workerList[i].emgCntactName,
+            'Emergency Contact Phone #': this.workerList[i].emgCntactPhone,
+          }
+      )
+    }
+
+
+
+console.log('Export to Excel ' + this.drillingSheet,this.serviceSheet,this.equipmentSheet,this.consumedMaterialsSheet,this.payrollSheet, this.workersSheet);
+    this.excelService.exportAsExcelFile(this.drillingSheet,this.serviceSheet,this.equipmentSheet,this.consumedMaterialsSheet,this.payrollSheet,this.workersSheet, 'Rigs_No_'+this.registerForm.controls.rigs.value.serial+'_WorkDate_'+this.datePipe.transform(this.registerForm.controls.workDate.value, 'yyyy-MM-dd'));
   }
 
 }

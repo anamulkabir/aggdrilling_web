@@ -130,13 +130,13 @@
    <div class="table table-hover scrollable-table-wrapper" >
     <table class="table" style="width: 100%;">
        <thead class=" text-primary">
-        <th>SL</th><th>Last name</th><th>First name</th><th>Skills</th><th>Designation</th>
-<!--        <th>Type</th>-->
+        <th>SL</th><th>Employee ID</th><th>Last name</th><th>First name</th><th>Skills</th><th>Designation</th>
         <th>Options</th>
       </thead>      
       <tbody>
         <tr *ngFor="let item of project_worker;let i=index;"  >
           <td > {{i+1}}.</td>
+          <td > {{item.employeeId}}</td>
           <td > {{item.lastName}}</td>
           <td > {{item.firstName}}</td>
           <td > {{item.skills}}</td>

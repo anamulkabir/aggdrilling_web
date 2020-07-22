@@ -107,6 +107,7 @@ export class ProjectWorkerFormModalComponent implements OnInit, OnDestroy {
           let body=
           { 
             workerId: this.registerForm.value.workerId[i].id,
+            employeeId: this.registerForm.value.workerId[i].employeeId,
             firstName:this.registerForm.value.workerId[i].firstName,
             lastName:this.registerForm.value.workerId[i].lastName,
             skills:this.registerForm.value.workerId[i].skills,
@@ -126,6 +127,7 @@ export class ProjectWorkerFormModalComponent implements OnInit, OnDestroy {
       let body=
       { 
         workerId: this.registerForm.value.workerId.id,
+        employeeId: this.registerForm.value.workerId.employeeId,
         firstName:this.registerForm.value.workerId.firstName,
         lastName:this.registerForm.value.workerId.lastName,
         skills:this.registerForm.value.workerId.skills,

@@ -2,6 +2,14 @@
   <h4 class="text-center">Worker Form</h4>
   <form  [formGroup]="registerForm" style="font-size: 12px;height: 400px;overflow: auto;" (ngSubmit)="onSubmit()" >
 
+    <p style="margin: 0px;">Employee ID</p>
+    <mat-form-field appearance="outline">
+      <input matInput formControlName="employeeId" [ngClass]="{ 'is-invalid': submitted && f.employeeId.errors }">
+      <mat-error *ngIf="submitted && f.employeeId.errors" >
+        <span *ngIf="f.employeeId.errors.required"> * Employee ID is required !!!</span>
+      </mat-error>
+    </mat-form-field>
+
     <p style="margin: 0px;">First name</p>
     <mat-form-field appearance="outline">
       <input matInput formControlName="firstName" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }">

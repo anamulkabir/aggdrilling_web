@@ -13,7 +13,7 @@ const mappedJson = [];
 })
 export class UserService {
   constructor() { }
-  public exportAsExcelFile(json: any[], json2: any[], json3: any[], json4: any[], json5: any[], json6: any[], excelFileName: string): void {
+  public exportAsExcelFile(json: any[], json2: any[], json3: any[], json4: any[], json5: any[], excelFileName: string): void {
   /*** 
   *We haven't done anything just yet so let's just pass json in utils.json_to_sheet() for now
   */
@@ -22,8 +22,8 @@ export class UserService {
   const worksheet3: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json3);
   const worksheet4: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json4);
   const worksheet5: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json5);
-  const worksheet6: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json6);
-  const workbook: XLSX.WorkBook = { Sheets: { 'Drilling': worksheet,'Services': worksheet2,'Equipment': worksheet3,'Materials Consumed': worksheet4,'Payroll': worksheet5, 'Employees': worksheet6 }, SheetNames: ['Drilling','Services','Equipment','Materials Consumed','Payroll','Employees'] };
+  // const worksheet6: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json6);
+  const workbook: XLSX.WorkBook = { Sheets: { 'Drilling': worksheet,'Services': worksheet2,'Equipment': worksheet3,'Materials Consumed': worksheet4,'Payroll': worksheet5 }, SheetNames: ['Drilling','Services','Equipment','Materials Consumed','Payroll','Employees'] };
   const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
   this.saveAsExcelFile(excelBuffer, excelFileName);
   }

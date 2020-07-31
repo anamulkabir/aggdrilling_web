@@ -816,15 +816,25 @@ export class WorksheetDetailsFormModalComponent implements OnInit {
   }
 
 
-  public getTwentyFourHourTime(amPmString) { 
-    var d = new Date("1/1/2013 " + amPmString); 
-    if( d.getMinutes()>0){
-      return d.getHours() + ':' + d.getMinutes();    
-    } 
-    else{
-      return d.getHours() + ':' + d.getMinutes()+'0';   
+
+  public getHours(starTime, totalHours) {
+    var d = new Date("1/1/2013 " + starTime);
+    var e = d.getHours() + Math.floor(totalHours);
+    var halfHour;
+
+    if (e > 24){
+      e = e%24;
     }
-}
+
+    if(totalHours%1 > 0){
+      halfHour = '30';
+    }else{
+      halfHour = '00';
+    }
+
+    return e + ':' + halfHour;
+  }
+
 
   exportexcel(): void 
   {
@@ -841,6 +851,7 @@ export class WorksheetDetailsFormModalComponent implements OnInit {
     for (let i = 0; i < this.project_worksheet_taskLogs.length; i++) {
          
 let _shift;
+let EmployeeWorkHours;
 
 if (this.project_worksheet_taskLogs[i].shift=='D') {
   _shift='Day';
@@ -961,9 +972,10 @@ if(this.project_worksheet_taskLogs[i].task.taskType=='Equipment' || this.project
        'Work Date':this.datePipe.transform(this.registerForm.controls.workDate.value, 'yyyy-MMM-dd'),
        'Rig ID':this.rigExcelId,
        'Employee ID':this.project_worksheet_taskLogs[i].driller.employeeId,
-       'Start Time':this.getTwentyFourHourTime(this.project_worksheet_taskLogs[i].startTime),
-       'End Time':this.getTwentyFourHourTime(this.project_worksheet_taskLogs[i].endTime),
-        // Shift:_shift
+       'Start Time':'',
+       'End Time':'',
+        Shift:_shift,
+        EmployeeWorkHours: this.project_worksheet_taskLogs[i].workHours
         // Comment:this.project_worksheet_taskLogs[i].comment
       }
     )
@@ -974,9 +986,10 @@ if(this.project_worksheet_taskLogs[i].helper!=null){
        'Work Date':this.datePipe.transform(this.registerForm.controls.workDate.value, 'yyyy-MMM-dd'),
        'Rig ID':this.rigExcelId,
        'Employee ID':this.project_worksheet_taskLogs[i].helper.employeeId,
-       'Start Time':this.getTwentyFourHourTime(this.project_worksheet_taskLogs[i].startTime),
-       'End Time':this.getTwentyFourHourTime(this.project_worksheet_taskLogs[i].endTime),
-        // Shift:_shift
+       'Start Time':'',
+       'End Time':'',
+        Shift:_shift,
+        EmployeeWorkHours: this.project_worksheet_taskLogs[i].workHours
       }
     )
   }
@@ -986,9 +999,10 @@ if(this.project_worksheet_taskLogs[i].helper!=null){
        'Work Date':this.datePipe.transform(this.registerForm.controls.workDate.value, 'yyyy-MMM-dd'),
        'Rig ID':this.rigExcelId,
        'Employee ID':this.project_worksheet_taskLogs[i].worker1.employeeId,
-       'Start Time':this.getTwentyFourHourTime(this.project_worksheet_taskLogs[i].startTime),
-       'End Time':this.getTwentyFourHourTime(this.project_worksheet_taskLogs[i].endTime),
-        // Shift:_shift
+       'Start Time':'',
+       'End Time':'',
+        Shift:_shift,
+        EmployeeWorkHours: this.project_worksheet_taskLogs[i].workHours
       }
     )
   }
@@ -998,9 +1012,10 @@ if(this.project_worksheet_taskLogs[i].worker2!=null){
        'Work Date':this.datePipe.transform(this.registerForm.controls.workDate.value, 'yyyy-MMM-dd'),
        'Rig ID':this.rigExcelId,
        'Employee ID':this.project_worksheet_taskLogs[i].worker2.employeeId,
-       'Start Time':this.getTwentyFourHourTime(this.project_worksheet_taskLogs[i].startTime),
-       'End Time':this.getTwentyFourHourTime(this.project_worksheet_taskLogs[i].endTime),
-        // Shift:_shift
+       'Start Time':'',
+       'End Time':'',
+        Shift:_shift,
+        EmployeeWorkHours: this.project_worksheet_taskLogs[i].workHours
       }
     )
   }
@@ -1019,23 +1034,53 @@ if(this.project_worksheet_taskLogs[i].worker2!=null){
       )
     }
 
-    for (let i = 0; i < this.workerList.length; i++) {
-      this.workersSheet.push(
-          {
-            'Employee ID': this.workerList[i].employeeId,
-            'Last Name': this.workerList[i].lastName,
-            'First Name': this.workerList[i].firstName,
-            'Phone # - Cell': this.workerList[i].phone,
-            'Emergency Contact First Name': this.workerList[i].emgCntactName,
-            'Emergency Contact Phone #': this.workerList[i].emgCntactPhone,
-          }
-      )
-    }
+    // for (let i = 0; i < this.workerList.length; i++) {
+    //   this.workersSheet.push(
+    //       {
+    //         'Employee ID': this.workerList[i].employeeId,
+    //         'Last Name': this.workerList[i].lastName,
+    //         'First Name': this.workerList[i].firstName,
+    //         'Phone # - Cell': this.workerList[i].phone,
+    //         'Emergency Contact First Name': this.workerList[i].emgCntactName,
+    //         'Emergency Contact Phone #': this.workerList[i].emgCntactPhone,
+    //       }
+    //   )
+    // }
 
 
 
-console.log('Export to Excel ' + this.drillingSheet,this.serviceSheet,this.equipmentSheet,this.consumedMaterialsSheet,this.payrollSheet, this.workersSheet);
-    this.excelService.exportAsExcelFile(this.drillingSheet,this.serviceSheet,this.equipmentSheet,this.consumedMaterialsSheet,this.payrollSheet,this.workersSheet, 'Rigs_No_'+this.registerForm.controls.rigs.value.serial+'_WorkDate_'+this.datePipe.transform(this.registerForm.controls.workDate.value, 'yyyy-MM-dd'));
+
+     const payrollGroup = Object.values(this.payrollSheet.reduce((a, c) => {
+      (a[c["Employee ID"]] || (a[c["Employee ID"]] = Object.assign(c, {WorkHours:0}))).WorkHours += c.EmployeeWorkHours;
+      return a;
+    }, {}));
+
+
+     this.payrollSheet = payrollGroup.map((payrollEntry)=>{
+       if(payrollEntry["Shift"] == 'Day' ){
+         payrollEntry["Start Time"] = '07:00';
+       } else{
+         payrollEntry["Start Time"] = '19:00';
+       }
+
+
+       if (payrollEntry["WorkHours"] > 12){
+         payrollEntry["End Time"] = this.getHours(payrollEntry["Start Time"], payrollEntry["WorkHours"]);
+       }else{
+         payrollEntry["End Time"] = this.getHours(payrollEntry["Start Time"], 12)
+       }
+
+       delete payrollEntry["Shift"];
+       delete payrollEntry["WorkHours"];
+       delete payrollEntry["EmployeeWorkHours"];
+
+       return payrollEntry;
+     });
+
+
+
+    console.log('Export to Excel ' + this.drillingSheet,this.serviceSheet,this.equipmentSheet,this.consumedMaterialsSheet,this.payrollSheet);
+    this.excelService.exportAsExcelFile(this.drillingSheet,this.serviceSheet,this.equipmentSheet,this.consumedMaterialsSheet,this.payrollSheet, 'Rigs_No_'+this.registerForm.controls.rigs.value.serial+'_WorkDate_'+this.datePipe.transform(this.registerForm.controls.workDate.value, 'yyyy-MM-dd'));
   }
 
 }

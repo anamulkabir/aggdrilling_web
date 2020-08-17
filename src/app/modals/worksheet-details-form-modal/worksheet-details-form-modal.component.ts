@@ -1029,7 +1029,8 @@ if(this.project_worksheet_taskLogs[i].worker2!=null){
         'Rig ID': this.rigExcelId,
         'Material':this.project_worksheet_consumeMaterials[i].material.refKey,
         'Quantity':this.project_worksheet_consumeMaterials[i].qty,
-        'Notes':this.project_worksheet_consumeMaterials[i].material.unitPrice,
+        'Unit Price':this.project_worksheet_consumeMaterials[i].material.unitPrice,
+        'Notes': '',
         }
       )
     }
@@ -1063,12 +1064,13 @@ if(this.project_worksheet_taskLogs[i].worker2!=null){
          payrollEntry["Start Time"] = '19:00';
        }
 
+       payrollEntry["End Time"] = this.getHours(payrollEntry["Start Time"], payrollEntry["WorkHours"]);
 
-       if (payrollEntry["WorkHours"] > 12){
-         payrollEntry["End Time"] = this.getHours(payrollEntry["Start Time"], payrollEntry["WorkHours"]);
-       }else{
-         payrollEntry["End Time"] = this.getHours(payrollEntry["Start Time"], 12)
-       }
+       // if (payrollEntry["WorkHours"] > 12){
+       //   payrollEntry["End Time"] = this.getHours(payrollEntry["Start Time"], payrollEntry["WorkHours"]);
+       // }else{
+       //   payrollEntry["End Time"] = this.getHours(payrollEntry["Start Time"], 12)
+       // }
 
        delete payrollEntry["Shift"];
        delete payrollEntry["WorkHours"];
